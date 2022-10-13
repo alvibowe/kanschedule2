@@ -24,11 +24,7 @@ const AdminLayout = (props) => {
                   className="px-4 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 "
                   onClick={() => true}
                 >
-                  <img
-                    className="h-8 w-8 mx-auto"
-                    src="/assets/planet-scale.svg"
-                    alt="PlanetScale Logo"
-                  />
+                  
                 </button>
                 <div className="flex-1 flex"></div>
                 <div className="ml-4 flex items-center md:ml-6">
