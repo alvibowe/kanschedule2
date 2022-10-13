@@ -9,37 +9,37 @@ import { useRouter } from "next/router";
 
 const AppLayout = (props) => {
   const { status, data: session } = useSession({
-    required: false,
+    required: true,
   });
 
   const router = useRouter();
 
   const currentPath = router.pathname;
   const NAV_ITEMS = [
-    {
-      title: "Home",
-      href: "/",
-    },
-    {
-      title: "Client",
-      href: "/client",
-    },
-    {
-      title: "Server",
-      href: "/server",
-    },
-    {
-      title: "With Session",
-      href: "/with-session",
-    },
-    {
-      title: "Client Redirect",
-      href: "/client-redirect",
-    },
-    {
-      title: "Server Redirect",
-      href: "/server-redirect",
-    },
+    // {
+    //   title: "Home",
+    //   href: "/",
+    // },
+    // {
+    //   title: "Client",
+    //   href: "/client",
+    // },
+    // {
+    //   title: "Server",
+    //   href: "/server",
+    // },
+    // {
+    //   title: "With Session",
+    //   href: "/with-session",
+    // },
+    // {
+    //   title: "Client Redirect",
+    //   href: "/client-redirect",
+    // },
+    // {
+    //   title: "Server Redirect",
+    //   href: "/server-redirect",
+    // },
   ];
 
   return (
@@ -49,16 +49,7 @@ const AppLayout = (props) => {
           <div className="border-b">
             <div className="relative flex-shrink-0 flex h-16 bg-white">
               <div className="flex-1 px-4 flex justify-between sm:px-6 lg:max-w-6xl lg:mx-auto lg:px-8">
-                <button
-                  type="button"
-                  className="px-4 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 "
-                >
-                  <img
-                    className="h-8 w-8 mx-auto"
-                    src="/assets/planet-scale.svg"
-                    alt="PlanetScale Logo"
-                  />
-                </button>
+                
                 <div className="flex-1 flex"></div>
                 <div className="ml-4 flex items-center md:ml-6">
                   <Menu as="div" className="ml-3 relative">
