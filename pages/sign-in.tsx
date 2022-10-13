@@ -50,15 +50,7 @@ export default function Page({ csrfToken, providers }) {
         <title>Sign In</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center py-12">
-        <a href="/">
-          <img
-            className="h-16 mx-auto"
-            src="/assets/planet-scale.svg"
-            alt="PlanetScale Logo"
-          />
-        </a>
-      </div>
+      
       <div className=" flex flex-col justify-center sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
           <h1 className="text-xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
@@ -136,7 +128,7 @@ export default function Page({ csrfToken, providers }) {
                 </button>
               </div>
             </form>
-            <section className="mt-8 text-center">
+            {/* <section className="mt-8 text-center">
               <div className="flex flex-col mb-3">
                 <hr className="h-0 border-t mt-1" />
                 <div className="-mt-3 text-sm text-center">
@@ -162,7 +154,7 @@ export default function Page({ csrfToken, providers }) {
                   );
                 })}
               </div>
-            </section>
+            </section> */}
           </div>
         </div>
       </div>
