@@ -116,6 +116,9 @@ function Page() {
                       <th className="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Providers
                       </th>
+                      <th className="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Role
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white ">
@@ -158,6 +161,9 @@ function Page() {
                                 <p>credentials</p>
                               )}
                             </td>
+                            <td className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
+                              {user.role}
+                            </td>
                           </tr>
                         );
                       })}
@@ -180,7 +186,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSession(context);
 
   if (!session || session?.user?.role !== "admin") {
-    console.log(session?.user?.role);
+   
     return { redirect: { permanent: false, destination: "/" } };
   }
 
