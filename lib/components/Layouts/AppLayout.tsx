@@ -16,22 +16,22 @@ const AppLayout = (props) => {
 
   const currentPath = router.pathname;
   const NAV_ITEMS = [
-    // {
-    //   title: "Home",
-    //   href: "/",
-    // },
-    // {
-    //   title: "Client",
-    //   href: "/client",
-    // },
-    // {
-    //   title: "Server",
-    //   href: "/server",
-    // },
-    // {
-    //   title: "With Session",
-    //   href: "/with-session",
-    // },
+    {
+      title: "Users",
+      href: "/",
+    },
+    {
+      title: "Runs",
+      href: "/runs",
+    },
+    {
+      title: "Quotes",
+      href: "/quotes",
+    },
+    {
+      title: "Jobs",
+      href: "/jobs",
+    },
     // {
     //   title: "Client Redirect",
     //   href: "/client-redirect",
@@ -52,9 +52,9 @@ const AppLayout = (props) => {
                 
                 <div className="flex-1 flex"></div>
                 <div className="ml-4 flex items-center md:ml-6">
-                  <Menu as="div" className="ml-3 relative">
+                  <Menu as="div" className="ml-3  relative">
                     <div>
-                      <Menu.Button className="max-w-xs bg-gray-100 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 p-2 lg:rounded-md lg:hover:bg-gray-50">
+                      <Menu.Button className="max-w-xs  bg-gray-100 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 p-2 lg:rounded-md lg:hover:bg-gray-50">
                         {session?.user?.image ? (
                           <img
                             className="h-6 w-6 rounded-full"
@@ -84,7 +84,7 @@ const AppLayout = (props) => {
                       leaveTo="transform opacity-0 scale-95"
                     >
                       
-                      <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
+                      <Menu.Items className="origin-top-right absolute right-0 mt-4 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
                         {status == "authenticated" ? (
                           <Menu.Item>
                             {({ active }) => (
@@ -120,9 +120,9 @@ const AppLayout = (props) => {
                 </div>
               </div>
             </div>
-            <div className="relative flex-shrink-0 flex h-16 bg-white">
+            <div className="relative flex-shrink-0 flex h-16 bg-white mt-10">
               <div className="flex-1 px-4 flex justify-between sm:px-6 lg:max-w-6xl lg:mx-auto lg:px-8">
-                <div className="flex flex-1 ">
+                <div className="flex flex-1 justify-between ">
                   {NAV_ITEMS.map((item) => (
                     <Link key={item.title} href={item.href}>
                       <a

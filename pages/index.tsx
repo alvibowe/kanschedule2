@@ -1,14 +1,15 @@
 import AppLayout from "@lib/components/Layouts/AppLayout";
-import Image from 'next/image';
+
 
 const Page = () => {
   return (
     <>
       <AppLayout>
-        
+        <div>View Users/ Add Users</div>
       </AppLayout>
     </>
   );
 };
 
 export default Page;
+
