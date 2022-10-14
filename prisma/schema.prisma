@@ -53,7 +53,7 @@ model User {
   password      String?
   emailVerified DateTime?
   image         String?
-  role          String?   @default("user")
+  role          String?   @default("suspended")
   accounts      Account[]
   sessions      Session[]
 }

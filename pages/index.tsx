@@ -22,7 +22,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     return { redirect: { permanent: false, destination: "/admin" } };
   }
 
-  if(session && session?.user?.role === "user") {
+  if(session && session?.user?.role === "suspended") {
     return {
       redirect: {
         destination: "/noaccount",
