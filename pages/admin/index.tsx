@@ -135,7 +135,7 @@ function Page() {
                                 </a>
                               </div>
                             </td>
-                            <td className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
+                            <td className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500 capitalize">
                               {user.name}
                             </td>
                             <td className="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
@@ -161,7 +161,7 @@ function Page() {
                                 <p>credentials</p>
                               )}
                             </td>
-                            <td className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
+                            <td className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500 uppercase">
                               {user.role}
                             </td>
                           </tr>
