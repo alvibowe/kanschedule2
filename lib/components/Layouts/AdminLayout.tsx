@@ -8,7 +8,7 @@ import Link from "next/link";
 
 const navigation = [
   { name: "Users", href: "#", current: true },
-  { name: "Help", href: "#", current: false },
+ 
 ];
 
 const AdminLayout = (props) => {
