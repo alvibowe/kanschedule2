@@ -59,19 +59,19 @@ export default NextAuth({
               throw new Error("Invalid Credentials");
             }
 
-            maybeUser = await prisma.user.create({
-              data: {
-                email: credentials.email,
-                password: await hashPassword(credentials.password),
-              },
-              select: {
-                id: true,
-                email: true,
-                password: true,
-                name: true,
-                role: true,
-              },
-            });
+            // maybeUser = await prisma.user.create({
+            //   data: {
+            //     email: credentials.email,
+            //     password: await hashPassword(credentials.password),
+            //   },
+            //   select: {
+            //     id: true,
+            //     email: true,
+            //     password: true,
+            //     name: true,
+            //     role: true,
+            //   },
+            // });
           } else {
             const isValid = await verifyPassword(
               credentials.password,
