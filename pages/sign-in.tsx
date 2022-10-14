@@ -128,7 +128,7 @@ export default function Page({ csrfToken, providers }) {
                 </button>
               </div>
             </form>
-            {/* <section className="mt-8 text-center">
+            <section className="mt-8 text-center">
               <div className="flex flex-col mb-3">
                 <hr className="h-0 border-t mt-1" />
                 <div className="-mt-3 text-sm text-center">
@@ -136,14 +136,14 @@ export default function Page({ csrfToken, providers }) {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-6 mt-5">
                 {providers.map((provider) => {
                   return (
                     <button
                       key={provider}
                       type="button"
                       onClick={() => handleProviderSignIn(provider)}
-                      className="button button__secondary inline-flex space-x-2"
+                      className="button button__secondary inline-flex space-x-2 bg-red-500"
                     >
                       <img
                         className="w-6 h-6"
@@ -154,7 +154,7 @@ export default function Page({ csrfToken, providers }) {
                   );
                 })}
               </div>
-            </section> */}
+            </section>
           </div>
         </div>
       </div>

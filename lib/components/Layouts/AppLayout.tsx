@@ -55,15 +55,9 @@ const AppLayout = (props) => {
                   <Menu as="div" className="ml-3  relative">
                     <div>
                       <Menu.Button className="max-w-xs  bg-gray-100 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 p-2 lg:rounded-md lg:hover:bg-gray-50">
-                        {session?.user?.image ? (
-                          <img
-                            className="h-6 w-6 rounded-full"
-                            src={session.user.image}
-                            alt="PlanetScale Logo"
-                          />
-                        ) : (
+                        {
                           <UserIcon className="h-6 w-6 rounded-full" />
-                        )}
+                        }
 
                         <span className="hidden  text-gray-700 text-sm font-medium lg:block">
                           <span className="sr-only">Open user menu for </span>
