@@ -186,6 +186,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSession(context);
 
   if (!session || session?.user?.role !== "admin") {
+    
    
     return { redirect: { permanent: false, destination: "/" } };
   }

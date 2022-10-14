@@ -22,6 +22,15 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     return { redirect: { permanent: false, destination: "/admin" } };
   }
 
+  if(session && session?.user?.role === "user") {
+    return {
+      redirect: {
+        destination: "/noaccount",
+        permanent: false,
+      },
+    };
+  }
+
   return {
     props: { session: session },
   };
