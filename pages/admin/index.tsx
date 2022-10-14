@@ -50,7 +50,7 @@ function Page() {
   });
 
   if (usersQuery.isLoading) {
-    return <div>loading...</div>;
+    return <div className="flex justify-center items-center min-h-screen">loading...</div>;
   }
 
   return (
