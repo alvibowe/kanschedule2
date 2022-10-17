@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GitHubProvider from "next-auth/providers/github";
+
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 import { verifyPassword, hashPassword } from "@lib/auth/passwords";

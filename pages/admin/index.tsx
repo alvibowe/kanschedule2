@@ -55,8 +55,68 @@ function Page() {
 
   return (
     <>
-      <AdminLayout title="Users">
+      <AdminLayout>
         {/* {/* Activity list (smallest breakpoint only) */}
+
+        <form className="flex justify-center flex-wrap md:m-40" onSubmit={(e) => {e.preventDefault()} }>
+        
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
+            First Name
+          </label>
+          <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Jane" required/>
+          {/* <p className="text-red-500 text-xs italic">Please fill out this field.</p> */}
+        </div>
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
+            Last Name
+          </label>
+          <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Doe" required/>
+          {/* <p className="text-red-500 text-xs italic">Please fill out this field.</p> */}
+        </div>
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
+            Email
+          </label>
+          <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="user@email.com" required/>
+          {/* <p className="text-red-500 text-xs italic">Please fill out this field.</p> */}
+        </div>
+        
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-state">
+            Role
+          </label>
+          <div className="relative">
+            <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state" required>
+              <option>Admin</option>
+              <option>System Manager</option>
+              <option>Schedule Administrator</option>
+              <option>Salesperson</option>
+              <option>Technician</option>
+              <option>Suspended</option>
+            </select>
+            {/* <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+            </div> */}
+          </div>
+        </div>
+
+        <div className="w-full px-3 mb-6 md:mb-0">
+          <div className="w-full">
+            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-password">
+              Password
+            </label>
+            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="password" placeholder="******************" required/>
+            <p className="text-gray-600 text-xs italic"></p>
+          </div>
+        </div>
+        
+        <button type="submit" className="button button__md button__primary mt-3 mb-4" >Add New User</button>
+
+        </form>
+
+
+
         <div className=" sm:hidden">
           <ul
             role="list"

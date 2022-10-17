@@ -72,7 +72,7 @@ const AdminLayout = (props) => {
                 </div>
               </div>
             </div>
-            <div className="relative flex-shrink-0 flex h-16 bg-white">
+            {/* <div className="relative flex-shrink-0 flex h-16 bg-white">
               <div className="flex-1 px-4 flex justify-between sm:px-6 lg:max-w-6xl lg:mx-auto lg:px-8">
                 <div className="flex flex-1 ">
                   {navigation.map((item) => (
@@ -92,7 +92,7 @@ const AdminLayout = (props) => {
                   ))}
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
           <main className="flex-1 pb-8">
             <div className="bg-white ">
@@ -113,7 +113,7 @@ const AdminLayout = (props) => {
               </div>
             </div>
 
-            <div className="mt-2">{props.children}</div>
+            <div className="mb-28">{props.children}</div>
           </main>
         </div>
       </div>
