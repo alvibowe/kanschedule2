@@ -293,6 +293,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@^7.2.0":
+  version "7.19.4"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.19.4.tgz#a42f814502ee467d55b38dd1c256f53a7b885c78"
+  integrity sha512-EXpLCrk55f+cYqmHsSR+yD/0gAIMxxA9QK9lnQWzhMCvt+YmoBN7Zx94s++Kv0+unHk39vxNO8t+CMA2WSS3wA==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/template@^7.16.0", "@babel/template@^7.3.3":
   version "7.16.0"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.16.0.tgz#d16a35ebf4cd74e202083356fab21dd89363ddd6"
@@ -5429,6 +5436,14 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-butterfiles@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/react-butterfiles/-/react-butterfiles-1.3.3.tgz#1e9c9879d9c676883625fa17cdafd1fcc432d21c"
+  integrity sha512-Fd6oGkG0V75a54pCRbVN1IOR9bXO2xVpKCDsGHMGJaAq6AOFgzFtGx31CHn2KL9Eg1Zcwi3ZAb88qv43AxO30Q==
+  dependencies:
+    "@babel/runtime" "^7.2.0"
+    bytes "^3.0.0"
+
 react-dom@^17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"
@@ -6799,6 +6814,10 @@ ws@^8.2.1:
   version "8.2.3"
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.2.3.tgz#63a56456db1b04367d0b721a0b80cae6d8becbba"
   integrity sha512-wBuoj1BDpC6ZQ1B7DWQBYVLphPWkm8i9Y0/3YdHjHKHiohOJ1ws+3OccDWtH+PoC9DZD5WOTrJvNbWvjS6JWaA==
+
+"xlsx@https://cdn.sheetjs.com/xlsx-0.18.12/xlsx-0.18.12.tgz":
+  version "0.18.12"
+  resolved "https://cdn.sheetjs.com/xlsx-0.18.12/xlsx-0.18.12.tgz#68828b7645f5194ac6c01708b0f18d4816f4b853"
 
 xml-name-validator@^3.0.0:
   version "3.0.0"
