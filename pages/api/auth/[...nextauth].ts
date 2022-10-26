@@ -123,7 +123,7 @@ export default NextAuth({
             password: true,
             name: true,
             role: true,
-            company: true,
+         
           },
         });
 
