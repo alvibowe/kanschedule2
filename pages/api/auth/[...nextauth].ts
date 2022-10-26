@@ -149,6 +149,7 @@ export default NextAuth({
           email: maybeUser.email,
           name: maybeUser.name,
           role: maybeUser.role,
+          company: maybeUser.company,
         };
       },
     }),
@@ -164,6 +165,7 @@ export default NextAuth({
       if (user) {
         token.id = user.id;
         token.role = user.role;
+        token.company = user.company;
       }
 
       return token;
@@ -175,6 +177,7 @@ export default NextAuth({
           ...session.user,
           id: token.id as string,
           role: token.role as string,
+          company: token.company as string,
         },
       };
 
