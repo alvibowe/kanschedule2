@@ -51,6 +51,7 @@ export default NextAuth({
               password: true,
               name: true,
               role: true,
+              company: true,
             },
           });
 
@@ -88,6 +89,7 @@ export default NextAuth({
             email: maybeUser.email,
             name: maybeUser.name,
             role: maybeUser.role,
+            company: maybeUser.company,
           };
         } catch (error) {
           console.log(error);
