@@ -37,7 +37,7 @@ function Page() {
         email: true,
         image: true,
         emailVerified: true,
-        company: true,
+        
         accounts: {
           select: {
             type: true,

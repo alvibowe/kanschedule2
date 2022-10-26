@@ -182,7 +182,7 @@ export default NextAuth({
         },
       };
 
-      console.log(session)
+
 
       return sess;
     },
