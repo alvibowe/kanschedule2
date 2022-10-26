@@ -246,7 +246,7 @@ function Page() {
                             {user?.company ? <td className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500 uppercase">
                               {user.company}
                             </td>:
-                              <p>NaN</p>
+                              <p>Not Available</p>
                             }
                           </tr>
                         );
