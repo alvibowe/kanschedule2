@@ -50,13 +50,14 @@ function Page() {
   });
 
   if (usersQuery.isLoading) {
-    return <div className="flex justify-center items-center min-h-screen">loading...</div>;
+    return <div className="flex justify-center items-center min-h-screen mt-5 text-xs">loading...</div>;
   }
 
   return (
     <>
       <AdminLayout>
         {/* {/* Activity list (smallest breakpoint only) */}
+        <div className="flex text-center justify-center ">Add new users using the form below</div>
 
         <form className="flex justify-center flex-wrap md:m-40" onSubmit={(e) => {e.preventDefault()} }>
         
@@ -83,7 +84,7 @@ function Page() {
         </div>
         
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-state">
+          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-state">
             Role
           </label>
           <div className="relative">
@@ -101,7 +102,22 @@ function Page() {
           </div>
         </div>
 
-        <div className="w-full px-3 mb-6 md:mb-0">
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-state">
+            Company
+          </label>
+          <div className="relative">
+            <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state" required>
+              <option>Kanschedule</option>
+              
+            </select>
+            {/* <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+            </div> */}
+          </div>
+        </div>
+
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <div className="w-full">
             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-password">
               Password
@@ -160,8 +176,8 @@ function Page() {
         <div className="hidden sm:block">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col mt-2">
-              <div className="align-middle min-w-full overflow-x-auto overflow-hidden ">
-                <table className="min-w-full">
+              <div className="align-middle min-w-full overflow-x-auto overflow-hidden flex justify-center">
+                <table className="table-auto min-w-full">
                   <thead className="border rounded-md">
                     <tr className="border rounded-md">
                       <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -173,11 +189,14 @@ function Page() {
                       <th className="hidden px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider md:block">
                         Status
                       </th>
-                      <th className="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      {/* <th className="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Providers
-                      </th>
+                      </th> */}
                       <th className="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Role
+                      </th>
+                      <th className="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Company
                       </th>
                     </tr>
                   </thead>
@@ -212,7 +231,7 @@ function Page() {
                                   : "Not Verified"}
                               </span>
                             </td>
-                            <td className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
+                            {/* <td className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
                               {user?.accounts && user?.accounts?.length > 0 ? (
                                 user.accounts.map((account) => {
                                   return <p>{account.provider}</p>;
@@ -220,9 +239,12 @@ function Page() {
                               ) : (
                                 <p>credentials</p>
                               )}
-                            </td>
+                            </td> */}
                             <td className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500 uppercase">
                               {user.role}
+                            </td>
+                            <td className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500 uppercase">
+                              {user.company}
                             </td>
                           </tr>
                         );
@@ -248,7 +270,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   if (!session || session?.user?.role !== "admin") {
     
    
-    return { redirect: { permanent: false, destination: "/" } };
+    return { redirect: { permanent: false, destination: "/sign-in" } };
   }
 
   return {

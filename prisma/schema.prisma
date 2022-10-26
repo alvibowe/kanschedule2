@@ -52,6 +52,7 @@ model User {
   email         String?   @unique
   password      String?
   emailVerified DateTime?
+  company       String?
   image         String?
   role          String?   @default("suspended")
   accounts      Account[]

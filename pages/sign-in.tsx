@@ -25,6 +25,7 @@ export default function Page({ csrfToken, providers }) {
   const handleProviderSignIn = (provider) => {
     signIn(provider.id);
   };
+  
   const onSubmit = async (data: LoginFormValues) => {
     setSubmitting(true);
     try {

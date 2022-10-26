@@ -71,8 +71,6 @@ const Page = () => {
 
 
 
-
-  console.log(files);
   return (
     <>
       <AppLayout>
@@ -91,7 +89,7 @@ const Page = () => {
                             <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
                                 <span className="font-semibold">Click to upload a different file</span>
                             </p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">.XLSX (MAX. 2MB)</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">.XLSX (MAX. 5MB)</p>
                         </>
                         }
                         <input id="fileInput" type="file" className="hidden absolute" onChange={handleImport} accept=".xls,.xlsx"/>
