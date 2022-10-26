@@ -47,6 +47,7 @@ function Page() {
       },
     });
 
+    console.log(data.body);
     return data.body;
   });
 
@@ -58,7 +59,7 @@ function Page() {
     <>
       <AdminLayout>
         {/* {/* Activity list (smallest breakpoint only) */}
-        <div className="flex text-center justify-center ">Add new users using the form below</div>
+        <div className="flex text-center justify-center "></div>
 
         <form className="flex justify-center flex-wrap md:m-40" onSubmit={(e) => {e.preventDefault()} }>
         
