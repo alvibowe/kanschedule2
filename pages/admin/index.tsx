@@ -245,10 +245,11 @@ function Page() {
                             <td className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500 uppercase">
                               {user.role}
                             </td>
-                            {user?.company ? <td className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500 uppercase">
+                            {user.company ?
+                            <td className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500 uppercase">
                               {user.company}
                             </td >:
-                              <p className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500 uppercase">Not Available</p>
+                            <p className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500 uppercase">Not Available</p>
                             }
                           </tr>
                         );
