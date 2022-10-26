@@ -52,7 +52,7 @@ model User {
     email         String?   @unique
     password      String?
     emailVerified DateTime?
-    company       String?
+    company       String?   @default("kanschedule")
     image         String?
     role          String?   @default("user")
     accounts      Account[]
