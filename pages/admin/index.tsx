@@ -7,7 +7,6 @@ import classNames from "classnames";
 import AdminLayout from "@lib/components/Layouts/AdminLayout";
 import { getSession } from "@lib/auth/session";
 import superagent from "superagent";
-import prisma, { Prisma } from "@db";
 
 const statusStyles = {
   true: "bg-green-100 text-green-800",
@@ -57,6 +56,7 @@ function Page() {
         <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
           
         </svg>
+        loading...
     </div>
     );
   }
