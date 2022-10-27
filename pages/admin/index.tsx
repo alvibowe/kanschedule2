@@ -52,7 +52,13 @@ function Page() {
   });
 
   if (usersQuery.isLoading) {
-    return <div className="flex justify-center items-center min-h-screen mt-5 text-xs">loading...</div>;
+    return (
+    <div className="flex justify-center items-center min-h-screen mt-5 text-xs">
+        <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
+          
+        </svg>
+    </div>
+    );
   }
 
   return (
