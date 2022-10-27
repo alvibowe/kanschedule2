@@ -1,12 +1,11 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-
+import GitHubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 import { verifyPassword, hashPassword } from "@lib/auth/passwords";
 import { Session } from "@lib/auth/session";
 import prisma from "@db/index";
-import GoogleProvider from "next-auth/providers/google";
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -20,9 +19,9 @@ export default NextAuth({
     // error: "/auth/error", // Error code passed in query string as ?error=
   },
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET
+    GitHubProvider({
+      clientId: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
     }),
     CredentialsProvider({
       id: "app-login",
@@ -51,7 +50,6 @@ export default NextAuth({
               password: true,
               name: true,
               role: true,
-       
             },
           });
 
@@ -60,19 +58,19 @@ export default NextAuth({
               throw new Error("Invalid Credentials");
             }
 
-            // maybeUser = await prisma.user.create({
-            //   data: {
-            //     email: credentials.email,
-            //     password: await hashPassword(credentials.password),
-            //   },
-            //   select: {
-            //     id: true,
-            //     email: true,
-            //     password: true,
-            //     name: true,
-            //     role: true,
-            //   },
-            // });
+            maybeUser = await prisma.user.create({
+              data: {
+                email: credentials.email,
+                password: await hashPassword(credentials.password),
+              },
+              select: {
+                id: true,
+                email: true,
+                password: true,
+                name: true,
+                role: true,
+              },
+            });
           } else {
             const isValid = await verifyPassword(
               credentials.password,
@@ -89,7 +87,6 @@ export default NextAuth({
             email: maybeUser.email,
             name: maybeUser.name,
             role: maybeUser.role,
-        
           };
         } catch (error) {
           console.log(error);
@@ -123,7 +120,6 @@ export default NextAuth({
             password: true,
             name: true,
             role: true,
-         
           },
         });
 
@@ -149,7 +145,6 @@ export default NextAuth({
           email: maybeUser.email,
           name: maybeUser.name,
           role: maybeUser.role,
-       
         };
       },
     }),
@@ -165,10 +160,8 @@ export default NextAuth({
       if (user) {
         token.id = user.id;
         token.role = user.role;
-        
       }
 
-      
       return token;
     },
     async session({ session, token, user }) {
@@ -178,11 +171,8 @@ export default NextAuth({
           ...session.user,
           id: token.id as string,
           role: token.role as string,
-          
         },
       };
-
-
 
       return sess;
     },
