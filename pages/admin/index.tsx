@@ -37,7 +37,6 @@ function Page() {
         email: true,
         image: true,
         emailVerified: true,
-        
         accounts: {
           select: {
             type: true,
@@ -47,7 +46,6 @@ function Page() {
       },
     });
 
-    console.log(data.body);
     return data.body;
   });
 
@@ -245,12 +243,12 @@ function Page() {
                             <td className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500 uppercase">
                               {user.role}
                             </td>
-                            {user?.company ?
+                            {/* {user?.company ?
                             <td className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500 uppercase">
                               {user.company}
                             </td >:
                             <p className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500 uppercase">Not Available</p>
-                            }
+                            } */}
                           </tr>
                         );
                       })}
