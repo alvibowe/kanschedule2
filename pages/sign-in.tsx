@@ -30,7 +30,7 @@ export default function Page({ csrfToken, providers }) {
     setSubmitting(true);
     try {
       signIn("app-login", {
-        callbackUrl: "/",
+        callbackUrl: "",
         email: data.email,
         password: data.password,
       });
