@@ -23,6 +23,7 @@ export default function Page({ csrfToken, providers }) {
   const { register, handleSubmit } = useForm();
 
   const handleProviderSignIn = (provider) => {
+    
     signIn(provider.id);
   };
   
@@ -143,8 +144,8 @@ export default function Page({ csrfToken, providers }) {
                     <button
                       key={provider}
                       type="button"
-                      onClick={() => handleProviderSignIn(provider)}
-                      className="button button__secondary inline-flex space-x-2 bg-red-500"
+                      onClick={() => signIn("google")}
+                      className="button button__secondary inline-flex space-x-2"
                     >
                       <img
                         className="w-6 h-6"
