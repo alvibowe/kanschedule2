@@ -7,6 +7,7 @@ import classNames from "classnames";
 import AdminLayout from "@lib/components/Layouts/AdminLayout";
 import { getSession } from "@lib/auth/session";
 import superagent from "superagent";
+import prisma, { Prisma } from "@db";
 
 const statusStyles = {
   true: "bg-green-100 text-green-800",
@@ -29,6 +30,8 @@ function Page() {
     return "Loading or not authenticated...";
   }
 
+  
+
   const usersQuery = useQuery(["users"], async () => {
     const data = await superagent.get("/api/users").send({
       select: {
@@ -45,7 +48,6 @@ function Page() {
         },
       },
     });
-
     return data.body;
   });
 
