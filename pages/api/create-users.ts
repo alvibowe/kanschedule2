@@ -1,10 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import isEmpty from "lodash/isEmpty";
-import nc from "next-connect";
+
 import prisma from "../../db";
 import { getSession } from "../../lib/auth/session";
 import { Prisma } from "@prisma/client";
-import { verifyPassword, hashPassword } from "@lib/auth/passwords";
+import { hashPassword } from "@lib/auth/passwords";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getSession({ req });
@@ -16,7 +15,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     if (req.method === "POST") {
-        console.log("req.body", req.body);
         const { name, email, role, company, password } = req.body;
 
         const user = await prisma.user.create({
@@ -25,7 +23,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 email: email,
                 role: role,
                 company: company,
-                password: password,
+                password: await hashPassword(password),
             }
         })
 

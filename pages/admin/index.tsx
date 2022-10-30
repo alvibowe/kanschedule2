@@ -38,10 +38,17 @@ function Page() {
   });
 
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id, email) => {
     console.log(id)
     // await superagent.delete(`/api/users/${id}`);
     // await router.push("/admin/users", "/admin/users", { shallow: true });
+    fetch('/api/delete-user/', {
+      method: 'DELETE',
+      body: JSON.stringify({
+        id: id,
+        email: email
+      })
+    })
   }
 
   
@@ -311,7 +318,7 @@ function Page() {
                             </td >:
                             <p className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500 uppercase">Not Available</p>
                             }
-                            <td><TrashIcon className="h-5 w-5 text-red-400 hover:pointer" onClick={() => handleDelete(user.id)}/></td>
+                            <td><TrashIcon className="h-5 w-5 text-red-400 hover:pointer" onClick={() => handleDelete(user.id, user.email)}/></td>
                           </tr>
                         );
                       })}
