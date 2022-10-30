@@ -1,11 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import isEmpty from "lodash/isEmpty";
 import nc from "next-connect";
-import prisma, { Prisma } from "@db";
+import prisma from "@db";
 import { getSession } from "@lib/auth/session";
+import { Prisma } from "@prisma/client";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
+
+  
 
   if (!session) {
     return res.status(401).json({
@@ -39,6 +42,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     distinct: distinctInput,
   };
 
+  
   try {
     const users = await prisma.user.findMany(findManyArgs);
 

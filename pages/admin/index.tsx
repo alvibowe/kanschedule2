@@ -1,12 +1,15 @@
 import { useQuery } from "react-query";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { ChevronRightIcon } from "@heroicons/react/solid";
+import { ChevronRightIcon, TrashIcon } from "@heroicons/react/solid";
 import { GetServerSidePropsContext } from "next";
 import classNames from "classnames";
 import AdminLayout from "@lib/components/Layouts/AdminLayout";
 import { getSession } from "@lib/auth/session";
 import superagent from "superagent";
+import prisma from "@db/index";
+import { useState } from "react";
+import { hashPassword } from "@lib/auth/passwords";
 
 const statusStyles = {
   true: "bg-green-100 text-green-800",
@@ -14,6 +17,15 @@ const statusStyles = {
 };
 
 function Page() {
+
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [role, setRole] = useState('technician');
+  const [company, setComapany] = useState('kanschedule');
+  const [password, setPassword] = useState('');
+
+
   const router = useRouter();
   const {
     status,
@@ -24,6 +36,36 @@ function Page() {
       router.push("/", "/", {});
     },
   });
+
+
+  const handleDelete = async (id) => {
+    console.log(id)
+    // await superagent.delete(`/api/users/${id}`);
+    // await router.push("/admin/users", "/admin/users", { shallow: true });
+  }
+
+  
+
+  const handleNewUser = async (e: React.SyntheticEvent) => {
+    e.preventDefault()
+
+    const result = await fetch('/api/create-users/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: firstName + ' ' + lastName,
+        email: email,
+        role: role,
+        company: company,
+        password: password
+      }),
+    })
+
+ 
+    
+  }
 
   if (status === "loading") {
     return "Loading or not authenticated...";
@@ -48,9 +90,10 @@ function Page() {
       },
     });
 
-    console.log(data.body);
     return data.body;
   });
+
+ 
 
   if (usersQuery.isLoading) {
     return (
@@ -65,33 +108,34 @@ function Page() {
     );
   }
 
+ 
   return (
     <>
       <AdminLayout>
         {/* {/* Activity list (smallest breakpoint only) */}
         <div className="flex text-center justify-center "></div>
 
-        <form className="flex justify-center flex-wrap md:m-40" onSubmit={(e) => {e.preventDefault()} }>
+        <form className="flex justify-center flex-wrap md:m-40" onSubmit={(e) => handleNewUser(e)}>
         
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
+          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name" >
             First Name
           </label>
-          <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Jane" required/>
+          <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"  type="text" placeholder="Jane" value={firstName} onChange={(e) => setFirstName(e.target.value)} required/>
           {/* <p className="text-red-500 text-xs italic">Please fill out this field.</p> */}
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
             Last Name
           </label>
-          <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Doe" required/>
+          <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Doe" value={lastName} onChange={(e) => setLastName(e.target.value)} required/>
           {/* <p className="text-red-500 text-xs italic">Please fill out this field.</p> */}
         </div>
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
             Email
           </label>
-          <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"  type="text" placeholder="user@email.com" required/>
+          <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"  type="email" placeholder="user@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required/>
           {/* <p className="text-red-500 text-xs italic">Please fill out this field.</p> */}
         </div>
         
@@ -100,7 +144,7 @@ function Page() {
             Role
           </label>
           <div className="relative">
-            <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state" required>
+            <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" value={role} onChange={(e) => setRole(e.target.value)} required>
               <option>Admin</option>
               <option>System Manager</option>
               <option>Schedule Administrator</option>
@@ -119,7 +163,7 @@ function Page() {
             Company
           </label>
           <div className="relative">
-            <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state" required>
+            <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" value={company} onChange={(e) => setComapany(e.target.value)} required>
               <option>Kanschedule</option>
               
             </select>
@@ -134,7 +178,7 @@ function Page() {
             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-password">
               Password
             </label>
-            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="password" placeholder="******************" required/>
+            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="password" placeholder="******************" value={password} onChange={(e) => setPassword(e.target.value)} required/>
             <p className="text-gray-600 text-xs italic"></p>
           </div>
         </div>
@@ -153,6 +197,7 @@ function Page() {
             {usersQuery?.data &&
               usersQuery.data.map((user) => {
                 return (
+                  <>
                   <li key={user.email}>
                     <a className="block px-4 py-4 bg-white hover:bg-gray-50">
                       <span className="flex items-center space-x-4">
@@ -170,15 +215,20 @@ function Page() {
                             >
                               {user.emailVerified ? "Verified" : "Not Verified"}
                             </span>
+                            
                           </span>
                         </span>
                         <ChevronRightIcon
                           className="flex-shrink-0 h-5 w-5 text-gray-400"
                           aria-hidden="true"
                         />
+                        
                       </span>
                     </a>
+                    
                   </li>
+             
+                  </>
                 );
               })}
           </ul>
@@ -261,6 +311,7 @@ function Page() {
                             </td >:
                             <p className="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500 uppercase">Not Available</p>
                             }
+                            <td><TrashIcon className="h-5 w-5 text-red-400 hover:pointer" onClick={() => handleDelete(user.id)}/></td>
                           </tr>
                         );
                       })}
