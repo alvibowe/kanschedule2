@@ -8,7 +8,7 @@ import { Fragment } from "react";
 import { useRouter } from "next/router";
 
 const AppLayout = (props) => {
-  const { status, data: session } = useSession({
+  const { status, data: session  } = useSession({
     required: true,
   });
 
@@ -42,6 +42,7 @@ const AppLayout = (props) => {
     // },
   ];
 
+ 
   return (
     <>
       <div className="min-h-screen">
@@ -117,7 +118,68 @@ const AppLayout = (props) => {
             <div className="relative flex-shrink-0 flex h-16 bg-white mt-10">
               <div className="flex-1 px-4 flex justify-between sm:px-6 lg:max-w-6xl lg:mx-auto lg:px-8">
                 <div className="flex flex-1 justify-between ">
-                  {NAV_ITEMS.map((item) => (
+
+                    {(session?.user as any)?.role === "system manager" && <Link key={"Users"} href={"/"}>
+                      <a
+                        className={classNames(
+                          "/" === currentPath
+                            ? "border-b border-indigo-600 text-black"
+                            : " hover:border-b  hover:border-gray-200 text-gray-600 ",
+                          "group flex items-center px-2 py-2 text-sm leading-6 font-medium"
+                        )}
+                        aria-current={
+                          "/" === currentPath ? "page" : undefined
+                        }
+                      >
+                        {"Users"}
+                      </a>
+                    </Link>}
+                    {(session?.user as any)?.role === "system manager" || (session?.user as any)?.role === "scheduling administrator"  ? <Link key={"Runs"} href={"/runs"}>
+                      <a
+                        className={classNames(
+                          "/runs" === currentPath
+                            ? "border-b border-indigo-600 text-black"
+                            : " hover:border-b  hover:border-gray-200 text-gray-600 ",
+                          "group flex items-center px-2 py-2 text-sm leading-6 font-medium"
+                        )}
+                        aria-current={
+                          "/runs" === currentPath ? "page" : undefined
+                        }
+                      >
+                        {"Runs"}
+                      </a>
+                    </Link> : <></>}
+                    {(session?.user as any)?.role != "technician" && <Link key={"Quotes"} href={"/quotes"}>
+                      <a
+                        className={classNames(
+                          "/quotes" === currentPath
+                            ? "border-b border-indigo-600 text-black"
+                            : " hover:border-b  hover:border-gray-200 text-gray-600 ",
+                          "group flex items-center px-2 py-2 text-sm leading-6 font-medium"
+                        )}
+                        aria-current={
+                          "/quotes" === currentPath ? "page" : undefined
+                        }
+                      >
+                        {"Quotes"}
+                      </a>
+                    </Link>}
+                    <Link key={"Jobs"} href={"/jobs"}>
+                      <a
+                        className={classNames(
+                          "/jobs" === currentPath
+                            ? "border-b border-indigo-600 text-black"
+                            : " hover:border-b  hover:border-gray-200 text-gray-600 ",
+                          "group flex items-center px-2 py-2 text-sm leading-6 font-medium"
+                        )}
+                        aria-current={
+                          "/jobs" === currentPath ? "page" : undefined
+                        }
+                      >
+                        {"Jobs"}
+                      </a>
+                    </Link>
+                  {/* {NAV_ITEMS.map((item) => (
                     <Link key={item.title} href={item.href}>
                       <a
                         className={classNames(
@@ -133,7 +195,7 @@ const AppLayout = (props) => {
                         {item.title}
                       </a>
                     </Link>
-                  ))}
+                  ))} */}
                 </div>
               </div>
             </div>

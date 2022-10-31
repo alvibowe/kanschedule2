@@ -6,7 +6,7 @@ const Page = () => {
   return (
     <>
       <AppLayout>
-        <div>View Users/ Add Users</div>
+        <div className="flex justify-center min-h-full mt-10">Select from the Menu above to get started</div>
       </AppLayout>
     </>
   );
