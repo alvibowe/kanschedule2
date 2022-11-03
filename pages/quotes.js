@@ -153,7 +153,23 @@ const Page = () => {
                                    
                                 </tr>
                             </thead>
-                            <tbody className=""></tbody>
+                            <tbody className="">
+                                <tr className="m-2">
+                                    <td className="px-6 py-3">
+                                        <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="PO NUMBER..." type="text" name="search"/>
+                                    </td>
+                                    <td className="px-6 py-3">
+                                        <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="SALES CONTACT..." type="text" name="search"/>
+                                    </td>
+                                    <td className="px-6 py-3">
+                                        <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="SLS ID..." type="text" name="search"/>
+                                    </td>
+                                    <td className="px-6 py-3">
+                                        <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="CALIBRATION TYPE..." type="text" name="search"/>
+                                    </td>
+
+                                </tr>
+                            </tbody>
                         </table> 
                     </div>
                     <div className="font-semibold italic mt-10">*A purchase order or credit card must be provided prior to service work commencing.</div>
@@ -210,10 +226,22 @@ const Page = () => {
                                     data.map((item, index) => (
                                         <tr key={index}>
                                             <th scope="row">{ index + 1 }</th>
-                                            <td>{ item["Asset Type"]}</td>
-                                            <td>{ formatCode(item["Calibration Product Code"])}</td>
-                                            <td>{ item.Director }</td>
-                                            <td><span className="badge bg-warning text-dark">-</span></td>
+                                            <td className="px-6 py-2">
+                                                <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={ item["Asset Type"]} type="text"/>
+                                                {/* { item["Asset Type"]} */}
+                                            </td>
+                                            <td className="px-6 py-2">
+                                                <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={ formatCode(item["Calibration Product Code"])} type="text"/>
+                                                {/* { formatCode(item["Calibration Product Code"])} */}
+                                            </td>
+                                            <td className="px-6 py-2">
+                                                <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={ item.Director } type="text"/>
+                                                {/* { item.Director } */}
+                                            </td>
+                                            <td className="px-6 py-2">
+                                                <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="" type="text"/>
+                                                {/* <span className="badge bg-warning text-dark">-</span> */}
+                                            </td>
                                         </tr> 
                                     ))
                                     :
@@ -231,16 +259,17 @@ const Page = () => {
         </div>
         <div className="bg-gray-50 p-20">
             <div className="flex justify-end min-w-full font-bold">
-                <div className="flex flex-col">Estimated hours on Site: </div>
-                
+                <div className="flex flex-col">Estimated hours on Site:</div>
+                <input className="placeholder:italic ml-4" placeholder=""></input>
             </div>
             <div className="flex justify-end min-w-full font-bold mt-5">
-    
                 <div className="flex flex-col">Estimated Total Price: </div>
+                <input className="placeholder:italic ml-4" placeholder=""></input>
             </div>
         </div>
         <div className="flex justify-start min-w-full font-bold mt-5">
             <div>Date: </div>
+            <input className="placeholder:italic ml-4" placeholder=""></input>
         </div>
         </>
       </AppLayout>
