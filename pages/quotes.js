@@ -6,7 +6,7 @@ import { useState, useRef } from "react";
 import { FolderIcon } from "@heroicons/react/outline";
 import { read, utils, writeFile } from 'xlsx';
 
-import { TrashIcon } from "@heroicons/react/solid";
+import { TrashIcon, PlusIcon } from "@heroicons/react/solid";
 
 // interface Item {
 //   Asset: number;
@@ -72,14 +72,16 @@ const Page = () => {
   }
 
   const formatCode = (text) => {
-    const result = /([^-]*)-/.exec(text)[1]
-    
+    if(text){
+        const result = /([^-]*)-/.exec(text)[1]
+        return result
+    }
     return result
   }
 
-  const removeItem = (asset_no) => {
-    setData((current) => current.filter((item, index) => item['Asset #'] !== asset_no))
- 
+  const removeItem = (idx) => {
+    console.log(data[idx])
+    setData((current) => current.filter((item, index) => index !== idx))
   }
 
   const handleAmount = (amount, asset_no) => {
@@ -100,7 +102,17 @@ const Page = () => {
   }
 
 
-  console.log(data)
+  const addRow = () => {
+    setData((prevState) => {
+        const newState = [...prevState, {
+            'Item': '',
+            'Unit Code': '',
+            'QTY': '',
+            'Availability': ''
+        }]
+        return newState
+    })
+  }
   return (
     <>
       
@@ -264,7 +276,7 @@ const Page = () => {
                                                 <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="" type="text"/>
                                                 {/* <span className="badge bg-warning text-dark">-</span> */}
                                             </td>
-                                            <td><TrashIcon className="h-5 w-5 hover:bg-red-400 hover:cursor-pointer" onClick={() => removeItem(item["Asset #"])}/></td>
+                                            <td><TrashIcon className="h-5 w-5 hover:bg-red-400 hover:cursor-pointer" onClick={() => removeItem(index)}/></td>
                                         </tr> 
                                     ))
                                     :
@@ -274,6 +286,12 @@ const Page = () => {
                                 }
                         </tbody>
                     </table>
+                    <div className="flex justify-center text-center">
+                        
+                        <div className="m-5 text-lg font-extrabold hover:cursor-pointer bg-black text-white p-2 rounded" onClick={() => addRow()}>Add New Item/Row</div>
+                        
+
+                    </div>
                 </div>
                 
             </div>}
