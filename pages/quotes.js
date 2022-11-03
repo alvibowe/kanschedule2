@@ -6,7 +6,7 @@ import { useState, useRef } from "react";
 import { FolderIcon } from "@heroicons/react/outline";
 import { read, utils, writeFile } from 'xlsx';
 
-
+import { TrashIcon } from "@heroicons/react/solid";
 
 // interface Item {
 //   Asset: number;
@@ -77,8 +77,30 @@ const Page = () => {
     return result
   }
 
-
+  const removeItem = (asset_no) => {
+    setData((current) => current.filter((item, index) => item['Asset #'] !== asset_no))
  
+  }
+
+  const handleAmount = (amount, asset_no) => {
+    console.log(amount, asset_no)
+    setData((prevState) => {
+        const newState = prevState.map((item, index) => {
+            if (item['Asset #'] === asset_no) {
+                item['Amount'] = amount
+           
+            return item
+            }
+            return item
+            // console.log(item)
+        })
+        return newState
+    })
+    
+  }
+
+
+  console.log(data)
   return (
     <>
       
@@ -116,11 +138,11 @@ const Page = () => {
             {data.length && <div className="mt-10">
                 <div className="mt-14 mb-14">
                     
-                    <div className="flex justify-between min-w-full mb-10">
+                    <div className="flex flex-wrap justify-between min-w-full mb-10 ">
                         
                         <div>
                             <div className="p-20 m-5 hover:cursor-pointer border-dashed border-2 border-gray-300 hover:bg-gray-100" onClick={() => ref.current?.click()}>
-                                <p className="font-bold">Company Logo</p>
+                                <p className="font-bold text-center">Company Logo</p>
                                 <p className="text-sm text-gray-500 dark:text-gray-400 text-center"><span className="font-semibold">Click to upload</span></p>
                             </div>
                             
@@ -212,7 +234,7 @@ const Page = () => {
                     <table className="min-w-full mt-10">
                         <thead className="border rounded-md">
                             <tr className="border rounded-md">
-                                <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Id</th>
+                                <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:block">Id</th>
                                 <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
                                 <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unit Code</th>
                                 <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">QTY</th>
@@ -225,23 +247,24 @@ const Page = () => {
                                     ?
                                     data.map((item, index) => (
                                         <tr key={index}>
-                                            <th scope="row">{ index + 1 }</th>
+                                            <th scope="row" className="hidden md:block">{ index + 1 }</th>
                                             <td className="px-6 py-2">
-                                                <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={ item["Asset Type"]} type="text"/>
+                                                <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={ item["Asset Type"]} type="text"/>
                                                 {/* { item["Asset Type"]} */}
                                             </td>
                                             <td className="px-6 py-2">
-                                                <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={ formatCode(item["Calibration Product Code"])} type="text"/>
+                                                <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={ formatCode(item["Calibration Product Code"])} type="text"/>
                                                 {/* { formatCode(item["Calibration Product Code"])} */}
                                             </td>
                                             <td className="px-6 py-2">
-                                                <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={ item.Director } type="text"/>
+                                                <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item.Amount} placeholder="0" type="number" onChange={(e) => handleAmount(e.target.value, item["Asset #"])}/>
                                                 {/* { item.Director } */}
                                             </td>
                                             <td className="px-6 py-2">
-                                                <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="" type="text"/>
+                                                <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="" type="text"/>
                                                 {/* <span className="badge bg-warning text-dark">-</span> */}
                                             </td>
+                                            <td><TrashIcon className="h-5 w-5 hover:bg-red-400 hover:cursor-pointer" onClick={() => removeItem(item["Asset #"])}/></td>
                                         </tr> 
                                     ))
                                     :
