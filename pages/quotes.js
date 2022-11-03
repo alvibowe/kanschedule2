@@ -87,7 +87,7 @@ const Page = () => {
         <div className="flex w-full flex-col ">
            <div className="flex justify-center flex-row p-20">
                 <div className="flex justify-center text-center w-full ">
-                    <label htmlFor="fileInput" className="flex flex-col justify-center items-center w-full h-64 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                    <label htmlFor="fileInput" className="flex flex-col justify-center items-center w-full h-64  rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                        {!files.length ? <div className="flex flex-col justify-center items-center">
                             {/* <svg aria-hidden="true" class="mb-3 w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg> */}
                             <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span></p>
@@ -119,8 +119,8 @@ const Page = () => {
                     <div className="flex justify-between min-w-full mb-10">
                         
                         <div>
-                            <div className="p-20 hover:cursor-pointer h-28 border-dashed border-2 border-gray-300" onClick={() => ref.current?.click()}>
-                                <p>Company Logo</p>
+                            <div className="p-20 m-5 hover:cursor-pointer border-dashed border-2 border-gray-300 hover:bg-gray-100" onClick={() => ref.current?.click()}>
+                                <p className="font-bold">Company Logo</p>
                                 <p className="text-sm text-gray-500 dark:text-gray-400 text-center"><span className="font-semibold">Click to upload</span></p>
                             </div>
                             
@@ -135,9 +135,9 @@ const Page = () => {
                         </div>
                         <div>
                         <div className="p-20 hover:cursor-pointer text-center bg-gray-50">
-                            <p>Quote Prepared for:</p>
+                            <p className="font-bold">Quote Prepared for:</p>
                             <div className="mt-2">
-                                <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="eg.Jane Doe..." type="text" name="search"/>
+                                <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="Jane Doe..." type="text" name="search"/>
                             </div>
                         </div>
                         </div>
@@ -156,19 +156,19 @@ const Page = () => {
                             <tbody className=""></tbody>
                         </table> 
                     </div>
-                    <div className="font-bold mt-10">*A purchase order or credit card must be provided prior to service work commencing.</div>
+                    <div className="font-semibold italic mt-10">*A purchase order or credit card must be provided prior to service work commencing.</div>
 
 
                     <div className="flex justify-between min-w-full mt-10">
                         <div>
-                            <span className="mb-5">Filter By:</span>
+                            <span className="mb-5 font-bold">Filter By:</span>
                             <select className="mt-5 block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" required>
                                 <option>Site Address</option>
                             </select>
                             
                         </div>
                         <div>
-                            <span>Dates Between:</span>
+                            <span className="font-bold">Dates Between:</span>
                             
                             <div className="mt-2"><input type="date"></input></div>
                             <div className="mt-2"><input type="date"></input></div>
@@ -229,9 +229,18 @@ const Page = () => {
             
             
         </div>
-        <div className="flex justify-end min-w-full">
-            <div>Estimated hours on Site: </div>
-            <div>Estimated Total Price: </div>
+        <div className="bg-gray-50 p-20">
+            <div className="flex justify-end min-w-full font-bold">
+                <div className="flex flex-col">Estimated hours on Site: </div>
+                
+            </div>
+            <div className="flex justify-end min-w-full font-bold mt-5">
+    
+                <div className="flex flex-col">Estimated Total Price: </div>
+            </div>
+        </div>
+        <div className="flex justify-start min-w-full font-bold mt-5">
+            <div>Date: </div>
         </div>
         </>
       </AppLayout>
