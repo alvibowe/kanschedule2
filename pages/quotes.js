@@ -1,10 +1,12 @@
 import AppLayout from "@lib/components/Layouts/AppLayout";
 import { useSession } from "next-auth/react";
 import { getSession } from "@lib/auth/session";
-import Files from "react-butterfiles";
-import { useState } from "react";
+
+import { useState, useRef } from "react";
 import { FolderIcon } from "@heroicons/react/outline";
 import { read, utils, writeFile } from 'xlsx';
+
+
 
 // interface Item {
 //   Asset: number;
@@ -25,8 +27,14 @@ import { read, utils, writeFile } from 'xlsx';
 const Page = () => {
   const [files, setFiles] = useState([])
   // const [errors, setErrors] = useState([])
+//   const [fromDate, setFromDate] = useState('')
+//   const [toDate, setToDate] = useState('')
+//   const [items, setItems] = useState<Item[]>([])
+  
   const [data, setData] = useState({})
   const { status, data: session } = useSession({required: false});
+  const ref = useRef(null)
+
   
 
   const handleImport = ($event) => {
@@ -70,10 +78,12 @@ const Page = () => {
   }
 
 
-
+ 
   return (
     <>
+      
       <AppLayout>
+      <>
         <div className="flex w-full flex-col ">
            <div className="flex justify-center flex-row p-20">
                 <div className="flex justify-center text-center w-full ">
@@ -105,9 +115,32 @@ const Page = () => {
             </div>
             {data.length && <div className="mt-10">
                 <div className="mt-14 mb-14">
-                    <div className="flex justify-around min-w-full mb-10">
-                        <div>Company Logo and Info</div>
-                        <div>Quote prepared for: </div>
+                    
+                    <div className="flex justify-between min-w-full mb-10">
+                        
+                        <div>
+                            <div className="p-20 hover:cursor-pointer h-28 border-dashed border-2 border-gray-300" onClick={() => ref.current?.click()}>
+                                <p>Company Logo</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400 text-center"><span className="font-semibold">Click to upload</span></p>
+                            </div>
+                            
+                            <input  type="file"
+                                    id="filePicker"
+                                    ref={ref}
+                                    accept="image/*"
+                                    className="hidden"
+                            />
+                           
+                            
+                        </div>
+                        <div>
+                        <div className="p-20 hover:cursor-pointer text-center bg-gray-50">
+                            <p>Quote Prepared for:</p>
+                            <div className="mt-2">
+                                <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="eg.Jane Doe..." type="text" name="search"/>
+                            </div>
+                        </div>
+                        </div>
                     </div>
                     <div className="pb-14">
                         <table className="min-w-full">
@@ -124,6 +157,42 @@ const Page = () => {
                         </table> 
                     </div>
                     <div className="font-bold mt-10">*A purchase order or credit card must be provided prior to service work commencing.</div>
+
+
+                    <div className="flex justify-between min-w-full mt-10">
+                        <div>
+                            <span className="mb-5">Filter By:</span>
+                            <select className="mt-5 block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" required>
+                                <option>Site Address</option>
+                            </select>
+                            
+                        </div>
+                        <div>
+                            <span>Dates Between:</span>
+                            
+                            <div className="mt-2"><input type="date"></input></div>
+                            <div className="mt-2"><input type="date"></input></div>
+                            {/* <div date-rangepicker className="flex items-center mt-5">
+                                <div className="relative w-full">
+                                    <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                                        <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                    </div>
+                                    <input name="start" type="text" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Start Date"/>
+                                </div>
+                                <span className="mx-4 text-gray-500">to</span>
+                                <div className="relative w-full">
+                                    <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                                        <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                                    </div>
+                                    <input name="end" type="text" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="End Date"/>
+                                </div>
+                            </div> */}
+                        </div>
+                    </div>
+                    
+                    {/* Quote Table */}
+
+
                     <table className="min-w-full mt-10">
                         <thead className="border rounded-md">
                             <tr className="border rounded-md">
@@ -155,13 +224,18 @@ const Page = () => {
                         </tbody>
                     </table>
                 </div>
-                {/* <div className="grid grid-cols-6 gap-4 w-full">
-                    <div className="col-end-7 col-span-2">Date: </div>
-                </div> */}
+                
             </div>}
             
+            
         </div>
+        <div className="flex justify-end min-w-full">
+            <div>Estimated hours on Site: </div>
+            <div>Estimated Total Price: </div>
+        </div>
+        </>
       </AppLayout>
+      
     </>
   );
 };
