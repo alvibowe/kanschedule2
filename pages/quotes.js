@@ -2,11 +2,11 @@ import AppLayout from "@lib/components/Layouts/AppLayout";
 import { useSession } from "next-auth/react";
 import { getSession } from "@lib/auth/session";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FolderIcon } from "@heroicons/react/outline";
-import { read, utils, writeFile } from 'xlsx';
+import { read, readFile, utils, writeFile } from 'xlsx';
 
-import { TrashIcon, PlusIcon } from "@heroicons/react/solid";
+import { TrashIcon } from "@heroicons/react/solid";
 
 // interface Item {
 //   Asset: number;
@@ -25,19 +25,58 @@ import { TrashIcon, PlusIcon } from "@heroicons/react/solid";
 // }
 
 const Page = () => {
-  const [files, setFiles] = useState([])
-  // const [errors, setErrors] = useState([])
-//   const [fromDate, setFromDate] = useState('')
-//   const [toDate, setToDate] = useState('')
-//   const [items, setItems] = useState<Item[]>([])
-  
-  const [data, setData] = useState({})
-  const { status, data: session } = useSession({required: false});
-  const ref = useRef(null)
+    const [files, setFiles] = useState([])
+    // const [errors, setErrors] = useState([])
+    // const [fromDate, setFromDate] = useState('')
+    // const [toDate, setToDate] = useState('')
+    // const [items, setItems] = useState<Item[]>([])
+    const [reference, setReference] = useState({})
+    const [data, setData] = useState({})
+    const { status, data: session } = useSession({required: false});
+    const file = "reference/toolist.xlsx"
+    const ref = useRef(null)
 
-  
 
-  const handleImport = ($event) => {
+    const getReference = async () => {
+        const res = await fetch(file)
+        const data = await res.arrayBuffer()
+        const wb = read(data, {type: 'buffer'})
+        const wsname = wb.SheetNames[0]
+        const ws = wb.Sheets[wsname]
+        const dataParse = utils.sheet_to_json(ws)
+        setReference(dataParse)
+    }
+
+    useEffect(() => {
+        getReference()
+    }, [file])
+
+    useEffect(() => {
+        if(data.length){findAvailability(data)}
+    }, [data])
+
+    
+  
+    const findAvailability = (items) => {
+        if(data.length){
+            items?.map(item => {
+                
+                const found = reference?.find((lookup) => 
+                
+                    lookup['Product Code']?.toString().trim() === formatCode(item["Calibration Product Code"])?.trim()
+                )
+                
+                if (found) {
+                    item.Availability = found['Standard Location'] || "found"
+                } else {
+                    item.Availability = '-'
+                }
+            })
+        }
+
+    }
+
+    const handleImport = ($event) => {
     const files = $event.target.files;
     if (files.length) {
         const file = files[0];
@@ -49,71 +88,77 @@ const Page = () => {
             if (sheets.length) {
                 const rows = utils.sheet_to_json(wb.Sheets[sheets[0]]);
                 setData(rows)
+          
             }
         }
         setFiles(files)
         reader.readAsArrayBuffer(file);
+        
     }
-}
+    }
 
-  const handleExport = () => {
-      const headings = [[
+    const handleExport = () => {
+        const headings = [[
           'Item',
           'Unit Code',
           'QTY',
           'Availability'
-      ]];
-      const wb = utils.book_new();
-      const ws = utils.json_to_sheet([]);
-      utils.sheet_add_aoa(ws, headings);
-      utils.sheet_add_json(ws, data, { origin: 'A2', skipHeader: true });
-      utils.book_append_sheet(wb, ws, 'Report');
-      writeFile(wb, 'Quotation Report.xlsx');
-  }
+        ]];
+        const wb = utils.book_new();
+        const ws = utils.json_to_sheet([]);
+        utils.sheet_add_aoa(ws, headings);
+        utils.sheet_add_json(ws, data, { origin: 'A2', skipHeader: true });
+        utils.book_append_sheet(wb, ws, 'Report');
+        writeFile(wb, 'Quotation Report.xlsx');
+    }
 
-  const formatCode = (text) => {
-    if(text){
-        const result = /([^-]*)-/.exec(text)[1]
+    const formatCode = (text) => {
+        if(text){
+            const result = /([^-]*)-/.exec(text)[1]
+            return result
+        }
         return result
     }
-    return result
-  }
 
-  const removeItem = (idx) => {
-    console.log(data[idx])
-    setData((current) => current.filter((item, index) => index !== idx))
-  }
+    const removeItem = (idx) => {
+ 
+        setData((current) => current.filter((item, index) => index !== idx))
+    }
 
-  const handleAmount = (amount, asset_no) => {
-    console.log(amount, asset_no)
-    setData((prevState) => {
-        const newState = prevState.map((item, index) => {
-            if (item['Asset #'] === asset_no) {
-                item['Amount'] = amount
+    const handleAmount = (amount, asset_no) => {
+       
+        setData((prevState) => {
+            const newState = prevState.map((item, index) => {
+                if (item['Asset #'] === asset_no) {
+                    item['Amount'] = amount
            
-            return item
-            }
-            return item
+                return item
+                }
+                return item
             // console.log(item)
-        })
-        return newState
+            })
+            return newState
     })
     
   }
 
 
-  const addRow = () => {
-    setData((prevState) => {
-        const newState = [...prevState, {
-            'Item': '',
-            'Unit Code': '',
-            'QTY': '',
-            'Availability': ''
-        }]
-        return newState
-    })
-  }
-  return (
+    const addRow = () => {
+        setData((prevState) => {
+            const newState = [...prevState, {
+                'Item': '',
+                'Unit Code': '',
+                'QTY': '',
+                'Availability': ''
+            }]
+            return newState
+        })
+    }
+
+
+
+    //console.log(reference.find(lookup => lookup['Product Code'] === 'CAL TCAL-P'))
+    return (
     <>
       
       <AppLayout>
@@ -148,9 +193,9 @@ const Page = () => {
  
             </div>
             {data.length && <div className="mt-10">
-                <div className="mt-14 mb-14">
+                <div className="mt-14 mb-14 ">
                     
-                    <div className="flex flex-wrap justify-between min-w-full mb-10 ">
+                    <div className=" flex flex-wrap justify-between min-w-full mb-10 ">
                         
                         <div>
                             <div className="p-20 m-5 hover:cursor-pointer border-dashed border-2 border-gray-300 hover:bg-gray-100" onClick={() => ref.current?.click()}>
@@ -177,7 +222,7 @@ const Page = () => {
                         </div>
                     </div>
                     <div className="pb-14">
-                        <table className="min-w-full">
+                        <table className="min-w-full ">
                             <thead className="border rounded-md">
                                 <tr className="border rounded-md">
                                     <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PO NUMBER</th>
@@ -243,7 +288,7 @@ const Page = () => {
                     {/* Quote Table */}
 
 
-                    <table className="min-w-full mt-10">
+                    <table className="min-w-full mt-10 ">
                         <thead className="border rounded-md">
                             <tr className="border rounded-md">
                                 <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:block">Id</th>
@@ -273,7 +318,7 @@ const Page = () => {
                                                 {/* { item.Director } */}
                                             </td>
                                             <td className="px-6 py-2">
-                                                <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="" type="text"/>
+                                                <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={item.Availability || '-'} type="text"/>
                                                 {/* <span className="badge bg-warning text-dark">-</span> */}
                                             </td>
                                             <td><TrashIcon className="h-5 w-5 hover:bg-red-400 hover:cursor-pointer" onClick={() => removeItem(index)}/></td>
