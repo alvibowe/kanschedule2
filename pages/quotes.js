@@ -67,7 +67,7 @@ const Page = () => {
                 )
                 
                 if (found) {
-                    item.Availability = found['Standard Location'] || "found"
+                    item.Availability = found['Standard Location']
                 } else {
                     item.Availability = '-'
                 }
