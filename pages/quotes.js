@@ -165,7 +165,7 @@ const Page = () => {
 
     const removeItem = (idx) => {
  
-        setData((current) => current.filter((item, index) => index !== idx))
+        setItems((current) => current.filter((item, index) => index !== idx))
     }
 
     const handleAmount = (amount, asset_no) => {
@@ -187,15 +187,25 @@ const Page = () => {
 
 
     const addRow = () => {
-        setData((prevState) => {
+        setItems((prevState) => {
             console.log(prevState)
-            const newState = [...prevState, {
-                'Item': '',
-                'Unit Code': '',
-                'QTY': '',
-                'Availability': ''
-            }]
-            return newState
+            if(prevState?.length){
+                const newState = [...prevState, {
+                    'Item': '',
+                    'Unit Code': '',
+                    'QTY': '',
+                    'Availability': ''
+                }]
+                return newState
+            }else{
+                return [{
+                    'Item': '',
+                    'Unit Code': '',
+                    'QTY': '',
+                    'Availability': ''
+                }]
+            }
+            
         })
     }
 
@@ -212,9 +222,9 @@ const Page = () => {
 
     const search = (e) => {
         const keyword = e.target.value
-        console.log(keyword)
+       
         const newData = data?.filter((item) => {
-            return item['Asset Type'].toString().includes(keyword)
+            return item['Asset Type'].toString().includes(keyword) || item['Calibration Product Code'].toString().includes(keyword)
         })
 
         setItems(newData)
@@ -334,7 +344,7 @@ const Page = () => {
 
                     <div className="flex justify-between min-w-full mt-10">
                         <div>
-                            <span className="mb-5 font-bold">Filter By Phrase:</span>
+                            <span className="mb-5 font-bold">Filter By Item Name/Item Code:</span>
                             <div className="mt-2">
                                 <input
                                     className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center"
@@ -342,7 +352,7 @@ const Page = () => {
                                     type="text"
                                     name="search"
                                     onChange={(e) => search(e)}
-                                    />
+                                />
                             </div>
                         </div>
                         <div>
