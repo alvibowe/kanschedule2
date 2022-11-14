@@ -27,9 +27,11 @@ import { TrashIcon } from "@heroicons/react/solid";
 const Page = () => {
     const [files, setFiles] = useState([])
     // const [errors, setErrors] = useState([])
-    // const [fromDate, setFromDate] = useState('')
-    // const [toDate, setToDate] = useState('')
-    // const [items, setItems] = useState<Item[]>([])
+    const [fromDate, setFromDate] = useState('')
+    const [toDate, setToDate] = useState('')
+    const [items, setItems] = useState({})
+    const [logo, setLogo] = useState(null);
+    const [fileDataURL, setFileDataURL] = useState(null);
     const [reference, setReference] = useState({})
     const [data, setData] = useState({})
     const { status, data: session } = useSession({required: false});
@@ -52,11 +54,53 @@ const Page = () => {
     }, [file])
 
     useEffect(() => {
-        if(data.length){findAvailability(data)}
+        if(data?.length){findAvailability(data)}
+        setItems(data)
     }, [data])
 
+    useEffect(() => {
+        let fileReader, isCancel = false;
+        if (logo) {
+          fileReader = new FileReader();
+          fileReader.onload = (e) => {
+            const { result } = e.target;
+            if (result && !isCancel) {
+              setFileDataURL(result)
+            }
+          }
+          fileReader.readAsDataURL(logo);
+        }
+        return () => {
+          isCancel = true;
+          if (fileReader && fileReader.readyState === 1) {
+            fileReader.abort();
+          }
+        }
     
-  
+    }, [logo]);
+
+
+
+
+    useEffect(() => {
+        if(fromDate && toDate){
+            const from = new Date(fromDate)
+            const to = new Date(toDate)
+
+            
+            
+            const newData = data?.filter((item) => {
+                console.log(new Date(item['Due Date']))
+                const date = new Date(item['Due Date'])
+                return date >= from && date <= to
+            })
+
+            setItems(newData)
+        }
+    }, [toDate, fromDate])
+
+
+    
     const findAvailability = (items) => {
         if(data.length){
             items?.map(item => {
@@ -82,13 +126,12 @@ const Page = () => {
         const file = files[0];
         const reader = new FileReader();
         reader.onload = (event) => {
-            const wb = read(event.target.result);
+            const wb = read(event.target.result, {cellDates: true, dateNF:"mm/dd/yyyy"});
             const sheets = wb.SheetNames;
 
             if (sheets.length) {
                 const rows = utils.sheet_to_json(wb.Sheets[sheets[0]]);
                 setData(rows)
-          
             }
         }
         setFiles(files)
@@ -145,6 +188,7 @@ const Page = () => {
 
     const addRow = () => {
         setData((prevState) => {
+            console.log(prevState)
             const newState = [...prevState, {
                 'Item': '',
                 'Unit Code': '',
@@ -155,9 +199,31 @@ const Page = () => {
         })
     }
 
+    const handleLogo = (e) => {
+        const logo = e.target.files[0]
+        const reader = new FileReader()
+        
+        setLogo(logo)
+        // reader.readAsDataURL(file)
+        // reader.onloadend = () => {
+        //     setLogo(reader.result)
+        // }
+    }
+
+    const search = (e) => {
+        const keyword = e.target.value
+        console.log(keyword)
+        const newData = data?.filter((item) => {
+            return item['Asset Type'].toString().includes(keyword)
+        })
+
+        setItems(newData)
+    }
+
 
 
     //console.log(reference.find(lookup => lookup['Product Code'] === 'CAL TCAL-P'))
+   
     return (
     <>
       
@@ -192,11 +258,12 @@ const Page = () => {
                         </div> */}
  
             </div>
-            {data.length && <div className="mt-10">
+            <div className="mt-10">
                 <div className="mt-14 mb-14 ">
                     
                     <div className=" flex flex-wrap justify-between min-w-full mb-10 ">
                         
+                        {!fileDataURL ? 
                         <div>
                             <div className="p-20 m-5 hover:cursor-pointer border-dashed border-2 border-gray-300 hover:bg-gray-100" onClick={() => ref.current?.click()}>
                                 <p className="font-bold text-center">Company Logo</p>
@@ -205,13 +272,24 @@ const Page = () => {
                             
                             <input  type="file"
                                     id="filePicker"
+                                    onChange={(e) => handleLogo(e)}
                                     ref={ref}
                                     accept="image/*"
                                     className="hidden"
-                            />
-                           
+                            /> 
                             
-                        </div>
+                                 
+                                                
+                            
+                        </div> :
+
+                            <p className="">
+                            {
+                                <img src={fileDataURL} alt="preview" className="w-40 h-40"/>
+                            }
+                            </p>
+
+                        }
                         <div>
                         <div className="p-20 hover:cursor-pointer text-center bg-gray-50">
                             <p className="font-bold">Quote Prepared for:</p>
@@ -256,17 +334,22 @@ const Page = () => {
 
                     <div className="flex justify-between min-w-full mt-10">
                         <div>
-                            <span className="mb-5 font-bold">Filter By:</span>
-                            <select className="mt-5 block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" required>
-                                <option>Site Address</option>
-                            </select>
-                            
+                            <span className="mb-5 font-bold">Filter By Phrase:</span>
+                            <div className="mt-2">
+                                <input
+                                    className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center"
+                                    placeholder="Search by phrase...."
+                                    type="text"
+                                    name="search"
+                                    onChange={(e) => search(e)}
+                                    />
+                            </div>
                         </div>
                         <div>
                             <span className="font-bold">Dates Between:</span>
                             
-                            <div className="mt-2"><input type="date"></input></div>
-                            <div className="mt-2"><input type="date"></input></div>
+                            <div className="mt-2"><input type="date" onChange={(e) => setFromDate(e.target.value)}></input></div>
+                            <div className="mt-2"><input type="date" onChange={(e) => setToDate(e.target.value)}></input></div>
                             {/* <div date-rangepicker className="flex items-center mt-5">
                                 <div className="relative w-full">
                                     <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
@@ -300,9 +383,9 @@ const Page = () => {
                         </thead>
                         <tbody className=""> 
                                 {
-                                    data.length
+                                    items?.length
                                     ?
-                                    data.map((item, index) => (
+                                    items.map((item, index) => (
                                         <tr key={index}>
                                             <th scope="row" className="hidden md:block">{ index + 1 }</th>
                                             <td className="px-6 py-2">
@@ -339,7 +422,7 @@ const Page = () => {
                     </div>
                 </div>
                 
-            </div>}
+            </div>
             
             
         </div>
