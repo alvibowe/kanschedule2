@@ -7,6 +7,7 @@ import { FolderIcon } from "@heroicons/react/outline";
 import { read, readFile, utils, writeFile } from 'xlsx';
 
 import { TrashIcon } from "@heroicons/react/solid";
+import { useRouter } from 'next/router'
 
 // interface Item {
 //   Asset: number;
@@ -37,7 +38,7 @@ const Page = () => {
     const { status, data: session } = useSession({required: false});
     const file = "reference/toolist.xlsx"
     const ref = useRef(null)
-
+    const router = useRouter()
 
     const getReference = async () => {
         const res = await fetch(file)
@@ -230,6 +231,9 @@ const Page = () => {
         setItems(newData)
     }
 
+    const handleQuote = () => {
+        router.push('/jobs')
+    }
 
 
     //console.log(reference.find(lookup => lookup['Product Code'] === 'CAL TCAL-P'))
@@ -452,7 +456,10 @@ const Page = () => {
         </div>
         <div className="min-w-full">
             <div className="flex justify-end min-w-full">
-                <div className="m-5 text-lg font-extrabold hover:cursor-pointer bg-red-600 text-white p-2 rounded" >Save Quote</div>
+                <div
+                  className="m-5 text-lg font-extrabold hover:cursor-pointer bg-red-600 text-white p-2 rounded"
+                  onClick={handleQuote}
+                  >Add to Jobs</div>
             </div>
         </div>
         </>
