@@ -231,8 +231,21 @@ const Page = () => {
         setItems(newData)
     }
 
-    const handleQuote = () => {
+    const handleQuote = async() => {
+        const result = await fetch('/api/create-quotation/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              status: 'pending'
+            }),
+        })
+
+        const data = await result.json()
+        console.log(data)
         router.push('/jobs')
+        
     }
 
 
