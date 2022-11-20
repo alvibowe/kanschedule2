@@ -33,6 +33,10 @@ const AppLayout = (props) => {
       href: "/jobs",
     },
     // {
+    //   title: "My Calendar",
+    //   href: "/mycalendar",
+    // },
+    // {
     //   title: "Client Redirect",
     //   href: "/client-redirect",
     // },
@@ -179,6 +183,21 @@ const AppLayout = (props) => {
                         {"Jobs"}
                       </a>
                     </Link>
+                    {/* <Link key={"My Calendar"} href={"/mycalendar"}>
+                      <a
+                        className={classNames(
+                          "/mycalendar" === currentPath
+                            ? "border-b border-indigo-600 text-black"
+                            : " hover:border-b  hover:border-gray-200 text-gray-600 ",
+                          "group flex items-center px-2 py-2 text-sm leading-6 font-medium"
+                        )}
+                        aria-current={
+                          "/jmycalendar" === currentPath ? "page" : undefined
+                        }
+                      >
+                        {"My Calendar"}
+                      </a>
+                    </Link> */}
                   {/* {NAV_ITEMS.map((item) => (
                     <Link key={item.title} href={item.href}>
                       <a

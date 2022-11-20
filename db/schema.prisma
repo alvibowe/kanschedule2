@@ -66,3 +66,27 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+model Quotation {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    status    String   @default("Quoted(pending)")
+}
+
+model Van {
+    id         String @id @default(cuid())
+    identifier String
+    start      String
+    end        String
+}
+
+model Job {
+    id    String  @id @default(cuid())
+    Run   Run?    @relation(fields: [runId], references: [id])
+    runId String?
+}
+
+model Run {
+    id   String @id @default(cuid())
+    jobs Job[]
+}

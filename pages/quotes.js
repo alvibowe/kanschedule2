@@ -450,6 +450,11 @@ const Page = () => {
             <div>Date: </div>
             <input className="placeholder:italic ml-4" placeholder=""></input>
         </div>
+        <div className="min-w-full">
+            <div className="flex justify-end min-w-full">
+                <div className="m-5 text-lg font-extrabold hover:cursor-pointer bg-red-600 text-white p-2 rounded" >Save Quote</div>
+            </div>
+        </div>
         </>
       </AppLayout>
       
