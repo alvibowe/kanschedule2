@@ -58,8 +58,8 @@ const Page = () => {
                 <table className="min-w-full mt-10 ">
                         <thead className="border rounded-md">
                             <tr className="border rounded-md">
-                                <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:block">No</th>
-                                <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:block">Id</th>
+                                {/* <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:block">No</th> */}
+                                {/* <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:block">Id</th> */}
                                 <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quote Id</th>
                                 <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
                                 <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
@@ -72,10 +72,10 @@ const Page = () => {
                                     ?
                                     data.map((item, index) => (
                                         <tr key={index}>
-                                            <th scope="row" className="hidden md:block">{ index + 1 }</th>
-                                            <td className="px-6 py-2">
+                                            {/* <th scope="row" className="hidden md:block">{ index + 1 }</th> */}
+                                            {/* <td className="px-6 py-2">
                                                 <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={ item.id} type="text"/>  
-                                            </td>
+                                            </td> */}
                                             <td className="px-6 py-2">
                                                 <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={ item.quoteId} type="text"/>  
                                             </td>
@@ -83,7 +83,7 @@ const Page = () => {
                                                 <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={ item.createdAt } type="text"/>
                                             </td>
                                             <td className="px-6 py-2">
-                                                <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={ item.status } type="text"/>
+                                                <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={ item.status } type="text"/>
                                             </td>
                                             
                                             {/* <td><TrashIcon className="h-5 w-5 hover:bg-red-400 hover:cursor-pointer"/></td> */}
