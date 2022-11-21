@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useQuery } from "react-query";
 import superagent from "superagent";
 import { TrashIcon } from "@heroicons/react/outline";
+import { isAccordionItemSelected } from "react-bootstrap/esm/AccordionContext";
 
 const Page = () => {
   const [data, setData] = useState([]);
@@ -83,7 +84,10 @@ const Page = () => {
                                                 <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={ item.createdAt } type="text"/>
                                             </td>
                                             <td className="px-6 py-2">
-                                                <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={ item.status } type="text"/>
+                                              <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" required>
+                                                <option>Quoted</option>
+                                                <option>Scheduled</option>
+                                              </select>
                                             </td>
                                             
                                             {/* <td><TrashIcon className="h-5 w-5 hover:bg-red-400 hover:cursor-pointer"/></td> */}
