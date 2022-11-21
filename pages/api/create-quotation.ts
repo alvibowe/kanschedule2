@@ -17,7 +17,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
 
-        return result
+        return result.toUpperCase()
     }
 
     if (!session) {
