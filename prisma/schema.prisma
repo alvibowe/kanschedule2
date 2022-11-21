@@ -2,91 +2,92 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider             = "mysql"
-  url                  = env("DATABASE_URL")
-  referentialIntegrity = "prisma"
+    provider             = "mysql"
+    url                  = env("DATABASE_URL")
+    referentialIntegrity = "prisma"
 }
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
+    provider        = "prisma-client-js"
+    previewFeatures = ["referentialIntegrity"]
 }
 
 model Account {
-  id                       String   @id @default(cuid())
-  createdAt                DateTime @default(now())
-  updatedAt                DateTime @updatedAt
-  userId                   String
-  type                     String
-  provider                 String
-  providerAccountId        String
-  refresh_token            String?  @db.VarChar(500)
-  access_token             String?  @db.VarChar(500)
-  refresh_token_expires_in Int?
-  expires_at               Int?
-  token_type               String?
-  scope                    String?
-  id_token                 String?  @db.Text
-  session_state            String?
-  oauth_token_secret       String?
-  oauth_token              String?
+    id                       String   @id @default(cuid())
+    createdAt                DateTime @default(now())
+    updatedAt                DateTime @updatedAt
+    userId                   String
+    type                     String
+    provider                 String
+    providerAccountId        String
+    refresh_token            String?  @db.VarChar(500)
+    access_token             String?  @db.VarChar(500)
+    refresh_token_expires_in Int?
+    expires_at               Int?
+    token_type               String?
+    scope                    String?
+    id_token                 String?  @db.Text
+    session_state            String?
+    oauth_token_secret       String?
+    oauth_token              String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([provider, providerAccountId])
+    @@unique([provider, providerAccountId])
 }
 
 model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  expires      DateTime
-  user         User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       String?
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    expires      DateTime
+    user         User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId       String?
 }
 
 model User {
-  id            String    @id @default(cuid())
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  name          String?
-  email         String?   @unique
-  password      String?
-  emailVerified DateTime?
-  company       String?   @default("kanschedule")
-  image         String?
-  role          String?   @default("user")
-  accounts      Account[]
-  sessions      Session[]
+    id            String    @id @default(cuid())
+    createdAt     DateTime  @default(now())
+    updatedAt     DateTime  @updatedAt
+    name          String?
+    email         String?   @unique
+    password      String?
+    emailVerified DateTime?
+    company       String?   @default("kanschedule")
+    image         String?
+    role          String?   @default("user")
+    accounts      Account[]
+    sessions      Session[]
 }
 
 model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
+    identifier String
+    token      String   @unique
+    expires    DateTime
 
-  @@unique([identifier, token])
+    @@unique([identifier, token])
 }
 
 model Quotation {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  status    String   @default("Quoted(pending)")
+    id        String   @id @default(cuid())
+    quoteId   String   @unique
+    createdAt DateTime @default(now())
+    status    String   @default("Quoted(pending)")
 }
 
 model Van {
-  id         String @id @default(cuid())
-  identifier String
-  start      String
-  end        String
+    id         String @id @default(cuid())
+    identifier String
+    start      String
+    end        String
 }
 
 model Job {
-  id    String  @id @default(cuid())
-  Run   Run?    @relation(fields: [runId], references: [id])
-  runId String?
+    id    String  @id @default(cuid())
+    Run   Run?    @relation(fields: [runId], references: [id])
+    runId String?
 }
 
 model Run {
-  id   String @id @default(cuid())
-  jobs Job[]
+    id   String @id @default(cuid())
+    jobs Job[]
 }

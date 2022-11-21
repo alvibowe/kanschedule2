@@ -24,6 +24,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/quotes.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/quotes.js", "pages/api/create-quotation.js"],
   "exclude": ["node_modules"]
 }

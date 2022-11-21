@@ -29,11 +29,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === "POST") {
         const { status } = req.body;
 
+        const quoteNumber = generateQuouteNumber();
 
         const quotation = await prisma.quotation.create({
             data: {
                 status: status,
-                quoteNumber: generateQuouteNumber()
+                quoteId: 'Q-' + quoteNumber,
+               
             }
         })
 

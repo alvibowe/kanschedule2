@@ -29,7 +29,7 @@ const Page = () => {
     return "Loading or not authenticated...";
   }
 
-  console.log(data);
+ 
   if (!session) {
     return (
       <>
