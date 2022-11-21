@@ -33,12 +33,12 @@ const Page = () => {
         <AppLayout title="With Session">
           <blockquote>
             <h1>Access Denied</h1>
-            <h1>
+            {/* <h1>
               <button type="button" onClick={() => signIn()}>
                 <a>Login</a>&nbsp;
               </button>
-              to see a secret message
-            </h1>
+              
+            </h1> */}
           </blockquote>
         </AppLayout>
       </>
@@ -47,19 +47,10 @@ const Page = () => {
 
   return (
     <>
-      <AppLayout title="Jobs">
-        <div>
-          {/* <h1>
-            Hello, {`${session.user.name ?? session.user.email}`} You can see
-            this because you're logged in.
-          </h1> */}
-          {/* <blockquote>
-            <p>
-              This example shows usage with React Query and protected api
-              routes.
-            </p>
-          </blockquote>
-          {withSessionQuery?.data && <p>{withSessionQuery.data}</p>} */}
+      <AppLayout >
+        <div className="flex justify-center">
+          <h1>Jobs</h1>
+          
         </div>
       </AppLayout>
     </>
