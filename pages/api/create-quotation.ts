@@ -7,19 +7,33 @@ import { hashPassword } from "@lib/auth/passwords";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getSession({ req });
-    
+
+    const generateQuouteNumber = () => {
+        const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        let result = ""
+        let charactersLength = characters.length;
+
+        for (var i = 0; i < 5; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+
+        return result
+    }
+
     if (!session) {
         return res.status(401).json({
-          message: "Unauthorized",
+            message: "Unauthorized",
         });
     }
 
     if (req.method === "POST") {
         const { status } = req.body;
 
+
         const quotation = await prisma.quotation.create({
             data: {
                 status: status,
+                quoteNumber: generateQuouteNumber()
             }
         })
 
