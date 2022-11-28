@@ -138,7 +138,7 @@ const AppLayout = (props) => {
                         {"Users"}
                       </a>
                     </Link>}
-                    {(session?.user as any)?.role === "system manager" || (session?.user as any)?.role === "scheduling administrator"  ? <Link key={"Runs"} href={"/runs"}>
+                    {(session?.user as any)?.role === "system manager" ? <Link key={"Runs"} href={"/runs"}>
                       <a
                         className={classNames(
                           "/runs" === currentPath

@@ -5,6 +5,9 @@ import { useQuery } from "react-query";
 import superagent from "superagent";
 import { TrashIcon } from "@heroicons/react/outline";
 import { isAccordionItemSelected } from "react-bootstrap/esm/AccordionContext";
+import { format } from 'date-fns'
+
+import Loader from "@lib/components/Loader";
 
 const Page = () => {
   const [data, setData] = useState([]);
@@ -49,13 +52,7 @@ const Page = () => {
       <>
         <AppLayout title="With Session">
           <blockquote>
-            <h1>Access Denied</h1>
-            {/* <h1>
-              <button type="button" onClick={() => signIn()}>
-                <a>Login</a>&nbsp;
-              </button>
-              
-            </h1> */}
+            <Loader/>
           </blockquote>
         </AppLayout>
       </>
@@ -98,19 +95,28 @@ const Page = () => {
                                             </td>
                                             <td className="px-6 py-2">
                                               <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" required>
-                                                <option>Quoted</option>
-                                                <option>Scheduled</option>
-                                                {(session?.user as any)?.role === "system manager" && <option>Confirmed</option>}
-                                                <option>Dispatched</option>
-                                                <option>On-Site</option>
-                                                <option>Canceled(No Reschedule)</option>
-                                                <option>Canceled(Reschedule)</option>
+                                                {(session?.user as any)?.role !== "technician" ?
+                                                  <>
+                                                    <option>Quoted</option>
+                                                    <option>Scheduled</option>
+                                                    <option>Confirmed</option>
+                                                    <option>Dispatched</option>
+                                                  </>
+                                                : null}
+                                                {(session?.user as any)?.role === "technician" || (session?.user as any)?.role === "system manager" ?
+                                                  <>
+                                                    
+                                                    <option>On-Site</option>
+                                                    <option>Canceled(No Reschedule)</option>
+                                                    <option>Canceled(Reschedule)</option>
+                                                  </>
+                                                : null}
                                               </select>
                                             </td>
                                             
-                                            { (session?.user as any)?.role === "scheduling administrator" && 
+                                            { (session?.user as any)?.role === "scheduling administrator" || (session?.user as any)?.role === "system manager" ?
                                               <td><TrashIcon className="h-5 w-5 hover:text-red-400 hover:cursor-pointer" onClick={() => handleDelete(item.quoteId)}/></td>
-                                            }
+                                            : null }
                                         </tr> 
                                     ))
                                     :
