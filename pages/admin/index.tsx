@@ -39,7 +39,7 @@ function Page() {
 
 
   const handleDelete = async (id, email) => {
-    console.log(id)
+    
     // await superagent.delete(`/api/users/${id}`);
     // await router.push("/admin/users", "/admin/users", { shallow: true });
     fetch('/api/delete-user/', {

@@ -15,7 +15,7 @@ const Page = () => {
   const withSessionQuery = useQuery(
     ["with-session-example", session],
     async () => {
-      console.log(session);
+      
       const data = await superagent.get("/api/quotes").then((res) => res.body);
       setData(data);
       return data
@@ -25,6 +25,19 @@ const Page = () => {
       enabled: !!session,
     }
   );
+
+  const handleDelete = async (id: any) => {
+    fetch('/api/delete-quote/', {
+      method: 'DELETE',
+      body: JSON.stringify({
+        id: id,
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    })
+  }
 
   if (status === "loading") {
     return "Loading or not authenticated...";
@@ -96,7 +109,7 @@ const Page = () => {
                                             </td>
                                             
                                             { (session?.user as any)?.role === "scheduling administrator" && 
-                                              <td><TrashIcon className="h-5 w-5 hover:text-red-400 hover:cursor-pointer"/></td>
+                                              <td><TrashIcon className="h-5 w-5 hover:text-red-400 hover:cursor-pointer" onClick={() => handleDelete(item.quoteId)}/></td>
                                             }
                                         </tr> 
                                     ))
