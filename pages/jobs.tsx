@@ -67,7 +67,7 @@ const Page = () => {
                                 
                             </tr>
                         </thead>
-                        <tbody className=""> 
+                        <tbody className="min-w-full"> 
                                 {
                                     data?.length
                                     ?
@@ -87,15 +87,22 @@ const Page = () => {
                                               <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" required>
                                                 <option>Quoted</option>
                                                 <option>Scheduled</option>
+                                                {(session?.user as any)?.role === "system manager" && <option>Confirmed</option>}
+                                                <option>Dispatched</option>
+                                                <option>On-Site</option>
+                                                <option>Canceled(No Reschedule)</option>
+                                                <option>Canceled(Reschedule)</option>
                                               </select>
                                             </td>
                                             
-                                            {/* <td><TrashIcon className="h-5 w-5 hover:bg-red-400 hover:cursor-pointer"/></td> */}
+                                            { (session?.user as any)?.role === "scheduling administrator" && 
+                                              <td><TrashIcon className="h-5 w-5 hover:text-red-400 hover:cursor-pointer"/></td>
+                                            }
                                         </tr> 
                                     ))
                                     :
                                     <tr>
-                                        <td className="flex justify-center text-center min-w-full">No Items Found.</td>
+                                        <td className="flex justify-center text-center ">No Items Found.</td>
                                     </tr> 
                                 }
                         </tbody>
