@@ -8,22 +8,8 @@ import { read, readFile, utils, writeFile } from 'xlsx';
 
 import { TrashIcon } from "@heroicons/react/solid";
 import { useRouter } from 'next/router'
+import { compareAsc, format } from 'date-fns'
 
-// interface Item {
-//   Asset: number;
-//   Type: string;
-//   Description: string;
-//   Manufacturer: string;
-//   Model: string;
-//   Serial: string;
-//   Status: string;
-//   Account: string;
-//   Site: string;
-//   Calibration_date: Date;
-//   Due_date: Date;
-//   Calibration_product_code: string;
-
-// }
 
 const Page = () => {
     const [files, setFiles] = useState([])
@@ -35,6 +21,7 @@ const Page = () => {
     const [fileDataURL, setFileDataURL] = useState(null);
     const [reference, setReference] = useState({})
     const [data, setData] = useState({})
+    const [date, setDate] = useState(format(new Date(), 'PPP'))
     const { status, data: session } = useSession({required: false});
     const file = "reference/toolist.xlsx"
     const ref = useRef(null)
@@ -55,7 +42,9 @@ const Page = () => {
     }, [file])
 
     useEffect(() => {
-        if(data?.length){findAvailability(data)}
+        if(data?.length){
+            findAvailability(data)
+        }
         setItems(data)
     }, [data])
 
@@ -80,6 +69,12 @@ const Page = () => {
     
     }, [logo]);
 
+    useEffect(() => {
+        if(items.length){
+            calculateHoursPrices(items)
+        }
+    }, [items])
+    
 
 
 
@@ -141,20 +136,34 @@ const Page = () => {
     }
     }
 
-    const handleExport = () => {
-        const headings = [[
-          'Item',
-          'Unit Code',
-          'QTY',
-          'Availability'
-        ]];
-        const wb = utils.book_new();
-        const ws = utils.json_to_sheet([]);
-        utils.sheet_add_aoa(ws, headings);
-        utils.sheet_add_json(ws, data, { origin: 'A2', skipHeader: true });
-        utils.book_append_sheet(wb, ws, 'Report');
-        writeFile(wb, 'Quotation Report.xlsx');
+    const calculateHoursPrices = (items) => {
+        const hours = 0
+        const price = 0
+        
+        items?.map(item => {
+            const found = reference?.find((lookup) => 
+                lookup['Product Code']?.toString().trim() === formatCode(item["Calibration Product Code"])?.trim()
+            )
+            
+        })
+
+
     }
+
+    // const handleExport = () => {
+    //     const headings = [[
+    //       'Item',
+    //       'Unit Code',
+    //       'QTY',
+    //       'Availability'
+    //     ]];
+    //     const wb = utils.book_new();
+    //     const ws = utils.json_to_sheet([]);
+    //     utils.sheet_add_aoa(ws, headings);
+    //     utils.sheet_add_json(ws, data, { origin: 'A2', skipHeader: true });
+    //     utils.book_append_sheet(wb, ws, 'Report');
+    //     writeFile(wb, 'Quotation Report.xlsx');
+    // }
 
     const formatCode = (text) => {
         if(text){
@@ -248,6 +257,7 @@ const Page = () => {
         
     }
 
+    
 
     //console.log(reference.find(lookup => lookup['Product Code'] === 'CAL TCAL-P'))
    
@@ -259,7 +269,7 @@ const Page = () => {
         <div className="flex w-full flex-col ">
            <div className="flex justify-center flex-row p-20">
                 <div className="flex justify-center text-center w-full ">
-                    <label htmlFor="fileInput" className="flex flex-col justify-center items-center w-full h-64  rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                    <label htmlFor="fileInput" className="flex flex-col justify-center items-center w-full h-64  rounded-lg border-2 border-red-400 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                        {!files.length ? <div className="flex flex-col justify-center items-center">
                             {/* <svg aria-hidden="true" class="mb-3 w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg> */}
                             <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span></p>
@@ -465,7 +475,7 @@ const Page = () => {
         </div>
         <div className="flex justify-start min-w-full font-bold mt-5">
             <div>Date: </div>
-            <input className="placeholder:italic ml-4" placeholder=""></input>
+            <input className="placeholder:italic ml-4" value={date}></input>
         </div>
         <div className="min-w-full">
             <div className="flex justify-end min-w-full">
