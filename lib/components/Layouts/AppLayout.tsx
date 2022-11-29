@@ -138,21 +138,7 @@ const AppLayout = (props) => {
                         {"Users"}
                       </a>
                     </Link>}
-                    {(session?.user as any)?.role === "system manager" ? <Link key={"Runs"} href={"/runs"}>
-                      <a
-                        className={classNames(
-                          "/runs" === currentPath
-                            ? "border-b border-indigo-600 text-black"
-                            : " hover:border-b  hover:border-gray-200 text-gray-600 ",
-                          "group flex items-center px-2 py-2 text-sm leading-6 font-medium"
-                        )}
-                        aria-current={
-                          "/runs" === currentPath ? "page" : undefined
-                        }
-                      >
-                        {"Runs"}
-                      </a>
-                    </Link> : <></>}
+                    
                     {(session?.user as any)?.role != "technician" && <Link key={"Quotes"} href={"/quotes"}>
                       <a
                         className={classNames(
@@ -183,6 +169,21 @@ const AppLayout = (props) => {
                         {"Jobs"}
                       </a>
                     </Link>
+                    {(session?.user as any)?.role === "system manager" ? <Link key={"Runs"} href={"/runs"}>
+                      <a
+                        className={classNames(
+                          "/runs" === currentPath
+                            ? "border-b border-indigo-600 text-black"
+                            : " hover:border-b  hover:border-gray-200 text-gray-600 ",
+                          "group flex items-center px-2 py-2 text-sm leading-6 font-medium"
+                        )}
+                        aria-current={
+                          "/runs" === currentPath ? "page" : undefined
+                        }
+                      >
+                        {"Runs"}
+                      </a>
+                    </Link> : <></>}
                     {/* <Link key={"My Calendar"} href={"/mycalendar"}>
                       <a
                         className={classNames(
