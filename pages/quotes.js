@@ -117,23 +117,23 @@ const Page = () => {
     }
 
     const handleImport = ($event) => {
-    const files = $event.target.files;
-    if (files.length) {
-        const file = files[0];
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            const wb = read(event.target.result, {cellDates: true, dateNF:"mm/dd/yyyy"});
-            const sheets = wb.SheetNames;
+        const files = $event.target.files;
+        if (files.length) {
+            const file = files[0];
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const wb = read(event.target.result, {cellDates: true, dateNF:"mm/dd/yyyy"});
+                const sheets = wb.SheetNames;
 
-            if (sheets.length) {
-                const rows = utils.sheet_to_json(wb.Sheets[sheets[0]]);
-                setData(rows)
+                if (sheets.length) {
+                    const rows = utils.sheet_to_json(wb.Sheets[sheets[0]]);
+                    setData(rows)
+                }
             }
+            setFiles(files)
+            reader.readAsArrayBuffer(file);
+            
         }
-        setFiles(files)
-        reader.readAsArrayBuffer(file);
-        
-    }
     }
 
     const calculateHoursPrices = (items) => {
@@ -144,6 +144,14 @@ const Page = () => {
             const found = reference?.find((lookup) => 
                 lookup['Product Code']?.toString().trim() === formatCode(item["Calibration Product Code"])?.trim()
             )
+
+            if (found) {
+                item.Price = found[' Current Pricing ']
+                item.Hours = found['Time Needed']
+            } else {            
+                item.Price = 0
+                item.Hours = 0
+            }
             
         })
 
@@ -188,7 +196,7 @@ const Page = () => {
                 return item
                 }
                 return item
-            // console.log(item)
+           
             })
             return newState
     })
@@ -257,7 +265,7 @@ const Page = () => {
         
     }
 
-    
+    console.log(items)
 
     //console.log(reference.find(lookup => lookup['Product Code'] === 'CAL TCAL-P'))
    
@@ -269,7 +277,7 @@ const Page = () => {
         <div className="flex w-full flex-col ">
            <div className="flex justify-center flex-row p-20">
                 <div className="flex justify-center text-center w-full ">
-                    <label htmlFor="fileInput" className="flex flex-col justify-center items-center w-full h-64  rounded-lg border-2 border-red-400 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                    <label htmlFor="fileInput" className="flex flex-col justify-center items-center w-full h-64  rounded-lg border-2 border-blue-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                        {!files.length ? <div className="flex flex-col justify-center items-center">
                             {/* <svg aria-hidden="true" class="mb-3 w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg> */}
                             <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span></p>
