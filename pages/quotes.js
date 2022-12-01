@@ -283,7 +283,7 @@ const Page = () => {
                     <label htmlFor="fileInput" className="flex flex-col justify-center items-center w-full h-64  rounded-lg border-2 border-blue-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                        {!files.length ? <div className="flex flex-col justify-center items-center">
                             {/* <svg aria-hidden="true" class="mb-3 w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg> */}
-                            <p className="mb-2 text-gray-900 dark:text-gray-400 text-xl font-bold"><span className="font-semibold ">Click to upload a .xlsx file</span></p>
+                            <p className="mb-2 text-gray-900 dark:text-gray-400 text-base font-bold"><span className="font-semibold ">Click to upload and generate quote from .xlsx file</span></p>
                             <p className="text-xs text-gray-500 dark:text-gray-400">.XLSX (MAX. 5MB)</p>
                         </div>:
                         <>
@@ -362,16 +362,16 @@ const Page = () => {
                             <tbody className="pt-10">
                                 <tr className="m-2">
                                     <td className="px-6 py-3">
-                                        <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="PO NUMBER..." type="text" name="search"/>
+                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="PO NUMBER..." type="text" name="search"/>
                                     </td>
                                     <td className="px-6 py-3">
-                                        <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="SALES CONTACT..." type="text" name="search"/>
+                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="SALES CONTACT..." type="text" name="search"/>
                                     </td>
                                     <td className="px-6 py-3">
-                                        <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="SLS ID..." type="text" name="search"/>
+                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="SLS ID..." type="text" name="search"/>
                                     </td>
                                     <td className="px-6 py-3">
-                                        <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="CALIBRATION TYPE..." type="text" name="search"/>
+                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="CALIBRATION TYPE..." type="text" name="search"/>
                                     </td>
 
                                 </tr>
