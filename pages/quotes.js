@@ -21,6 +21,8 @@ const Page = () => {
     const [fileDataURL, setFileDataURL] = useState(null);
     const [reference, setReference] = useState({})
     const [data, setData] = useState({})
+    const [totalPrice, setTotalPrice] = useState(0)
+    const [totalHours, setTotalHours] = useState(0)
     const [date, setDate] = useState(format(new Date(), 'PPP'))
     const { status, data: session } = useSession({required: false});
     const file = "reference/toolist.xlsx"
@@ -148,7 +150,8 @@ const Page = () => {
             if (found) {
                 item.Price = found[' Current Pricing ']
                 item.Hours = found['Time Needed']
-            } else {            
+            } else {
+                console.log(item)            
                 item.Price = 0
                 item.Hours = 0
             }
@@ -265,7 +268,7 @@ const Page = () => {
         
     }
 
-    console.log(items)
+   
 
     //console.log(reference.find(lookup => lookup['Product Code'] === 'CAL TCAL-P'))
    
@@ -280,7 +283,7 @@ const Page = () => {
                     <label htmlFor="fileInput" className="flex flex-col justify-center items-center w-full h-64  rounded-lg border-2 border-blue-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                        {!files.length ? <div className="flex flex-col justify-center items-center">
                             {/* <svg aria-hidden="true" class="mb-3 w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg> */}
-                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span></p>
+                            <p className="mb-2 text-gray-900 dark:text-gray-400 text-2xl font-bold"><span className="font-semibold ">Click to upload a .xlsx file</span></p>
                             <p className="text-xs text-gray-500 dark:text-gray-400">.XLSX (MAX. 5MB)</p>
                         </div>:
                         <>
@@ -303,6 +306,7 @@ const Page = () => {
                         </div> */}
  
             </div>
+           
             <div className="mt-10">
                 <div className="mt-14 mb-14 ">
                     
@@ -310,9 +314,9 @@ const Page = () => {
                         
                         {!fileDataURL ? 
                         <div>
-                            <div className="p-20 m-5 hover:cursor-pointer border-dashed border-2 border-gray-300 hover:bg-gray-100" onClick={() => ref.current?.click()}>
+                            <div className="rounded-lg p-20 m-5 hover:cursor-pointer border-dashed border-2 border-gray-300 hover:bg-gray-100" onClick={() => ref.current?.click()}>
                                 <p className="font-bold text-center">Company Logo</p>
-                                <p className="text-sm text-gray-500 dark:text-gray-400 text-center"><span className="font-semibold">Click to upload</span></p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400 text-center pt-2"><span className="font-semibold">Click to upload</span></p>
                             </div>
                             
                             <input  type="file"
@@ -336,26 +340,26 @@ const Page = () => {
 
                         }
                         <div>
-                        <div className="p-20 hover:cursor-pointer text-center bg-gray-50">
+                        <div className="p-20 hover:cursor-pointer text-center bg-gray-100 rounded-lg">
                             <p className="font-bold">Quote Prepared for:</p>
                             <div className="mt-2">
-                                <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="Jane Doe..." type="text" name="search"/>
+                                <input className="rounded-lg drop-shadow-lg placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="Jane Doe..." type="text" name="search"/>
                             </div>
                         </div>
                         </div>
                     </div>
                     <div className="pb-14">
                         <table className="min-w-full ">
-                            <thead className="border rounded-md">
-                                <tr className="border rounded-md">
+                            <thead className="rounded-lg">
+                                <tr className="rounded-lg">
                                     <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PO NUMBER</th>
                                     <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SALES CONTACT</th>
                                     <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SLS ID</th>
                                     <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CALIBRATION TYPE</th>
-                                   
+                                    
                                 </tr>
                             </thead>
-                            <tbody className="">
+                            <tbody className="pt-10">
                                 <tr className="m-2">
                                     <td className="px-6 py-3">
                                         <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="PO NUMBER..." type="text" name="search"/>
@@ -374,7 +378,7 @@ const Page = () => {
                             </tbody>
                         </table> 
                     </div>
-                    <div className="font-semibold italic mt-10">*A purchase order or credit card must be provided prior to service work commencing.</div>
+                    {/* <div className="font-semibold italic mt-10">*A purchase order or credit card must be provided prior to service work commencing.</div> */}
 
 
                     <div className="flex justify-between min-w-full mt-10">
@@ -382,7 +386,7 @@ const Page = () => {
                             <span className="mb-5 font-bold">Filter By Item Name/Item Code:</span>
                             <div className="mt-2">
                                 <input
-                                    className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center"
+                                    className="rounded-lg drop-shadow-lg placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center"
                                     placeholder="Search by phrase...."
                                     type="text"
                                     name="search"
@@ -393,8 +397,8 @@ const Page = () => {
                         <div>
                             <span className="font-bold">Dates Between:</span>
                             
-                            <div className="mt-2"><input type="date" onChange={(e) => setFromDate(e.target.value)}></input></div>
-                            <div className="mt-2"><input type="date" onChange={(e) => setToDate(e.target.value)}></input></div>
+                            <div className="mt-2"><input className="rounded-lg drop-shadow-lg" type="date" onChange={(e) => setFromDate(e.target.value)}></input></div>
+                            <div className="mt-2"><input className="rounded-lg drop-shadow-lg" type="date" onChange={(e) => setToDate(e.target.value)}></input></div>
                             {/* <div date-rangepicker className="flex items-center mt-5">
                                 <div className="relative w-full">
                                     <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
@@ -417,21 +421,22 @@ const Page = () => {
 
 
                     <table className="min-w-full mt-10 ">
-                        <thead className="border rounded-md">
-                            <tr className="border rounded-md">
+                        <thead className="rounded-lg mb-4">
+                            <tr className="rounded-lg">
                                 <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:block">Id</th>
                                 <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
                                 <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unit Code</th>
                                 <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">QTY</th>
                                 <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Availability</th>
+                               
                             </tr>
                         </thead>
-                        <tbody className=""> 
+                        <tbody className="mt-5"> 
                                 {
                                     items?.length
                                     ?
                                     items.map((item, index) => (
-                                        <tr key={index}>
+                                        <tr key={index} className="pt-10">
                                             <th scope="row" className="hidden md:block">{ index + 1 }</th>
                                             <td className="px-6 py-2">
                                                 <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={ item["Asset Type"]} type="text"/>
@@ -453,8 +458,12 @@ const Page = () => {
                                         </tr> 
                                     ))
                                     :
-                                    <tr>
-                                        <td colSpan="5" className="text-center">No Items Found.</td>
+                                    <tr className="">
+                                        <td colSpan="5" className="text-center text-xs pt-10">No Items Found. 
+                                            <span className="italic text-xs">
+                                                {' '}(use the button below to add items)
+                                            </span>
+                                        </td>
                                     </tr> 
                                 }
                         </tbody>
@@ -468,31 +477,31 @@ const Page = () => {
                 </div>
                 
             </div>
-            
-            
-        </div>
-        <div className="bg-gray-50 p-20">
-            <div className="flex justify-end min-w-full font-bold">
-                <div className="flex flex-col">Estimated hours on Site:</div>
-                <input className="placeholder:italic ml-4" placeholder=""></input>
+            <div className="bg-gray-100 p-20 rounded-lg drop-shadow-lg ">
+                <div className="flex justify-end min-w-full font-bold">
+                    <div className="flex flex-col ">Estimated hours on Site:</div>
+                    <input className="placeholder:italic ml-4 text-center rounded-lg" placeholder="" value={totalHours}></input>
+                </div>
+                <div className="flex justify-end min-w-full font-bold mt-5">
+                    <div className="flex flex-col ">Estimated Total Price: </div>
+                    <input className="placeholder:italic ml-4 text-center rounded-lg" placeholder=""  value={totalPrice}></input>
+                </div>
             </div>
-            <div className="flex justify-end min-w-full font-bold mt-5">
-                <div className="flex flex-col">Estimated Total Price: </div>
-                <input className="placeholder:italic ml-4" placeholder=""></input>
+            <div className="flex justify-start min-w-full font-bold mt-5">
+                <div>Date: </div>
+                <input className="placeholder:italic ml-4" value={date}></input>
             </div>
+            
         </div>
-        <div className="flex justify-start min-w-full font-bold mt-5">
-            <div>Date: </div>
-            <input className="placeholder:italic ml-4" value={date}></input>
-        </div>
-        <div className="min-w-full">
+        
+        {items?.length ? <div className="min-w-full">
             <div className="flex justify-end min-w-full">
                 <div
                   className="m-5 text-lg font-extrabold hover:cursor-pointer bg-red-600 text-white p-2 rounded"
                   onClick={handleQuote}
-                  >Add to Jobs</div>
+                  >Add to Jobs/Create PDF</div>
             </div>
-        </div>
+        </div> : null}
         </>
       </AppLayout>
       
