@@ -8,15 +8,15 @@ import { hashPassword } from "@lib/auth/passwords";
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getSession({ req });
     
-    if (!session) {
-        return res.status(401).json({
-          message: "Unauthorized",
-        });
-    }
+    // if (!session) {
+    //     return res.status(401).json({
+    //       message: "Unauthorized",
+    //     });
+    // }
 
     try {
         console.log(session.user.role);
-        if (session.user.role === 'scheduling administrator'){
+        if (session.user.role === 'scheduling administrator' || session.user.role === 'system manager') {
            
             
 
@@ -28,7 +28,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             
         }else{
             return res.status(401).json({
-                message: "Unauthorized",
+                message: "Unauthorized user credentials",
               });
         }
     }
