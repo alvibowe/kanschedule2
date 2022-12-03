@@ -119,7 +119,7 @@ const Page = () => {
                         <span className="bg-red-200 rounded-lg p-1 text-sm">{item.status.toUpperCase()}</span>
                       </div>
                       <div className="flex flex-row justify-end space-x-4">
-                        <div className="text-base font-extrabold hover:cursor-pointer bg-black text-white p-2 rounded" >Schedule</div>
+                        <div className="text-base font-extrabold hover:cursor-pointer bg-black text-white p-2 rounded" >Schedule Quote</div>
                         <TrashIcon className="h-5 w-5 mt-2 hover:text-red-400 hover:cursor-pointer" onClick={() => handleDelete(item.quoteId)}/>
                       </div>
                     </div>

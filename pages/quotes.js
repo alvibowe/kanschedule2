@@ -312,13 +312,13 @@ const Page = () => {
             </div>
            
             <div className="mt-10">
-                <div className="mt-14 mb-14 ">
+                <div className="mt-14 mb-14">
                     
-                    <div className=" flex flex-wrap justify-between min-w-full mb-10 ">
+                    <div className=" flex flex-wrap space-y-6 justify-center md:justify-between min-w-full mb-10 ">
                         
                         {!fileDataURL ? 
                         <div>
-                            <div className="rounded-lg p-20 m-5 hover:cursor-pointer border-dashed border-2 border-gray-300 hover:bg-gray-100" onClick={() => ref.current?.click()}>
+                            <div className="rounded-lg p-20 hover:cursor-pointer border-dashed border-2 border-gray-300 hover:bg-gray-100" onClick={() => ref.current?.click()}>
                                 <p className="font-bold text-center">Company Logo</p>
                                 <p className="text-sm text-gray-500 dark:text-gray-400 text-center pt-2"><span className="font-semibold">Click to upload</span></p>
                             </div>
@@ -352,8 +352,8 @@ const Page = () => {
                         </div>
                         </div>
                     </div>
-                    <div className="pb-14">
-                        <table className="min-w-full ">
+                    <div className="pb-14 overflow-x-auto scrollbar-hide">
+                        <table className="min-w-full text-sm">
                             <thead className="rounded-lg">
                                 <tr className="rounded-lg">
                                     <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PO NUMBER</th>
@@ -385,7 +385,7 @@ const Page = () => {
                     {/* <div className="font-semibold italic mt-10">*A purchase order or credit card must be provided prior to service work commencing.</div> */}
 
 
-                    <div className="flex justify-between min-w-full mt-10">
+                    <div className="flex flex-wrap space-y-3 justify-center text-center md:justify-between min-w-full mt-10">
                         <div>
                             <span className="mb-5 font-bold">Filter By Item Name/Item Code:</span>
                             <div className="mt-2">
@@ -424,55 +424,57 @@ const Page = () => {
                     {/* Quote Table */}
 
 
-                    <table className="min-w-full mt-10 ">
-                        <thead className="rounded-lg mb-4">
-                            <tr className="rounded-lg">
-                                <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:block">Id</th>
-                                <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
-                                <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unit Code</th>
-                                <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">QTY</th>
-                                <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Availability</th>
-                               
-                            </tr>
-                        </thead>
-                        <tbody className="mt-5"> 
-                                {
-                                    items?.length
-                                    ?
-                                    items.map((item, index) => (
-                                        <tr key={index} className="pt-10">
-                                            <th scope="row" className="hidden md:block">{ index + 1 }</th>
-                                            <td className="px-6 py-2">
-                                                <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={ item["Asset Type"]} type="text"/>
-                                                {/* { item["Asset Type"]} */}
+                    <div className="overflow-x-auto scrollbar-hide">
+                        <table className="min-w-full mt-10">
+                            <thead className="rounded-lg mb-4">
+                                <tr className="rounded-lg">
+                                    <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:block">Id</th>
+                                    <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
+                                    <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unit Code</th>
+                                    <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">QTY</th>
+                                    <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Availability</th>
+                                
+                                </tr>
+                            </thead>
+                            <tbody className="mt-5"> 
+                                    {
+                                        items?.length
+                                        ?
+                                        items.map((item, index) => (
+                                            <tr key={index} className="pt-10">
+                                                <th scope="row" className="hidden md:block">{ index + 1 }</th>
+                                                <td className="px-6 py-2">
+                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={ item["Asset Type"]} type="text"/>
+                                                    {/* { item["Asset Type"]} */}
+                                                </td>
+                                                <td className="px-6 py-2">
+                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={ formatCode(item["Calibration Product Code"])} type="text"/>
+                                                    {/* { formatCode(item["Calibration Product Code"])} */}
+                                                </td>
+                                                <td className="px-6 py-2">
+                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item.Amount} placeholder="0" type="number" onChange={(e) => handleAmount(e.target.value, item["Asset #"])}/>
+                                                    {/* { item.Director } */}
+                                                </td>
+                                                <td className="px-6 py-2">
+                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={item.Availability || '-'} type="text"/>
+                                                    {/* <span className="badge bg-warning text-dark">-</span> */}
+                                                </td>
+                                                <td><TrashIcon className="h-5 w-5 hover:bg-red-400 hover:cursor-pointer" onClick={() => removeItem(index)}/></td>
+                                            </tr> 
+                                        ))
+                                        :
+                                        <tr className="">
+                                            <td colSpan="5" className="text-center text-xs pt-10">No Items Found. 
+                                                <span className="italic text-xs">
+                                                    {' '}(use the button below to add items)
+                                                </span>
                                             </td>
-                                            <td className="px-6 py-2">
-                                                <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={ formatCode(item["Calibration Product Code"])} type="text"/>
-                                                {/* { formatCode(item["Calibration Product Code"])} */}
-                                            </td>
-                                            <td className="px-6 py-2">
-                                                <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item.Amount} placeholder="0" type="number" onChange={(e) => handleAmount(e.target.value, item["Asset #"])}/>
-                                                {/* { item.Director } */}
-                                            </td>
-                                            <td className="px-6 py-2">
-                                                <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={item.Availability || '-'} type="text"/>
-                                                {/* <span className="badge bg-warning text-dark">-</span> */}
-                                            </td>
-                                            <td><TrashIcon className="h-5 w-5 hover:bg-red-400 hover:cursor-pointer" onClick={() => removeItem(index)}/></td>
                                         </tr> 
-                                    ))
-                                    :
-                                    <tr className="">
-                                        <td colSpan="5" className="text-center text-xs pt-10">No Items Found. 
-                                            <span className="italic text-xs">
-                                                {' '}(use the button below to add items)
-                                            </span>
-                                        </td>
-                                    </tr> 
-                                }
-                        </tbody>
-                    </table>
-                    <div className="flex justify-center text-center">
+                                    }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="flex flex-wrap justify-center text-center">
                         
                         <div className="m-5 text-lg font-extrabold hover:cursor-pointer bg-black text-white p-2 rounded" onClick={() => addRow()}>Add New Item/Row</div>
                         
@@ -482,16 +484,16 @@ const Page = () => {
                 
             </div>
             <div className="bg-gray-100 p-20 rounded-lg drop-shadow-lg ">
-                <div className="flex justify-end min-w-full font-bold">
+                <div className="flex flex-wrap justify-end min-w-full font-bold">
                     <div className="flex flex-col ">Estimated hours on Site:</div>
                     <input className="placeholder:italic ml-4 text-center rounded-lg" placeholder="" value={totalHours}></input>
                 </div>
-                <div className="flex justify-end min-w-full font-bold mt-5">
+                <div className="flex flex-wrap justify-end min-w-full font-bold mt-5">
                     <div className="flex flex-col ">Estimated Total Price: </div>
                     <input className="placeholder:italic ml-4 text-center rounded-lg" placeholder=""  value={totalPrice}></input>
                 </div>
             </div>
-            <div className="flex justify-start min-w-full font-bold mt-5">
+            <div className="flex flex-wrap justify-start min-w-full font-bold mt-5">
                 <div>Date: </div>
                 <input className="placeholder:italic ml-4" value={date}></input>
             </div>
@@ -499,7 +501,7 @@ const Page = () => {
         </div>
         
         {items?.length ? <div className="min-w-full">
-            <div className="flex justify-end min-w-full">
+            <div className="flex flex-wrap justify-end min-w-full">
                 <div
                   className="m-5 text-lg font-extrabold hover:cursor-pointer bg-red-600 text-white p-2 rounded"
                   onClick={handleQuote}
