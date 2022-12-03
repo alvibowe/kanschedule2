@@ -131,8 +131,12 @@ const Page = () => {
               </div>
            
           :   
-              <div className="flex justify-center items-center mt-40">
-                You currently have no jobs. (Add a job using the 'Quotes' tab)
+              <div className="flex justify-center items-center flex-col mt-10 space-y-4">
+                <div className="flex justify-center items-center">
+                  <Loader/>
+                  {/* <div>Looks like you currently have no jobs. (Add a job using the 'Quotes' tab)</div> */}
+                </div>
+                
               </div>
         }
         </div>

@@ -483,7 +483,7 @@ const Page = () => {
                 </div>
                 
             </div>
-            <div className="bg-gray-100 p-20 rounded-lg drop-shadow-lg ">
+            <div className="bg-gray-100 p-20 rounded-lg drop-shadow-lg text-center">
                 <div className="flex flex-wrap justify-end min-w-full font-bold">
                     <div className="flex flex-col ">Estimated hours on Site:</div>
                     <input className="placeholder:italic ml-4 text-center rounded-lg" placeholder="" value={totalHours}></input>
