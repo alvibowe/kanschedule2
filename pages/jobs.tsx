@@ -70,7 +70,7 @@ const Page = () => {
 
   if (status === "loading") {
     return (
-      <div className="min-h-screen flex justify-center items-center mt-40">
+      <div className="min-h-screen flex justify-center items-center">
         <Loader/>
       </div>
     
@@ -81,7 +81,7 @@ const Page = () => {
   if (!session) {
     return (
       <>
-        <div className="min-h-screen flex justify-center items-center mt-40">
+        <div className="min-h-screen flex justify-center items-center">
           <Loader/>
         </div>
       </>
