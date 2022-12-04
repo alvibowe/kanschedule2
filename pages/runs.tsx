@@ -1,6 +1,7 @@
 import AppLayout from "@lib/components/Layouts/AppLayout";
 import { useSession } from "next-auth/react";
 import Loader from "@lib/components/Loader";
+import Calendar from "@lib/components/Calendar";
 
 const Page = () => {
   const { status } = useSession({
@@ -8,13 +9,17 @@ const Page = () => {
   });
 
   if (status === "loading") {
-    return <Loader />;
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <Loader/>
+      </div>
+    )
   }
 
   return (
     <>
       <AppLayout>
-        <div>All current Runs/Add Runs</div>
+        <Calendar />
       </AppLayout>
     </>
   );
