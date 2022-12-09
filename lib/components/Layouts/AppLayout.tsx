@@ -32,10 +32,10 @@ const AppLayout = (props) => {
       title: "Jobs",
       href: "/jobs",
     },
-    // {
-    //   title: "My Calendar",
-    //   href: "/mycalendar",
-    // },
+    {
+      title: "My Calendar",
+      href: "/mycalendar",
+    },
     // {
     //   title: "Client Redirect",
     //   href: "/client-redirect",
@@ -184,7 +184,7 @@ const AppLayout = (props) => {
                         {"Runs"}
                       </a>
                     </Link> : <></>}
-                    {/* <Link key={"My Calendar"} href={"/mycalendar"}>
+                    {(session?.user as any)?.role === "technician" ?<Link key={"My Calendar"} href={"/mycalendar"}>
                       <a
                         className={classNames(
                           "/mycalendar" === currentPath
@@ -198,7 +198,7 @@ const AppLayout = (props) => {
                       >
                         {"My Calendar"}
                       </a>
-                    </Link> */}
+                    </Link>: null}
                   {/* {NAV_ITEMS.map((item) => (
                     <Link key={item.title} href={item.href}>
                       <a
