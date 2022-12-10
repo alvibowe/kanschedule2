@@ -82,19 +82,19 @@ const Page = () => {
     <>
         <AppLayout>
             <div className="flex justify-center flex-col min-h-full">
-                <h1 className="text-3xl font-bold text-center">My Calendar</h1>
+                {/* <h1 className="text-3xl font-bold text-center">{session.user.name}'s Calendar</h1> */}
+
                 {/* <div className="flex flex-wrap min-w-screen">
                     <input type="text" placeholder="Add Title" style={{ width: "20%", marginRight: "10px" }} value={newEvent.title} onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })} />
                 </div> */}
                 {/* <DatePicker placeholderText="Start Date" style={{ marginRight: "10px" }} selected={newEvent.start} onChange={(start) => setNewEvent({ ...newEvent, start })} />
                 <DatePicker placeholderText="End Date" selected={newEvent.end} onChange={(end) => setNewEvent({ ...newEvent, end })} /> */}
-              {/* <div className="flex flex-wrap flex-col min-w-screen">
-                  
-                  
+                {/* <div className="flex flex-wrap flex-col min-w-screen">
                   <button style={{ marginTop: "10px" }} onClick={handleAddEvent}>
                       Add Event
                   </button>
-              </div> */}
+                </div> */}
+
               <Calendar localizer={localizer} events={allEvents} startAccessor="start" endAccessor="end" style={{ height: 500, margin: "50px" }} />
             </div>
             
