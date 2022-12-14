@@ -192,7 +192,7 @@ const Page = () => {
     const handleAmount = (amount, asset_no) => {
        
         setData((prevState) => {
-            const newState = prevState.map((item, index) => {
+            const newState = prevState?.map((item, index) => {
                 if (item['Asset #'] === asset_no) {
                     item['Amount'] = amount
            
@@ -452,7 +452,7 @@ const Page = () => {
                                                     {/* { formatCode(item["Calibration Product Code"])} */}
                                                 </td>
                                                 <td className="px-6 py-2">
-                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item.Amount} placeholder="0" type="number" onChange={(e) => handleAmount(e.target.value, item["Asset #"])}/>
+                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item.Amount} placeholder="0" type="number" />
                                                     {/* { item.Director } */}
                                                 </td>
                                                 <td className="px-6 py-2">
