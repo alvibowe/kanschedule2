@@ -7,6 +7,8 @@ import { ChevronDownIcon } from "@heroicons/react/solid";
 import { Fragment } from "react";
 import { useRouter } from "next/router";
 
+import Image from "next/image";
+
 const AppLayout = (props) => {
   const { status, data: session  } = useSession({
     required: true,
@@ -52,12 +54,14 @@ const AppLayout = (props) => {
       <div className="min-h-screen">
         <div className="flex flex-col flex-1">
           <div className="border-b">
-            <div className="relative flex-shrink-0 flex h-16 bg-white">
-              <div className="flex-1 px-4 flex justify-between sm:px-6 lg:max-w-6xl lg:mx-auto lg:px-8">
+            <div className=" bg-white">
+              <div className="flex justify-between px-1 lg:px-7 pt-6">
                 
-                <div className="flex-1 flex"></div>
-                <div className="ml-4 flex items-center md:ml-6">
-                  <Menu as="div" className="ml-3  relative">
+                <div className="flex items-start">
+                  <Image src={'/assets/KanLogo.png'} alt='Logo' height={90} width={280}/>
+                </div>
+                <div className="flex items-center">
+                  <Menu as="div" className="relative">
                     <div>
                       <Menu.Button className="max-w-xs  bg-gray-100 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 p-2 lg:rounded-md lg:hover:bg-gray-50">
                         {
@@ -119,7 +123,7 @@ const AppLayout = (props) => {
                 </div>
               </div>
             </div>
-            <div className="relative flex-shrink-0 flex h-16 bg-white mt-10">
+            <div className="relative flex-shrink-0 flex h-16 bg-white mt-6">
               <div className="flex-1 px-4 flex justify-between sm:px-6 lg:max-w-6xl lg:mx-auto lg:px-8">
                 <div className="flex flex-1 justify-between ">
 
