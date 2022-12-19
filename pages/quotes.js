@@ -9,6 +9,7 @@ import { read, readFile, utils, writeFile } from 'xlsx';
 import { TrashIcon } from "@heroicons/react/solid";
 import { useRouter } from 'next/router'
 import { compareAsc, format } from 'date-fns'
+import { add } from "lodash";
 
 
 const Page = () => {
@@ -72,8 +73,11 @@ const Page = () => {
     }, [logo]);
 
     useEffect(() => {
-        if(items.length){
+        if(items.length > 0){
             calculateHoursPrices(items)
+
+            addPrices()
+            addHours()
         }
     }, [items])
     
@@ -118,6 +122,31 @@ const Page = () => {
 
     }
 
+
+    const addPrices = () => {
+        const prices = items?.reduce((acc, item) => {
+            
+            return acc + (parseFloat(item.Price))
+        }, 0)
+
+        setTotalPrice(prices)
+
+    }
+
+    const addHours = () => {
+        const hours = items?.reduce((acc, item) => {
+            
+            return acc + (parseFloat(item.Hours ))
+        }, 0)
+
+        setTotalHours(Math.ceil(hours))
+    }
+
+    const handleQuantityChange = (quantity, id) => {
+        
+
+    }
+
     const handleImport = ($event) => {
         const files = $event.target.files;
         if (files.length) {
@@ -150,8 +179,7 @@ const Page = () => {
             if (found) {
                 item.Price = found[' Current Pricing ']
                 item.Hours = found['Time Needed']
-            } else {
-                console.log(item)            
+            } else {            
                 item.Price = 0
                 item.Hours = 0
             }
@@ -267,7 +295,7 @@ const Page = () => {
         })
 
         const data = await result.json()
-        console.log(data)
+       
         router.push('/jobs')
         
     }
@@ -275,6 +303,7 @@ const Page = () => {
    
 
     //console.log(reference.find(lookup => lookup['Product Code'] === 'CAL TCAL-P'))
+    
    
     return (
     <>
@@ -432,8 +461,9 @@ const Page = () => {
                                     <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
                                     <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unit Code</th>
                                     <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">QTY</th>
+                                    <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PRICE</th>
                                     <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Availability</th>
-                                
+                                    <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
                                 </tr>
                             </thead>
                             <tbody className="mt-5"> 
@@ -452,12 +482,22 @@ const Page = () => {
                                                     {/* { formatCode(item["Calibration Product Code"])} */}
                                                 </td>
                                                 <td className="px-6 py-2">
-                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item.Amount} placeholder="0" type="number" />
+                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="0" type="number" onChange={(e) => handleQuantityChange(e.target.value, item.id)}/>
+                                                    {/* { item.Director } */}
+                                                </td>
+                                                <td className="px-6 py-2">
+                                                    
+                                                        <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={item.Price || '0'} type="number" />
+                                                  
+                                                    
                                                     {/* { item.Director } */}
                                                 </td>
                                                 <td className="px-6 py-2">
                                                     <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={item.Availability || '-'} type="text"/>
                                                     {/* <span className="badge bg-warning text-dark">-</span> */}
+                                                </td>
+                                                <td className="px-6 py-2">
+                                                <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item.totalPrice || '0'} type="text"/>
                                                 </td>
                                                 <td><TrashIcon className="h-5 w-5 hover:bg-red-400 hover:cursor-pointer" onClick={() => removeItem(index)}/></td>
                                             </tr> 
@@ -485,12 +525,14 @@ const Page = () => {
             </div>
             <div className="bg-gray-100 p-20 rounded-lg drop-shadow-lg text-center">
                 <div className="flex flex-wrap justify-end min-w-full font-bold">
-                    <div className="flex flex-col ">Estimated hours on Site:</div>
-                    <input className="placeholder:italic ml-4 text-center rounded-lg" placeholder="" value={totalHours}></input>
+                    <div className="flex flex-row ">Estimated hours on Site:</div>
+                    <input className="placeholder:italic ml-4 text-center rounded-lg mr-1" placeholder="" value={totalHours || 0}></input>
+                    <p className="ml-1">hrs</p>
                 </div>
-                <div className="flex flex-wrap justify-end min-w-full font-bold mt-5">
+                <div className="flex flex-row flex-wrap justify-end min-w-full font-bold mt-5">
                     <div className="flex flex-col ">Estimated Total Price: </div>
-                    <input className="placeholder:italic ml-4 text-center rounded-lg" placeholder=""  value={totalPrice}></input>
+                    <input className="placeholder:italic ml-4 text-center rounded-lg mr-1" placeholder=""  value={totalPrice || 0}></input>
+                    <p>$</p>
                 </div>
             </div>
             <div className="flex flex-wrap justify-start min-w-full font-bold mt-5">
