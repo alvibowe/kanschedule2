@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import superagent from "superagent";
 import { TrashIcon } from "@heroicons/react/outline";
+import { DocumentIcon } from "@heroicons/react/solid";
+
 import { isAccordionItemSelected } from "react-bootstrap/esm/AccordionContext";
 import { format } from 'date-fns'
 import Loader from "@lib/components/Loader";
@@ -118,9 +120,19 @@ const Page = () => {
                         <span className="font-bold mr-1">Status: </span>
                         <span className="bg-red-200 rounded-lg p-1 text-sm">{item.status.toUpperCase()}</span>
                       </div>
-                      <div className="flex flex-row justify-end space-x-4">
-                        <div className="text-base font-extrabold hover:cursor-pointer bg-black text-white p-2 rounded" >Schedule Quote</div>
-                        <TrashIcon className="h-5 w-5 mt-2 hover:text-red-400 hover:cursor-pointer" onClick={() => handleDelete(item.quoteId)}/>
+                      <div className="flex flex-row justify-between space-x-4">
+                        <div className="flex flex-row">
+                         
+                          <DocumentIcon className="h-6 w-5 mt-2 text-red-700 hover:scale-100"/>
+                          <div className="mt-1 p-1 text-red-700 hover:font-black hover:cursor-pointer">.pdf</div>
+                        </div>
+                        <div className="flex justify-end space-x-4">
+                          <div className="text-base font-extrabold hover:cursor-pointer bg-black text-white p-2 rounded">
+                            Schedule Quote
+                          </div>
+                          <TrashIcon className="h-5 w-5 mt-2 hover:text-red-400 hover:font-black hover:cursor-pointer" onClick={() => handleDelete(item.quoteId)}/>
+                        </div>
+                        
                       </div>
                     </div>
                   </div>

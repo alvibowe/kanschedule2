@@ -15,7 +15,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     // }
 
     try {
-        console.log(session.user.role);
         if (session.user.role === 'scheduling administrator' || session.user.role === 'system manager') {
            
             

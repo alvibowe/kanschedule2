@@ -6,11 +6,13 @@ import { useState, useRef, useEffect } from "react";
 import { FolderIcon } from "@heroicons/react/outline";
 import { read, readFile, utils, writeFile } from 'xlsx';
 
-import { TrashIcon } from "@heroicons/react/solid";
+import { TrashIcon} from "@heroicons/react/solid";
 import { useRouter } from 'next/router'
 import { compareAsc, format } from 'date-fns'
 import { add } from "lodash";
 
+
+import PDFGenerator from "@lib/utils/PDFGenerator"
 
 const Page = () => {
     const [files, setFiles] = useState([])
@@ -295,6 +297,10 @@ const Page = () => {
         })
 
         const data = await result.json()
+
+        if(data && items){
+            PDFGenerator(items)
+        }
        
         router.push('/jobs')
         
@@ -303,7 +309,7 @@ const Page = () => {
    
 
     //console.log(reference.find(lookup => lookup['Product Code'] === 'CAL TCAL-P'))
-    
+    console.log(items)
    
     return (
     <>
@@ -347,9 +353,9 @@ const Page = () => {
                         
                         {!fileDataURL ? 
                         <div>
-                            <div className="rounded-lg p-20 hover:cursor-pointer border-dashed border-2 border-gray-300 hover:bg-gray-100" onClick={() => ref.current?.click()}>
+                            <div className="rounded-lg p-20 mt-4 hover:cursor-pointer border-dashed border-2 border-gray-300 hover:bg-gray-100" onClick={() => ref.current?.click()}>
                                 <p className="font-bold text-center">Company Logo</p>
-                                <p className="text-sm text-gray-500 dark:text-gray-400 text-center pt-2"><span className="font-semibold">Click to upload</span></p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400 text-center"><span className="font-semibold">Click to upload</span></p>
                             </div>
                             
                             <input  type="file"
@@ -504,7 +510,7 @@ const Page = () => {
                                         ))
                                         :
                                         <tr className="">
-                                            <td colSpan="5" className="text-center text-xs pt-10">No Items Found. 
+                                            <td colSpan="7" className="text-center text-xs pt-10">No Items Found. 
                                                 <span className="italic text-xs">
                                                     {' '}(use the button below to add items)
                                                 </span>
