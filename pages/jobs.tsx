@@ -4,12 +4,15 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import superagent from "superagent";
 import { TrashIcon } from "@heroicons/react/outline";
-import { DocumentIcon } from "@heroicons/react/solid";
+import { DocumentIcon, PlusIcon } from "@heroicons/react/solid";
 
 import { isAccordionItemSelected } from "react-bootstrap/esm/AccordionContext";
 import { format } from 'date-fns'
 import Loader from "@lib/components/Loader";
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
+
+import 'react-responsive-modal/styles.css';
+import { Modal } from 'react-responsive-modal';
 
 
 const Page = () => {
@@ -17,17 +20,20 @@ const Page = () => {
   const { status, data: session } = useSession({
     required: false,
   });
+  const [open, setOpen] = useState(false);
+
+
 
   useEffect(() => {
     router.push('/jobs')
   }, [data]);
 
 
+  const onOpenModal = () => setOpen(true);
+  const onCloseModal = () => setOpen(false);
+
 
   const router = useRouter()
-
-
-
 
 
 
@@ -93,16 +99,39 @@ const Page = () => {
   return (
     <>
       <AppLayout >
+
+          <Modal open={open} onClose={onCloseModal} center>
+            <div className="flex justify-center min-h-screen p-10">
+              <div className="flex flex-col p-32 text-center space-y-4">
+                <div className="font-bold text-lg">Select one or more technicians below:</div>
+                <div>
+                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" required>
+                    
+                    <option>John Doe</option>
+                    <option>David Kamere</option>
+                    <option>Tom Smith</option>
+                    
+                  </select>
+                </div>
+                <div className="flex justify-center">
+                  <div className="mt-5 mx-1 text-base font-extrabold hover:cursor-pointer bg-black text-white p-2 rounded">Add a Technician</div>
+                </div>
+              </div>
+              
+            </div>
+          </Modal>
+
         <div className="flex justify-center">
+          
   
           {data.length ?
               <div className="">
                 {
                  data.map((item, index) => (
                   <div>
-                  <div className="flex flex-row justify-between space-x-4 font-extrabold mb-5">
-                        {index + 1}.
-                  </div>
+                    <div className="flex flex-row justify-between space-x-4 font-extrabold mb-5">
+                          {index + 1}.
+                    </div>
                   <div key={index} className="bg-gray-100 rounded-lg drop-shadow-lg p-10 mb-5">
                     <div className="flex flex-wrap justify-between flex-col space-y-4">
                       
@@ -127,7 +156,7 @@ const Page = () => {
                           <div className="mt-1 p-1 text-red-700 hover:font-black hover:cursor-pointer">.pdf</div>
                         </div>
                         <div className="flex justify-end space-x-4">
-                          <div className="text-base font-extrabold hover:cursor-pointer bg-black text-white p-2 rounded">
+                          <div className="text-base font-extrabold hover:cursor-pointer bg-black text-white p-2 rounded" onClick={onOpenModal}>
                             Schedule Quote
                           </div>
                           <TrashIcon className="h-5 w-5 mt-2 hover:text-red-400 hover:font-black hover:cursor-pointer" onClick={() => handleDelete(item.quoteId)}/>
@@ -152,6 +181,9 @@ const Page = () => {
               </div>
         }
         </div>
+       
+
+        
       </AppLayout>
     </>
   );

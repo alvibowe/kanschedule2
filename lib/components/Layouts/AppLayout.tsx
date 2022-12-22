@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 
 import Image from "next/image";
 
+
 const AppLayout = (props) => {
   const { status, data: session  } = useSession({
     required: true,
@@ -58,7 +59,7 @@ const AppLayout = (props) => {
               <div className="flex justify-between px-1 lg:px-7 pt-6">
                 
                 <div className="flex items-start">
-                  <Image src={'/assets/KanLogo.png'} alt='Logo' height={90} width={280}/>
+                <Link href="/"><Image src={'/assets/KanLogo.png'} alt='Logo' height={90} width={280}/></Link>
                 </div>
                 <div className="flex items-center">
                   <Menu as="div" className="relative">

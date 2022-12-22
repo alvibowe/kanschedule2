@@ -371,9 +371,18 @@ const Page = () => {
                             
                         </div> :
 
-                            <div className="">
-                            {
-                                <img src={fileDataURL} alt="preview" className="w-40 h-40" />
+                            <div className="" >
+                            {   
+                                <div onClick={() => ref.current?.click()}>
+                                    <img src={fileDataURL} alt="preview" className="w-40 h-40" />
+                                    <input  type="file"
+                                        id="filePicker"
+                                        onChange={(e) => handleLogo(e)}
+                                        ref={ref}
+                                        accept="image/*"
+                                        className="hidden"
+                                    />
+                                </div>
                             }
                             </div>
 
@@ -382,7 +391,10 @@ const Page = () => {
                         <div className="p-20 hover:cursor-pointer text-center bg-gray-100 rounded-lg">
                             <p className="font-bold">Quote Prepared for:</p>
                             <div className="mt-2">
-                                <input className="rounded-lg drop-shadow-lg placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="Jane Doe..." type="text" name="search"/>
+                                <input className="rounded-lg drop-shadow-lg placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="Client Name" type="text" name="search"/>
+                            </div>
+                            <div className="mt-2">
+                                <input className="rounded-lg drop-shadow-lg placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="Client Address" type="text" name="search"/>
                             </div>
                         </div>
                         </div>
@@ -529,7 +541,7 @@ const Page = () => {
                 </div>
                 
             </div>
-            <div className="bg-gray-100 p-20 rounded-lg drop-shadow-lg text-center">
+            <div className="bg-gray-100 p-20 rounded-lg drop-shadow-lg">
                 <div className="flex flex-wrap justify-end min-w-full font-bold">
                     <div className="flex flex-row ">Estimated hours on Site:</div>
                     <input className="placeholder:italic ml-4 text-center rounded-lg mr-1" placeholder="" value={totalHours || 0}></input>

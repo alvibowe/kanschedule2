@@ -26,20 +26,20 @@ const localizer = dateFnsLocalizer({
 // temporary events
 const events = [
   {
-      title: "Big Meeting",
+      title: "Quote ID: Q-KZ3GR, Wichita KS",
       allDay: true,
-      start: new Date(2021, 6, 0),
-      end: new Date(2021, 6, 0),
+      start: new Date(2022, 12, 19),
+      end: new Date(2022, 12, 21),
   },
   {
-      title: "Vacation",
-      start: new Date(2021, 6, 7),
-      end: new Date(2021, 6, 10),
+      title: "Quote ID: Q-KK3BR, Odessa TX",
+      start: new Date(2023, 1, 7),
+      end: new Date(2023, 1, 10),
   },
   {
-      title: "Conference",
-      start: new Date(2021, 6, 20),
-      end: new Date(2021, 6, 23),
+      title: "Quote ID: Q-KK3BR, Oklahoma City",
+      start: new Date(2023, 3, 20),
+      end: new Date(2023, 3, 23),
   },
 ];
 
