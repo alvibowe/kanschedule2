@@ -14,6 +14,57 @@ import { add } from "lodash";
 
 import PDFGenerator from "@lib/utils/PDFGenerator"
 
+import { GoogleMap, useJsApiLoader, useLoadScript, useGoogleMap } from '@react-google-maps/api';
+
+import usePlacesAutocomplete from "use-places-autocomplete";
+import {
+	Combobox,
+	ComboboxInput,
+	ComboboxPopover,
+	ComboboxList,
+	ComboboxOption,
+	ComboboxOptionText,
+} from "@reach/combobox";
+import "@reach/combobox/styles.css";
+
+
+const PlacesAutoComplete = ({setSelected}) => {
+    const {
+        ready,
+        value,
+        suggestions: { status, data },
+        setValue,
+        clearSuggestions,
+      } = usePlacesAutocomplete({
+        requestOptions: {
+          /* Define search scope here */
+        },
+        debounce: 300,
+      })
+
+    const handleInput = (e) => {
+        setValue(e.target.value);
+    };
+    
+    const handleSelect = (val) => {
+        setValue(val, false);
+    };
+
+    return (
+        <Combobox onSelect={handleSelect} aria-labelledby="demo" className="p-5 rounded-lg drop-shadow-lg placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center">
+          <ComboboxInput value={value} onChange={handleInput} disabled={!ready} />
+          <ComboboxPopover portal={false}>
+            <ComboboxList>
+              {status === "OK" &&
+                data.map(({ place_id, description }) => (
+                  <ComboboxOption key={place_id} value={description} />
+                ))}
+            </ComboboxList>
+          </ComboboxPopover>
+        </Combobox>
+    );
+}
+
 const Page = () => {
     const [files, setFiles] = useState([])
     // const [errors, setErrors] = useState([])
@@ -27,10 +78,15 @@ const Page = () => {
     const [totalPrice, setTotalPrice] = useState(0)
     const [totalHours, setTotalHours] = useState(0)
     const [date, setDate] = useState(format(new Date(), 'PPP'))
+    const [selected, setSelected] = useState(null)
     const { status, data: session } = useSession({required: false});
     const file = "reference/toolist.xlsx"
     const ref = useRef(null)
     const router = useRouter()
+    const { isLoaded } = useLoadScript({
+        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+        libraries: ['places']
+    });
 
     const getReference = async () => {
         const res = await fetch(file)
@@ -309,7 +365,7 @@ const Page = () => {
    
 
     //console.log(reference.find(lookup => lookup['Product Code'] === 'CAL TCAL-P'))
-    console.log(items)
+   
    
     return (
     <>
@@ -371,10 +427,10 @@ const Page = () => {
                             
                         </div> :
 
-                            <div className="" >
+                            <div className="mt-10 " >
                             {   
                                 <div onClick={() => ref.current?.click()}>
-                                    <img src={fileDataURL} alt="preview" className="w-40 h-40" />
+                                    <img src={fileDataURL} alt="preview" className="w-50 h-50" />
                                     <input  type="file"
                                         id="filePicker"
                                         onChange={(e) => handleLogo(e)}
@@ -394,7 +450,7 @@ const Page = () => {
                                 <input className="rounded-lg drop-shadow-lg placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="Client Name" type="text" name="search"/>
                             </div>
                             <div className="mt-2">
-                                <input className="rounded-lg drop-shadow-lg placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="Client Address" type="text" name="search"/>
+                                <PlacesAutoComplete/>
                             </div>
                         </div>
                         </div>
