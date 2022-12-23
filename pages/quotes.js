@@ -78,15 +78,17 @@ const Page = () => {
     const [data, setData] = useState({})
     const [totalPrice, setTotalPrice] = useState(0)
     const [totalHours, setTotalHours] = useState(0)
+    const [ libraries ] = useState(['places']);
     const [date, setDate] = useState(format(new Date(), 'PPP'))
     const [selected, setSelected] = useState(null)
     const { status, data: session } = useSession({required: false});
     const file = "reference/toolist.xlsx"
     const ref = useRef(null)
     const router = useRouter()
+    
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-        libraries: ['places']
+        libraries
     });
 
     const getReference = async () => {
