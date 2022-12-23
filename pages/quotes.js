@@ -53,7 +53,7 @@ const PlacesAutoComplete = ({setSelected}) => {
     return (
         <Combobox onSelect={handleSelect} aria-labelledby="demo" >
           <p className="font-bold mb-1">Customer Address: </p>
-          <ComboboxInput value={value} onChange={handleInput} disabled={!ready} className="p-1 rounded-lg drop-shadow-lg block bg-white w-full border border-slate-300 shadow-sm text-center" />
+          <ComboboxInput value={value} placeholder="Client Address" onChange={handleInput} disabled={!ready} className="p-1 rounded-lg drop-shadow-lg block bg-white w-full border border-slate-300 shadow-sm text-center" />
           <ComboboxPopover portal={false}>
             <ComboboxList>
               {status === "OK" &&
@@ -448,7 +448,7 @@ const Page = () => {
                         <div className="p-20 hover:cursor-pointer text-center bg-gray-100 rounded-lg">
                             <p className="font-bold">Quote Prepared for:</p>
                             <div className="mt-2">
-                                <input className="rounded-lg drop-shadow-lg placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="Client Name" type="text" name="search"/>
+                                <input className="rounded-lg drop-shadow-lg placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-black focus:ring-1 sm:text-sm text-center" placeholder="Client Name" type="text" name="search"/>
                             </div>
                             <div className="mt-2">
                                 <PlacesAutoComplete/>
