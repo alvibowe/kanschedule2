@@ -453,7 +453,7 @@ const Page = () => {
                                 <input className="rounded-lg drop-shadow-lg placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-black focus:ring-1 sm:text-sm text-center" placeholder="Client Name" type="text" name="search"/>
                             </div>
                             <div className="mt-2">
-                                {!isLoaded ? <PlacesAutocomplete /> : null}
+                                <PlacesAutoComplete /> 
                             </div>
                         </div>
                         </div>
