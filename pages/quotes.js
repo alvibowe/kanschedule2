@@ -51,8 +51,9 @@ const PlacesAutoComplete = ({setSelected}) => {
     };
 
     return (
-        <Combobox onSelect={handleSelect} aria-labelledby="demo" className="p-5 rounded-lg drop-shadow-lg placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center">
-          <ComboboxInput value={value} onChange={handleInput} disabled={!ready} />
+        <Combobox onSelect={handleSelect} aria-labelledby="demo" >
+          <p className="font-bold mb-1">Customer Address: </p>
+          <ComboboxInput value={value} onChange={handleInput} disabled={!ready} className="p-1 rounded-lg drop-shadow-lg block bg-white w-full border border-slate-300 shadow-sm text-center" />
           <ComboboxPopover portal={false}>
             <ComboboxList>
               {status === "OK" &&
