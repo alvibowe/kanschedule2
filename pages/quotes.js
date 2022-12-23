@@ -135,6 +135,7 @@ const Page = () => {
 
     useEffect(() => {
         if(items.length > 0){
+            removeDuplicateItems(items)
             calculateHoursPrices(items)
 
             addPrices()
@@ -161,6 +162,14 @@ const Page = () => {
             setItems(newData)
         }
     }, [toDate, fromDate])
+
+    const removeDuplicateItems = (items) => {
+        const unique = [...new Set(items.map(item => item['Calibration Product Code']))]
+        const newData = unique.map(code => {
+            return items.find(item => item['Calibration Product Code'] === code)
+        })
+        setData(newData)
+    }
 
 
     
@@ -250,21 +259,6 @@ const Page = () => {
 
     }
 
-    // const handleExport = () => {
-    //     const headings = [[
-    //       'Item',
-    //       'Unit Code',
-    //       'QTY',
-    //       'Availability'
-    //     ]];
-    //     const wb = utils.book_new();
-    //     const ws = utils.json_to_sheet([]);
-    //     utils.sheet_add_aoa(ws, headings);
-    //     utils.sheet_add_json(ws, data, { origin: 'A2', skipHeader: true });
-    //     utils.book_append_sheet(wb, ws, 'Report');
-    //     writeFile(wb, 'Quotation Report.xlsx');
-    // }
-
     const formatCode = (text) => {
         if(text){
             const result = /([^-]*)-/.exec(text)[1]
@@ -274,7 +268,6 @@ const Page = () => {
     }
 
     const removeItem = (idx) => {
- 
         setItems((current) => current.filter((item, index) => index !== idx))
     }
 
@@ -368,7 +361,7 @@ const Page = () => {
    
 
     //console.log(reference.find(lookup => lookup['Product Code'] === 'CAL TCAL-P'))
-   
+    console.log(items)
    
     return (
     <>
