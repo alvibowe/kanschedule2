@@ -2,7 +2,7 @@ import AppLayout from "@lib/components/Layouts/AppLayout";
 import { useSession } from "next-auth/react";
 import { getSession } from "@lib/auth/session";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { FolderIcon } from "@heroicons/react/outline";
 import { read, readFile, utils, writeFile } from 'xlsx';
 
@@ -10,7 +10,7 @@ import { TrashIcon} from "@heroicons/react/solid";
 import { useRouter } from 'next/router'
 import { compareAsc, format } from 'date-fns'
 import { add } from "lodash";
-
+import Loader from "@lib/components/Loader";
 
 import PDFGenerator from "@lib/utils/PDFGenerator"
 
@@ -72,6 +72,7 @@ const Page = () => {
     const [fromDate, setFromDate] = useState('')
     const [toDate, setToDate] = useState('')
     const [items, setItems] = useState({})
+    const [quoteLoading, setQuoteLoading] = useState(false)
     const [logo, setLogo] = useState(null);
     const [fileDataURL, setFileDataURL] = useState(null);
     const [reference, setReference] = useState({})
@@ -106,10 +107,13 @@ const Page = () => {
     }, [file])
 
     useEffect(() => {
+        
         if(data?.length){
             findAvailability(data)
         }
         setItems(data)
+        setQuoteLoading(false)
+        
     }, [data])
 
     useEffect(() => {
@@ -135,7 +139,7 @@ const Page = () => {
 
     useEffect(() => {
         if(items.length > 0){
-            removeDuplicateItems(items)
+            // removeDuplicateItems(items)
             calculateHoursPrices(items)
 
             addPrices()
@@ -164,10 +168,24 @@ const Page = () => {
     }, [toDate, fromDate])
 
     const removeDuplicateItems = (items) => {
+        console.log("running remove duplicate items")
+        // find every code
         const unique = [...new Set(items.map(item => item['Calibration Product Code']))]
+
+        // if found code is in unique array, return it
         const newData = unique.map(code => {
+            // console.log(code)
+            // const count = items.filter(item => {
+            //     if (item['Calibration Product Code'] === code) {
+            //       return true;
+            //     }
+              
+            //     return false;
+            // }).length;
+
             return items.find(item => item['Calibration Product Code'] === code)
         })
+        
         setData(newData)
     }
 
@@ -218,6 +236,7 @@ const Page = () => {
     }
 
     const handleImport = ($event) => {
+        setQuoteLoading(true)
         const files = $event.target.files;
         if (files.length) {
             const file = files[0];
@@ -233,8 +252,9 @@ const Page = () => {
             }
             setFiles(files)
             reader.readAsArrayBuffer(file);
-            
+          
         }
+        
     }
 
     const calculateHoursPrices = (items) => {
@@ -368,6 +388,7 @@ const Page = () => {
       
       <AppLayout>
       <>
+        
         <div className="flex w-full flex-col ">
            <div className="flex justify-center flex-row p-20">
                 <div className="flex justify-center text-center w-full ">
@@ -397,7 +418,7 @@ const Page = () => {
                         </div> */}
  
             </div>
-           
+            {quoteLoading === false ? <div id="full quote">
             <div className="mt-10">
                 <div className="mt-14 mb-14">
                     
@@ -538,9 +559,9 @@ const Page = () => {
                             </thead>
                             <tbody className="mt-5"> 
                                     {
-                                        items?.length
+                                        data?.length
                                         ?
-                                        items.map((item, index) => (
+                                        data.map((item, index) => (
                                             <tr key={index} className="pt-10">
                                                 <th scope="row" className="hidden md:block">{ index + 1 }</th>
                                                 <td className="px-6 py-2">
@@ -567,7 +588,7 @@ const Page = () => {
                                                     {/* <span className="badge bg-warning text-dark">-</span> */}
                                                 </td>
                                                 <td className="px-6 py-2">
-                                                <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item.totalPrice || '0'} type="text"/>
+                                                <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item.totalPrice || '0'} type="text" readOnly/>
                                                 </td>
                                                 <td><TrashIcon className="h-5 w-5 hover:bg-red-400 hover:cursor-pointer" onClick={() => removeItem(index)}/></td>
                                             </tr> 
@@ -593,15 +614,20 @@ const Page = () => {
                 </div>
                 
             </div>
+            </div> : 
+                <div className="min-h-screen flex justify-center items-center">
+                    <Loader/>
+                </div>
+            }
             <div className="bg-gray-100 p-20 rounded-lg drop-shadow-lg">
                 <div className="flex flex-wrap justify-end min-w-full font-bold">
                     <div className="flex flex-row ">Estimated hours on Site:</div>
-                    <input className="placeholder:italic ml-4 text-center rounded-lg mr-1" placeholder="" value={totalHours || 0}></input>
+                    <input className="placeholder:italic ml-4 text-center rounded-lg mr-1" placeholder="" value={totalHours || 0} readOnly></input>
                     <p className="ml-1">hrs</p>
                 </div>
                 <div className="flex flex-row flex-wrap justify-end min-w-full font-bold mt-5">
                     <div className="flex flex-col ">Estimated Total Price: </div>
-                    <input className="placeholder:italic ml-4 text-center rounded-lg mr-1" placeholder=""  value={totalPrice || 0}></input>
+                    <input className="placeholder:italic ml-4 text-center rounded-lg mr-1" placeholder=""  value={totalPrice || 0} readOnly></input>
                     <p>$</p>
                 </div>
             </div>
