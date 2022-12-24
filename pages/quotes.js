@@ -77,6 +77,7 @@ const Page = () => {
     const [fileDataURL, setFileDataURL] = useState(null);
     const [reference, setReference] = useState({})
     const [data, setData] = useState({})
+    const [filteredData,setFilteredData] = useState({})
     const [totalPrice, setTotalPrice] = useState(0)
     const [totalHours, setTotalHours] = useState(0)
     const [ libraries ] = useState(['places']);
@@ -110,8 +111,12 @@ const Page = () => {
         
         if(data?.length){
             findAvailability(data)
+            
         }
+
+        
         setItems(data)
+
         setQuoteLoading(false)
         
     }, [data])
@@ -139,17 +144,16 @@ const Page = () => {
 
     useEffect(() => {
         if(items.length > 0){
-            // removeDuplicateItems(items)
+            removeDuplicateItems(items)
             calculateHoursPrices(items)
 
             addPrices()
             addHours()
         }
+        
     }, [items])
     
-
-
-
+    
     useEffect(() => {
         if(data.length && fromDate && toDate){
             const from = new Date(fromDate)
@@ -186,7 +190,7 @@ const Page = () => {
             return items.find(item => item['Calibration Product Code'] === code)
         })
         
-        setData(newData)
+        setFilteredData(newData)
     }
 
 
@@ -381,7 +385,7 @@ const Page = () => {
    
 
     //console.log(reference.find(lookup => lookup['Product Code'] === 'CAL TCAL-P'))
-    console.log(items)
+    console.log(filteredData)
    
     return (
     <>
@@ -559,9 +563,9 @@ const Page = () => {
                             </thead>
                             <tbody className="mt-5"> 
                                     {
-                                        data?.length
+                                        data?.length && filteredData?.length
                                         ?
-                                        data.map((item, index) => (
+                                        filteredData?.map((item, index) => (
                                             <tr key={index} className="pt-10">
                                                 <th scope="row" className="hidden md:block">{ index + 1 }</th>
                                                 <td className="px-6 py-2">
