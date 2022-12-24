@@ -504,7 +504,7 @@ const Page = () => {
                         <div className="p-20 hover:cursor-pointer text-center bg-gray-100 rounded-lg">
                             <p className="font-bold">Quote Prepared for:</p>
                             <div className="mt-2">
-                                <input className="rounded-lg drop-shadow-lg placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-black focus:ring-1 sm:text-sm text-center" placeholder="Client Name" type="text" name="search"/>
+                                <input className="rounded-lg drop-shadow-lg placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-black focus:ring-1 sm:text-sm text-center" placeholder="Client Name" type="text" name="search" required/>
                             </div>
                             <div className="mt-2">
                                 {isLoaded ? <PlacesAutoComplete /> : null} 
@@ -605,11 +605,11 @@ const Page = () => {
                                             <tr key={index} className="pt-10">
                                                 <th scope="row" className="hidden md:block">{ index + 1 }</th>
                                                 <td className="px-6 py-2">
-                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={ item["Asset Type"]} type="text"/>
+                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full  shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={ item["Asset Type"]} type="text"/>
                                                     {/* { item["Asset Type"]} */}
                                                 </td>
                                                 <td className="px-6 py-2">
-                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={ formatCode(item["Calibration Product Code"])} type="text"/>
+                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full  shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={ formatCode(item["Calibration Product Code"])} type="text"/>
                                                     {/* { formatCode(item["Calibration Product Code"])} */}
                                                 </td>
                                                 <td className="px-6 py-2">
@@ -618,7 +618,7 @@ const Page = () => {
                                                 </td>
                                                 <td className="px-6 py-2">
                                                     
-                                                        <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={item.Price || '0'} type="number" />
+                                                        <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={item.Price || '0'} type="number" readOnly />
                                                   
                                                     
                                                     {/* { item.Director } */}
