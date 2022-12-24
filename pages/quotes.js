@@ -146,12 +146,16 @@ const Page = () => {
         if(items.length > 0){
             removeDuplicateItems(items)
             calculateHoursPrices(items)
-
-            addPrices()
-            addHours()
         }
         
     }, [items])
+
+    useEffect(() => {
+        if(filteredData.length > 0){
+            addPrices()
+            addHours()
+        }
+    })
     
     
     useEffect(() => {
@@ -171,28 +175,37 @@ const Page = () => {
         }
     }, [toDate, fromDate])
 
+   
+
+   
+
     const removeDuplicateItems = (items) => {
-        console.log("running remove duplicate items")
+        
         // find every code
         const unique = [...new Set(items.map(item => item['Calibration Product Code']))]
 
         // if found code is in unique array, return it
         const newData = unique.map(code => {
-            // console.log(code)
-            // const count = items.filter(item => {
-            //     if (item['Calibration Product Code'] === code) {
-            //       return true;
-            //     }
+            
+            const count = items.filter(item => {
+                if (item['Calibration Product Code'] === code) {
+                  return true;
+                }
               
-            //     return false;
-            // }).length;
+                return false;
+            }).length;
+
+            // add count to item quantity
+            items.find(item => item['Calibration Product Code'] === code).Quantity = count
+
+            
 
             return items.find(item => item['Calibration Product Code'] === code)
         })
         
         setFilteredData(newData)
+       
     }
-
 
     
     const findAvailability = (items) => {
@@ -216,19 +229,19 @@ const Page = () => {
 
 
     const addPrices = () => {
-        const prices = items?.reduce((acc, item) => {
+        const prices = filteredData?.reduce((acc, item) => {
             
-            return acc + (parseFloat(item.Price))
+            return acc + (parseFloat(item.Price * item.Quantity))
         }, 0)
 
-        setTotalPrice(prices)
+        setTotalPrice(prices.toLocaleString())
 
     }
 
     const addHours = () => {
-        const hours = items?.reduce((acc, item) => {
+        const hours = filteredData?.reduce((acc, item) => {
             
-            return acc + (parseFloat(item.Hours ))
+            return acc + (parseFloat(item.Hours * item.Quantity ))
         }, 0)
 
         setTotalHours(Math.ceil(hours))
@@ -292,12 +305,12 @@ const Page = () => {
     }
 
     const removeItem = (idx) => {
-        setItems((current) => current.filter((item, index) => index !== idx))
+        setFilteredData((current) => current.filter((item, index) => index !== idx))
     }
 
     const handleAmount = (amount, asset_no) => {
        
-        setData((prevState) => {
+        setFilteredData((prevState) => {
             const newState = prevState?.map((item, index) => {
                 if (item['Asset #'] === asset_no) {
                     item['Amount'] = amount
@@ -314,48 +327,52 @@ const Page = () => {
 
 
     const addRow = () => {
-        setItems((prevState) => {
+        setFilteredData((prevState) => {
             console.log(prevState)
             if(prevState?.length){
                 const newState = [...prevState, {
-                    'Item': '',
-                    'Unit Code': '',
-                    'QTY': '',
-                    'Availability': ''
+                    'Asset Type': '',
+                    'Calibration Product Code': '',
+                    'Quantity': 1,
+                    'Price': 0,
+                    'Availability': '-',
+                    'Hours': 0
                 }]
                 return newState
             }else{
                 return [{
-                    'Item': '',
-                    'Unit Code': '',
-                    'QTY': '',
-                    'Availability': ''
+                    'Asset Type': '',
+                    'Calibration Product Code': '',
+                    'Quantity': 1,
+                    'Price': 0,
+                    'Availability': '-',
+                    'Hours': 0
                 }]
             }
             
         })
     }
 
-    const handleLogo = (e) => {
-        const logo = e.target.files[0]
-        const reader = new FileReader()
+    // const handleLogo = (e) => {
+    //     const logo = e.target.files[0]
+    //     const reader = new FileReader()
         
-        setLogo(logo)
-        // reader.readAsDataURL(file)
-        // reader.onloadend = () => {
-        //     setLogo(reader.result)
-        // }
-    }
+    //     setLogo(logo)
+    //     // reader.readAsDataURL(file)
+    //     // reader.onloadend = () => {
+    //     //     setLogo(reader.result)
+    //     // }
+    // }
 
     const search = (e) => {
         const keyword = e.target.value
 
-        if(data.length){
+        if(filteredData.length){
             const newData = data?.filter((item) => {
                 return item['Asset Type'].toString().includes(keyword) || item['Calibration Product Code'].toString().includes(keyword)
             })
     
-            setItems(newData)
+            setFilteredData(newData)
         }
        
         
@@ -374,8 +391,8 @@ const Page = () => {
 
         const data = await result.json()
 
-        if(data && items){
-            PDFGenerator(items)
+        if(data && filteredData){
+            PDFGenerator(filteredData)
         }
        
         router.push('/jobs')
@@ -577,7 +594,7 @@ const Page = () => {
                                                     {/* { formatCode(item["Calibration Product Code"])} */}
                                                 </td>
                                                 <td className="px-6 py-2">
-                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="0" type="number" onChange={(e) => handleQuantityChange(e.target.value, item.id)}/>
+                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={item.Quantity} type="number" onChange={(e) => handleQuantityChange(e.target.value, item.id)}/>
                                                     {/* { item.Director } */}
                                                 </td>
                                                 <td className="px-6 py-2">
@@ -592,7 +609,7 @@ const Page = () => {
                                                     {/* <span className="badge bg-warning text-dark">-</span> */}
                                                 </td>
                                                 <td className="px-6 py-2">
-                                                <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item.totalPrice || '0'} type="text" readOnly/>
+                                                <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item.Quantity * item.Price || '0'} type="text" readOnly/>
                                                 </td>
                                                 <td><TrashIcon className="h-5 w-5 hover:bg-red-400 hover:cursor-pointer" onClick={() => removeItem(index)}/></td>
                                             </tr> 
