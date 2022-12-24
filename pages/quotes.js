@@ -155,7 +155,7 @@ const Page = () => {
             addPrices()
             addHours()
         }
-    })
+    }, [filteredData])
     
     
     useEffect(() => {
@@ -247,10 +247,29 @@ const Page = () => {
         setTotalHours(Math.ceil(hours))
     }
 
-    const handleQuantityChange = (quantity, id) => {
-        
+    // change the value of quantity in filteredData
 
+    const handleQuantityChange = (quantity, id) => {
+        const newData = filteredData?.map(item => {
+            if(item['Asset #'] === id){
+                item.Quantity = quantity
+            }
+            return item
+        })
+
+        setFilteredData(newData)
     }
+
+
+    // const handleQuantityChange = (quantity, id) => {
+    //     // const newData = filteredData?.map(item => {
+    //     //     if(item['Asset #'] === id){
+    //     //         item.Quantity = quantity
+    //     //     }
+    //     // })
+
+    //     // setItems(newData)    
+    // }
 
     const handleImport = ($event) => {
         setQuoteLoading(true)
@@ -580,7 +599,7 @@ const Page = () => {
                             </thead>
                             <tbody className="mt-5"> 
                                     {
-                                        data?.length && filteredData?.length
+                                        filteredData?.length
                                         ?
                                         filteredData?.map((item, index) => (
                                             <tr key={index} className="pt-10">
@@ -594,7 +613,7 @@ const Page = () => {
                                                     {/* { formatCode(item["Calibration Product Code"])} */}
                                                 </td>
                                                 <td className="px-6 py-2">
-                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={item.Quantity} type="number" onChange={(e) => handleQuantityChange(e.target.value, item.id)}/>
+                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={item.Quantity} type="number" onChange={(e) => handleQuantityChange(e.target.value, item['Asset #'])}/>
                                                     {/* { item.Director } */}
                                                 </td>
                                                 <td className="px-6 py-2">
