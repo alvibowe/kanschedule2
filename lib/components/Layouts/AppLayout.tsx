@@ -127,6 +127,21 @@ const AppLayout = (props) => {
             <div className="relative flex-shrink-0 flex h-16 bg-white mt-6">
               <div className="flex-1 px-4 flex justify-between sm:px-6 lg:max-w-6xl lg:mx-auto lg:px-8">
                 <div className="flex flex-1 justify-between ">
+                    {(session?.user as any)?.role === "technician" ?<Link key={"My Calendar"} href={"/mycalendar"}>
+                          <a
+                            className={classNames(
+                              "/mycalendar" === currentPath
+                                ? "border-b border-indigo-600 text-black"
+                                : " hover:border-b  hover:border-gray-200 text-gray-600 ",
+                              "group flex items-center px-2 py-2 text-sm leading-6 font-medium"
+                            )}
+                            aria-current={
+                              "/jmycalendar" === currentPath ? "page" : undefined
+                            }
+                          >
+                            {"My Calendar"}
+                          </a>
+                        </Link>: null}
 
                     {(session?.user as any)?.role === "system manager" && <Link key={"Users"} href={"/"}>
                       <a
@@ -189,21 +204,7 @@ const AppLayout = (props) => {
                         {"Runs"}
                       </a>
                     </Link> : <></>}
-                    {(session?.user as any)?.role === "technician" ?<Link key={"My Calendar"} href={"/mycalendar"}>
-                      <a
-                        className={classNames(
-                          "/mycalendar" === currentPath
-                            ? "border-b border-indigo-600 text-black"
-                            : " hover:border-b  hover:border-gray-200 text-gray-600 ",
-                          "group flex items-center px-2 py-2 text-sm leading-6 font-medium"
-                        )}
-                        aria-current={
-                          "/jmycalendar" === currentPath ? "page" : undefined
-                        }
-                      >
-                        {"My Calendar"}
-                      </a>
-                    </Link>: null}
+                    
                   {/* {NAV_ITEMS.map((item) => (
                     <Link key={item.title} href={item.href}>
                       <a
