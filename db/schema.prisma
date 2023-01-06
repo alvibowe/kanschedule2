@@ -57,6 +57,7 @@ model User {
     role          String?   @default("user")
     accounts      Account[]
     sessions      Session[]
+    calendar      Calendar?
 }
 
 model VerificationToken {
@@ -90,4 +91,23 @@ model Job {
 model Run {
     id   String @id @default(cuid())
     jobs Job[]
+}
+
+model Event {
+    id         String   @id @default(cuid())
+    title      String
+    start      DateTime
+    end        DateTime
+    allDay     Boolean  @default(false)
+    color      String?
+    textColor  String?
+    calendar   Calendar @relation(fields: [calendarId], references: [id])
+    calendarId String
+}
+
+model Calendar {
+    id     String  @id @default(cuid())
+    events Event[]
+    user   User    @relation(fields: [userId], references: [id])
+    userId String  @unique // relation scalar field (used in the `@relation` attribute above)
 }
