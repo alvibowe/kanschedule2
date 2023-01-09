@@ -131,7 +131,7 @@ const Page = () => {
     );
   }
 
-  console.log(technicians)
+  // console.log(technicians)
 
   return (
     <>
