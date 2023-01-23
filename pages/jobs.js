@@ -6,6 +6,11 @@ import superagent from "superagent";
 import { TrashIcon } from "@heroicons/react/outline";
 import { DocumentIcon, PlusIcon } from "@heroicons/react/solid";
 
+import getDay from "date-fns/getDay";
+import parse from "date-fns/parse";
+import startOfWeek from "date-fns/startOfWeek";
+
+import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import { isAccordionItemSelected } from "react-bootstrap/esm/AccordionContext";
 import { format } from 'date-fns'
 import Loader from "@lib/components/Loader";
@@ -15,6 +20,39 @@ import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
 
 
+
+const locales = {
+  "en-US": require("date-fns/locale/en-US"),
+};
+const localizer = dateFnsLocalizer({
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  locales,
+});
+
+
+const events = [
+  {
+      title: "Quote ID: Q-KZ3GR, Wichita KS",
+      allDay: true,
+      start: new Date(2022, 12, 19),
+      end: new Date(2022, 12, 21),
+  },
+  {
+      title: "Quote ID: Q-KK3BR, Odessa TX",
+      start: new Date(2023, 1, 7),
+      end: new Date(2023, 1, 10),
+  },
+  {
+      title: "Quote ID: Q-KK3BR, Oklahoma City",
+      start: new Date(2023, 3, 20),
+      end: new Date(2023, 3, 23),
+  },
+];
+
+
 const Page = () => {
   const [data, setData] = useState([]);
   const { status, data: session } = useSession({
@@ -22,6 +60,8 @@ const Page = () => {
   });
   const [open, setOpen] = useState(false)
   const [technicians, setTechnicians] = useState([]);
+  const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" })
+  const [allEvents, setAllEvents] = useState(events);
   
 
 
@@ -82,11 +122,11 @@ const Page = () => {
 
   const allTechnicians = () => { 
     if (usersQuery.data) {
-      setTechnicians(usersQuery.data.filter((user: any) => user.role === "technician"))
+      setTechnicians(usersQuery.data.filter((user) => user.role === "technician"))
     }
   }
 
-  const handleDelete = async (id: any) => {
+  const handleDelete = async (id) => {
     
     await fetch('/api/delete-quote/', {
       method: 'DELETE',
@@ -144,7 +184,7 @@ const Page = () => {
                 <div>
                   <select className="bg-gray-200 border text-center border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" required>
                     <option value="" disabled selected>Select a Technician</option>
-                    {technicians?.map((technician: any) => (
+                    {technicians?.map((technician) => (
                       <option>{technician.name}</option>
                     ))} 
                   </select>
@@ -152,7 +192,15 @@ const Page = () => {
                 {/* <div className="flex justify-center">
                   <div className="mt-5 mx-1 text-base font-extrabold hover:cursor-pointer bg-black text-white p-2 rounded">Add a Technician</div>
                 </div> */}
+
+                {/* <div>
+                  <Calendar localizer={localizer} events={allEvents} startAccessor="start" endAccessor="end" style={{ height: 500, margin: "50px" }}/>
+                </div> */}
+                
+                  
+                
               </div>
+              
               
             </div>
           </Modal>

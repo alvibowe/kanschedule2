@@ -50,7 +50,15 @@ const events = [
 const Page = () => {
   const { data: session } = useSession();
   const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" })
-  const [allEvents, setAllEvents] = useState(events as any);
+  const [allEvents, setAllEvents] = useState(events);
+  const [testallEvents, setTestsAllEvents] = useState([]);
+
+  
+
+  const getCalendar = async() => {
+    const calendar =  await superagent.get("/api/get-calendar").then((res) => res.body);
+    setTestsAllEvents(calendar);
+  }
 
   const  handleAddEvent = () => {
         
@@ -77,6 +85,9 @@ const Page = () => {
     setAllEvents([...allEvents, newEvent]);
 }
 
+
+  console.log(testallEvents);
+
   
 
   return (
@@ -98,6 +109,7 @@ const Page = () => {
 
               <Calendar localizer={localizer} events={allEvents} startAccessor="start" endAccessor="end" style={{ height: 500, margin: "50px" }} />
             </div>
+            
             
         </AppLayout>
     </>

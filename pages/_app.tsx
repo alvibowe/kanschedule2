@@ -2,7 +2,7 @@ import React from "react";
 import type { ExtendedAppProps } from "@lib/types";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { SessionProvider } from "next-auth/react";
-
+import 'mapbox-gl/dist/mapbox-gl.css';
 import "@lib/styles/index.css";
 import WithAuth from "@lib/auth/WithAuth";
 

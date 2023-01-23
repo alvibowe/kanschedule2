@@ -24,6 +24,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/quotes.js", "pages/api/create-quotation.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/quotes.js", "pages/api/create-quotation.js", "pages/api/get-calendar.js", "pages/mycalendar.js", "pages/jobs.js"],
   "exclude": ["node_modules"]
 }
