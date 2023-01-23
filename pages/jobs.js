@@ -11,7 +11,6 @@ import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
 
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
-import { isAccordionItemSelected } from "react-bootstrap/esm/AccordionContext";
 import { format } from 'date-fns'
 import Loader from "@lib/components/Loader";
 import { useRouter } from 'next/router';
