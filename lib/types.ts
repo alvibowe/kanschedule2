@@ -1,5 +1,7 @@
 import { AppProps } from "next/app";
 import { Component } from "react";
+import { DefaultUser } from 'next-auth';
+
 
 export type AuthenticatedPage = {
   role?: string;
@@ -14,3 +16,14 @@ export type ExtendedPageProps = {
 export type ExtendedAppProps = AppProps & {
   Component: ExtendedPageProps;
 };
+
+declare module 'next-auth' {
+  interface Session {
+      user?: DefaultUser & { id: string; role: string };
+  }
+  interface User extends DefaultUser {
+      role: string;
+  }
+}
+
+

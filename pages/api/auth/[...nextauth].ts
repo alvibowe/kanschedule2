@@ -11,7 +11,7 @@ export default NextAuth({
   adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
   session: {
-    jwt: true,
+    strategy: "jwt"
   },
   pages: {
     signIn: "/sign-in",
@@ -158,8 +158,10 @@ export default NextAuth({
     },
     async jwt({ token, user, account, profile, isNewUser }) {
       if (user) {
+        
         token.id = user.id;
         token.role = user.role;
+        
       }
 
       return token;
@@ -170,7 +172,7 @@ export default NextAuth({
         user: {
           ...session.user,
           id: token.id as string,
-          role: token.role as string,
+          role: token.role as unknown as string,
         },
       };
 

@@ -53,7 +53,7 @@ const PlacesAutoComplete = ({setSelected}) => {
     return (
         <Combobox onSelect={handleSelect} aria-labelledby="demo" >
           <p className="font-bold mb-1">Customer Address: </p>
-          <ComboboxInput value={value} placeholder="Client Address" onChange={handleInput} disabled={!ready} className="p-1 rounded-lg drop-shadow-lg block bg-white w-full border border-slate-300 shadow-sm text-center" />
+          <ComboboxInput value={value} placeholder="Client Address" onChange={handleInput} disabled={!ready} className="p-1 rounded-lg drop-shadow-lg block bg-white w-full border border-slate-300 ring-black focus:outline-none focus:border-sky-500 focus:ring-black focus:ring-1 shadow-sm text-center" />
           <ComboboxPopover portal={false}>
             <ComboboxList>
               {status === "OK" &&
@@ -458,7 +458,10 @@ const Page = () => {
                         </div> */}
  
             </div>
-            {quoteLoading === false ? <div id="full quote">
+
+            {quoteLoading === false ? 
+            <form>
+            <div id="full quote">
             <div className="mt-10">
                 <div className="mt-14 mb-14">
                     
@@ -508,6 +511,10 @@ const Page = () => {
                             </div>
                             <div className="mt-2">
                                 {isLoaded ? <PlacesAutoComplete /> : null} 
+                            </div>
+                            <p className="font-bold mt-2">Client Email:</p>
+                            <div className="mt-2">
+                                <input className="rounded-lg drop-shadow-lg placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-black focus:ring-1 sm:text-sm text-center" placeholder="Client Email" type="email" name="email" required/>
                             </div>
                         </div>
                         </div>
@@ -654,7 +661,7 @@ const Page = () => {
                 </div>
                 
             </div>
-            </div> : 
+            </div></form> : 
                 <div className="min-h-screen flex justify-center items-center">
                     <Loader/>
                 </div>
