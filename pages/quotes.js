@@ -418,6 +418,12 @@ const Page = () => {
         
     }
 
+    const handleQuotationSubmission = (e) => {
+        e.preventDefault()
+        console.log("form submited")
+        handleQuote()
+    }
+
    
 
     //console.log(reference.find(lookup => lookup['Product Code'] === 'CAL TCAL-P'))
@@ -428,7 +434,7 @@ const Page = () => {
       
       <AppLayout>
       <>
-        
+        <form onSubmit={handleQuotationSubmission}>
         <div className="flex w-full flex-col ">
            <div className="flex justify-center flex-row p-20">
                 <div className="flex justify-center text-center w-full ">
@@ -460,7 +466,7 @@ const Page = () => {
             </div>
 
             {quoteLoading === false ? 
-            <form>
+            
             <div id="full quote">
             <div className="mt-10">
                 <div className="mt-14 mb-14">
@@ -533,16 +539,16 @@ const Page = () => {
                             <tbody className="pt-10">
                                 <tr className="m-2">
                                     <td className="px-6 py-3">
-                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="PO NUMBER..." type="text" name="search"/>
+                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="PO NUMBER..." type="text" name="search" required/>
                                     </td>
                                     <td className="px-6 py-3">
-                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="SALES CONTACT..." type="text" name="search"/>
+                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="SALES CONTACT..." type="text" name="search" required/>
                                     </td>
                                     <td className="px-6 py-3">
-                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="SLS ID..." type="text" name="search"/>
+                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="SLS ID..." type="text" name="search" required/>
                                     </td>
                                     <td className="px-6 py-3">
-                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="CALIBRATION TYPE..." type="text" name="search"/>
+                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="CALIBRATION TYPE..." type="text" name="search" required/>
                                     </td>
 
                                 </tr>
@@ -551,8 +557,9 @@ const Page = () => {
                     </div>
                     {/* <div className="font-semibold italic mt-10">*A purchase order or credit card must be provided prior to service work commencing.</div> */}
 
-
+                    <form>
                     <div className="flex flex-wrap space-y-3 justify-center text-center md:justify-between min-w-full mt-10">
+                        
                         <div>
                             <span className="mb-5 font-bold">Filter By Item Name/Item Code:</span>
                             <div className="mt-2">
@@ -586,8 +593,9 @@ const Page = () => {
                                 </div>
                             </div> */}
                         </div>
+                        
                     </div>
-                    
+                    </form>
                     {/* Quote Table */}
 
 
@@ -661,7 +669,8 @@ const Page = () => {
                 </div>
                 
             </div>
-            </div></form> : 
+            </div>
+             : 
                 <div className="min-h-screen flex justify-center items-center">
                     <Loader/>
                 </div>
@@ -687,12 +696,14 @@ const Page = () => {
         
         {items?.length ? <div className="min-w-full">
             <div className="flex flex-wrap justify-end min-w-full">
-                <div
+                <button
+                  type="submit"
                   className="m-5 text-lg font-extrabold hover:cursor-pointer bg-red-600 text-white p-2 rounded"
-                  onClick={handleQuote}
-                  >Add to Jobs/Create PDF</div>
+                  
+                  >Add to Jobs/Create PDF</button>
             </div>
         </div> : null}
+        </form>
         </>
       </AppLayout>
       
