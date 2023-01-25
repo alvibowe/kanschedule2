@@ -255,7 +255,7 @@ const Page = () => {
             return acc + (parseFloat(item.Price * item.Quantity))
         }, 0)
 
-        setTotalPrice(prices.toLocaleString())
+        setTotalPrice(prices)
 
     }
 
@@ -425,15 +425,14 @@ const Page = () => {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              status: 'pending',
-             
+                status: 'pending',
+                formData: {clientName, clientAddress, clientEmail, PONumber, salesContact, slsID, calibrationType, totalHours, totalPrice}
             }),
         })
 
         const data = await result.json()
 
         if(data && filteredData){
-            
             PDFGenerator(filteredData)
         }
        
@@ -443,9 +442,7 @@ const Page = () => {
 
     const handleQuotationSubmission = (e) => {
         e.preventDefault()
-        setQuoteLoading(true)
         handleQuote()
-        setQuoteLoading(false)
     }
 
    
@@ -453,7 +450,7 @@ const Page = () => {
     // console.log(reference.find(lookup => lookup['Product Code'] === 'CAL TCAL-P'))
     // console.log(filteredData)
     // console.log(clientName, clientEmail, PONumber, salesContact, slsID, calibrationType)
-    console.log(clientAddress)
+    // console.log(clientAddress)
    
     return (
     <>

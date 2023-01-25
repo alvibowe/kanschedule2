@@ -221,20 +221,23 @@ const Page = () => {
                     <div className="flex flex-row justify-between space-x-4 font-extrabold mb-5">
                           {index + 1}.
                     </div>
-                  <div key={index} className="bg-gray-100 rounded-lg drop-shadow-lg p-10 mb-5 min-w-max">
+                  <div key={index} className="bg-gray-100 rounded-lg drop-shadow-lg p-10 mb-5">
                     <div className="flex flex-wrap justify-between flex-col space-y-4">
                       
                       <div className="flex flex-row justify-between space-x-4">
                         <div>
-                          <span className="font-bold">Client Name:  </span>  
+                          <span className="font-bold">Client Name:  </span>
+                          { item.clientName}  
                         </div>
                         <div>
                           <span className="font-bold">Client Address:  </span>
+                          { item.clientAddress}
                         </div>
                         
                       </div>
                       <div>
                           <span className="font-bold">Client Email:  </span>
+                          { item.clientEmail}
                       </div>
 
                       <div className="flex flex-row justify-between space-x-4 mt-6">
@@ -248,24 +251,34 @@ const Page = () => {
                         </div>
                       </div>
 
+                      <div className="flex flex-row justify-between space-x-4 mt-6">
+                        <div>
+                          <span className="font-bold">Total Hours:  </span>
+                          { item.totalHours}
+                        </div>
+                        <div>
+                          <span className="font-bold">Total Price:  </span>
+                          { item.totalPrice}
+                        </div>
+                      </div>
+
                       <div className="flex flex-row space-x-4 mt-6">
                         <span className="font-bold mr-1">Status: </span>
                         <span className="bg-red-200 rounded-lg p-1 text-sm">{item.status.toUpperCase()}</span>
                       </div>
 
-                      <div className="flex flex-row justify-between space-x-4">
-                        <div className="flex flex-row">
+                      <div className="flex flex-row justify-end space-x-4">
+                        {/* <div className="flex flex-row">
                          
                           <DocumentIcon className="h-6 w-5 mt-2 text-red-700 hover:scale-100"/>
                           <div className="mt-1 p-1 text-red-700 hover:font-black hover:cursor-pointer">.pdf</div>
-                        </div>
+                        </div> */}
                         <div className="flex justify-end space-x-4">
                           <div className="text-base font-extrabold hover:cursor-pointer bg-black text-white p-2 rounded" onClick={onOpenModal}>
                             Schedule Quote
                           </div>
-                          <TrashIcon className="h-5 w-5 mt-2 hover:text-red-400 hover:font-black hover:cursor-pointer" onClick={() => handleDelete(item.quoteId)}/>
+                          <TrashIcon className="h-5 w-5 mt-3 hover:text-red-400 hover:font-black hover:cursor-pointer" onClick={() => handleDelete(item.quoteId)}/>
                         </div>
-                        
                       </div>
                     </div>
                   </div>

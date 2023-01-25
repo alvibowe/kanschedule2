@@ -27,7 +27,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     if (req.method === "POST") {
-        const { status } = req.body;
+        const { status, formData } = req.body;
 
         const quoteNumber = generateQuouteNumber();
 
@@ -35,7 +35,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             data: {
                 status: status,
                 quoteId: 'Q-' + quoteNumber,
-               
+                clientName: formData.clientName,
+                clientAddress:  formData.clientAddress,
+                clientEmail: formData.clientEmail,
+                PONumber: formData.PONumber,
+                salesContact: formData.salesContact,
+                slsID: formData.slsID,
+                calibrationType: formData.calibrationType,
+                totalHours: formData.totalHours,
+                totalPrice: formData.totalPrice,
             }
         })
 

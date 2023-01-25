@@ -69,10 +69,19 @@ model VerificationToken {
 }
 
 model Quotation {
-    id        String   @id @default(cuid())
-    quoteId   String   @unique
-    createdAt DateTime @default(now())
-    status    String   @default("Quoted(pending)")
+    id              String   @id @default(cuid())
+    quoteId         String   @unique
+    createdAt       DateTime @default(now())
+    status          String   @default("Quoted(pending)")
+    clientName      String?
+    clientAddress   String?
+    clientEmail     String?
+    PONumber        String?
+    salesContact    String?
+    slsID           String?
+    calibrationType String?
+    totalHours      Int?
+    totalPrice      Float?
 }
 
 model Van {
