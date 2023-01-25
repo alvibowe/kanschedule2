@@ -28,7 +28,7 @@ import {
 import "@reach/combobox/styles.css";
 
 
-const PlacesAutoComplete = ({setSelected}) => {
+const PlacesAutoComplete = ({childToParentAddress}) => {
     const {
         ready,
         value,
@@ -42,18 +42,24 @@ const PlacesAutoComplete = ({setSelected}) => {
         debounce: 300,
       })
 
+    useEffect(() => {
+        childToParentAddress(value)
+    }, [value]);
+
     const handleInput = (e) => {
         setValue(e.target.value);
+        
     };
     
     const handleSelect = (val) => {
         setValue(val, false);
     };
 
+   
     return (
         <Combobox onSelect={handleSelect} aria-labelledby="demo" >
           <p className="font-bold mb-1">Customer Address: </p>
-          <ComboboxInput value={value} placeholder="Client Address" onChange={handleInput} disabled={!ready} className="p-1 rounded-lg drop-shadow-lg block bg-white w-full border border-slate-300 ring-black focus:outline-none focus:border-sky-500 focus:ring-black focus:ring-1 shadow-sm text-center" />
+          <ComboboxInput value={value} placeholder="Client Address" onChange={handleInput} disabled={!ready} className="p-1 rounded-lg drop-shadow-lg block bg-white w-full border border-slate-300 ring-black focus:outline-none focus:border-sky-500 focus:ring-black focus:ring-1 shadow-sm text-center" required/>
           <ComboboxPopover portal={false}>
             <ComboboxList>
               {status === "OK" &&
@@ -84,6 +90,19 @@ const Page = () => {
     const [date, setDate] = useState(format(new Date(), 'PPP'))
     const [selected, setSelected] = useState(null)
     const { status, data: session } = useSession({required: false});
+
+
+    // form states
+    const [clientName, setClientName] = useState('')
+    const [clientAddress, setClientAddress] = useState('')
+    const [clientEmail, setClientEmail] = useState('')
+    const [PONumber, setPONumber] = useState('')
+    const [salesContact, setSalesContact] = useState('')
+    const [slsID, setSlsID] = useState('')
+    const [calibrationType, setCalibrationType] = useState('')
+
+
+
     const file = "reference/toolist.xlsx"
     const ref = useRef(null)
     const router = useRouter()
@@ -175,7 +194,9 @@ const Page = () => {
         }
     }, [toDate, fromDate])
 
-   
+    const childToParentAddress = (childAddress) => {
+        setClientAddress(childAddress)
+    }
 
    
 
@@ -404,13 +425,15 @@ const Page = () => {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              status: 'pending'
+              status: 'pending',
+             
             }),
         })
 
         const data = await result.json()
 
         if(data && filteredData){
+            
             PDFGenerator(filteredData)
         }
        
@@ -420,14 +443,17 @@ const Page = () => {
 
     const handleQuotationSubmission = (e) => {
         e.preventDefault()
-        console.log("form submited")
+        setQuoteLoading(true)
         handleQuote()
+        setQuoteLoading(false)
     }
 
    
 
-    //console.log(reference.find(lookup => lookup['Product Code'] === 'CAL TCAL-P'))
+    // console.log(reference.find(lookup => lookup['Product Code'] === 'CAL TCAL-P'))
     // console.log(filteredData)
+    // console.log(clientName, clientEmail, PONumber, salesContact, slsID, calibrationType)
+    console.log(clientAddress)
    
     return (
     <>
@@ -513,14 +539,14 @@ const Page = () => {
                         <div className="p-20 hover:cursor-pointer text-center bg-gray-100 rounded-lg">
                             <p className="font-bold">Quote Prepared for:</p>
                             <div className="mt-2">
-                                <input className="rounded-lg drop-shadow-lg placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-black focus:ring-1 sm:text-sm text-center" placeholder="Client Name" type="text" name="search" required/>
+                                <input className="rounded-lg drop-shadow-lg placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-black focus:ring-1 sm:text-sm text-center" placeholder="Client Name" type="text" name="search" onChange={(e) => setClientName(e.target.value)} required/>
                             </div>
                             <div className="mt-2">
-                                {isLoaded ? <PlacesAutoComplete /> : null} 
+                                {isLoaded ? <PlacesAutoComplete childToParentAddress={childToParentAddress} /> : null} 
                             </div>
                             <p className="font-bold mt-2">Client Email:</p>
                             <div className="mt-2">
-                                <input className="rounded-lg drop-shadow-lg placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-black focus:ring-1 sm:text-sm text-center" placeholder="Client Email" type="email" name="email" required/>
+                                <input className="rounded-lg drop-shadow-lg placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-black focus:ring-1 sm:text-sm text-center" placeholder="Client Email" type="email" name="email" onChange={(e) => setClientEmail(e.target.value)} required/>
                             </div>
                         </div>
                         </div>
@@ -539,16 +565,16 @@ const Page = () => {
                             <tbody className="pt-10">
                                 <tr className="m-2">
                                     <td className="px-6 py-3">
-                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="PO NUMBER..." type="text" name="search" required/>
+                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="PO NUMBER..." type="text" name="po number" onChange={(e) => setPONumber(e.target.value)} required/>
                                     </td>
                                     <td className="px-6 py-3">
-                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="SALES CONTACT..." type="text" name="search" required/>
+                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="SALES CONTACT..." type="text" name="sales contact" onChange={(e) => setSalesContact(e.target.value)} required/>
                                     </td>
                                     <td className="px-6 py-3">
-                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="SLS ID..." type="text" name="search" required/>
+                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="SLS ID..." type="text" name="sls id" onChange={(e) => setSlsID(e.target.value)} required/>
                                     </td>
                                     <td className="px-6 py-3">
-                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="CALIBRATION TYPE..." type="text" name="search" required/>
+                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="CALIBRATION TYPE..." type="text" name="calibration type" onChange={(e) => setCalibrationType(e.target.value)} required/>
                                     </td>
 
                                 </tr>
@@ -662,7 +688,7 @@ const Page = () => {
                     </div>
                     <div className="flex flex-wrap justify-center text-center">
                         
-                        <div className="m-5 text-lg font-extrabold hover:cursor-pointer bg-black text-white p-2 rounded" onClick={() => addRow()}>Add New Item/Row</div>
+                        <div className="m-5 text-lg font-extrabold hover:cursor-pointer bg-black text-white p-2 rounded text-center" onClick={() => addRow()}>Add New Item/Row</div>
                         
 
                     </div>

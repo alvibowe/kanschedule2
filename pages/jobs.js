@@ -32,7 +32,7 @@ const localizer = dateFnsLocalizer({
 });
 
 
-const events = [
+const jobs = [
   {
       title: "Quote ID: Q-KZ3GR, Wichita KS",
       allDay: true,
@@ -60,7 +60,7 @@ const Page = () => {
   const [open, setOpen] = useState(false)
   const [technicians, setTechnicians] = useState([]);
   const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" })
-  const [allEvents, setAllEvents] = useState(events);
+  const [allEvents, setAllEvents] = useState(jobs);
   
 
 
@@ -150,6 +150,12 @@ const Page = () => {
 
   }
 
+
+  const convertISODate = (date) => { 
+    const newDate = new Date(date)
+    return newDate.toISOString().substring(0, 10)
+  }
+
   if (status === "loading") {
     return (
       <div className="min-h-screen flex justify-center items-center">
@@ -215,23 +221,38 @@ const Page = () => {
                     <div className="flex flex-row justify-between space-x-4 font-extrabold mb-5">
                           {index + 1}.
                     </div>
-                  <div key={index} className="bg-gray-100 rounded-lg drop-shadow-lg p-10 mb-5">
+                  <div key={index} className="bg-gray-100 rounded-lg drop-shadow-lg p-10 mb-5 min-w-max">
                     <div className="flex flex-wrap justify-between flex-col space-y-4">
                       
                       <div className="flex flex-row justify-between space-x-4">
+                        <div>
+                          <span className="font-bold">Client Name:  </span>  
+                        </div>
+                        <div>
+                          <span className="font-bold">Client Address:  </span>
+                        </div>
+                        
+                      </div>
+                      <div>
+                          <span className="font-bold">Client Email:  </span>
+                      </div>
+
+                      <div className="flex flex-row justify-between space-x-4 mt-6">
                         <div>
                           <span className="font-bold">Quote ID:  </span>
                           { item.quoteId }
                         </div>
                         <div>
-                          <span className="font-bold">Created At:  </span>
-                          { item.createdAt }
+                          <span className="font-bold">Created On:  </span>
+                          { convertISODate(item.createdAt) }
                         </div>
                       </div>
-                      <div className="flex flex-row space-x-4">
+
+                      <div className="flex flex-row space-x-4 mt-6">
                         <span className="font-bold mr-1">Status: </span>
                         <span className="bg-red-200 rounded-lg p-1 text-sm">{item.status.toUpperCase()}</span>
                       </div>
+
                       <div className="flex flex-row justify-between space-x-4">
                         <div className="flex flex-row">
                          
