@@ -432,8 +432,10 @@ const Page = () => {
 
         const data = await result.json()
 
+        const formData = {clientName, clientAddress, clientEmail, PONumber, salesContact, slsID, calibrationType, totalHours, totalPrice}
+
         if(data && filteredData){
-            PDFGenerator(filteredData)
+            PDFGenerator(filteredData, formData)
         }
        
         router.push('/jobs')

@@ -279,7 +279,7 @@ const Page = () => {
                   </div>}
                 </div>
                 <div className="flex flex-wrap justify-center text-center mt-4"> 
-                  <div className="m-5 text-lg font-extrabold hover:cursor-pointer bg-black text-white p-2 rounded text-center" onClick={() => addRow()}>Schedule Job</div>
+                  <div className="m-5 text-lg font-extrabold hover:cursor-pointer bg-red-400 text-white p-2 rounded text-center" onClick={() => addRow()}>Schedule Job</div>
                 </div>
               </div>
               
