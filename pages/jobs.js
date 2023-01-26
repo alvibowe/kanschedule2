@@ -18,7 +18,7 @@ import { useRouter } from 'next/router';
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
 
-
+import DatePicker from "react-datepicker";
 
 const locales = {
   "en-US": require("date-fns/locale/en-US"),
@@ -62,7 +62,8 @@ const Page = () => {
   const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" })
   const [allEvents, setAllEvents] = useState(jobs);
   
-
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
 
   useEffect(() => {
@@ -184,9 +185,9 @@ const Page = () => {
 
           <Modal open={open} onClose={onCloseModal} center>
             <div className="flex justify-center min-h-screen p-10">
-              <div className="flex flex-col p-32 text-center space-y-4">
+              <div className="flex flex-col  text-center ">
                 <div className="font-bold text-lg">Select one or more technicians below:</div>
-                <div>
+                <div className="mt-6">
                   <select className="bg-gray-200 border text-center border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" required>
                     <option value="" disabled selected>Select a Technician</option>
                     {technicians?.map((technician) => (
@@ -194,13 +195,24 @@ const Page = () => {
                     ))} 
                   </select>
                 </div>
-                {/* <div className="flex justify-center">
-                  <div className="mt-5 mx-1 text-base font-extrabold hover:cursor-pointer bg-black text-white p-2 rounded">Add a Technician</div>
-                </div> */}
+                <div className="mt-14">
+                  <div className="flex flex-wrap flex-col">
+                    <div className="mt-6">
+                      <p className="font-bold text-lg">Start Date: </p>
+                      <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+                    </div>
+                    <div className="mt-6">
+                      <p className="font-bold text-lg">End Date: </p>
+                      <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />  
+                    </div>
+                    
+                    
+                  </div>
+                </div>
+                <div className="flex flex-wrap justify-center text-center mt-4"> 
+                  <div className="m-5 text-lg font-extrabold hover:cursor-pointer bg-black text-white p-2 rounded text-center" onClick={() => addRow()}>Schedule Job</div>
+                </div>
 
-                {/* <div>
-                  <Calendar localizer={localizer} events={allEvents} startAccessor="start" endAccessor="end" style={{ height: 500, margin: "50px" }}/>
-                </div> */}
                 
                   
                 

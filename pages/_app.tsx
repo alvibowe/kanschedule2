@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { SessionProvider } from "next-auth/react";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import "@lib/styles/index.css";
+import "react-datepicker/dist/react-datepicker.css";
 import WithAuth from "@lib/auth/WithAuth";
 
 export const queryClient = new QueryClient();
