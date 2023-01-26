@@ -271,7 +271,7 @@ const Page = () => {
                       onChange={onDateChange}
                       startDate={startDate}
                       endDate={endDate}
-                      excludeDates={[addDays(new Date(), 1), addDays(new Date(), 5)]}
+                      excludeDates={excludedDates}
                       selectsRange
                       selectsDisabledDaysInRange
                       inline
