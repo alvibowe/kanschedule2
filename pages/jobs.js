@@ -19,7 +19,7 @@ import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
 
 import DatePicker from "react-datepicker";
-import { addDays } from 'date-fns';
+import { addDays, subDays } from 'date-fns';
 
 const locales = {
   "en-US": require("date-fns/locale/en-US"),
@@ -71,13 +71,15 @@ const Page = () => {
   const [technician, setTechnician] = useState()
   const [allCalendars, setAllCalendars] = useState([])
   const [techCalendar, setTechCalendar] = useState([])
+  const [excludedDates, setExcludedDates] = useState([])
 
   useEffect(() => {
     getCalendar()
   }, [])
 
   useEffect(() => {
-
+    setExcludedDates([])
+    addExcludedDates() 
   }, [technician])
 
   useEffect(() => {
@@ -104,6 +106,7 @@ const Page = () => {
     setSelectedTechnician(true)
     setTechnician(e.target.value);
     getTechnicianCalendar(e.target.value)
+    
   }
 
   const withSessionQuery = useQuery(
@@ -176,7 +179,7 @@ const Page = () => {
     const user = allCalendars.filter((calendar) => calendar.id === id)
     setTechCalendar(user[0]?.calendar || [])
 
-    if (user[0]?.calendar.length > 0 ) {
+    if (user[0]?.calendar?.length > 0 ) {
       setAllEvents(user[0].calendar.events)
     }
   }
@@ -192,6 +195,35 @@ const Page = () => {
   const convertISODate = (date) => { 
     const newDate = new Date(date)
     return newDate.toISOString().substring(0, 10)
+  }
+
+  const loopAndAddDatesToExcluded = (startDate, endDate) => {
+    const dates = []
+    let currentDate = startDate
+    const addDays = function (days) {
+      const date = new Date(this.valueOf())
+      date.setDate(date.getDate() + days)
+      return date
+    }
+    while (currentDate <= endDate) {
+      dates.push(currentDate)
+      currentDate = addDays.call(currentDate, 1)
+    }
+    return dates
+    
+  }
+
+  // add dates to excluded dates
+  const addExcludedDates = () => {
+    
+
+    if(techCalendar?.events?.length > 0) {
+      techCalendar.events.map((event) => {
+        const dates = loopAndAddDatesToExcluded(new Date(event.start), new Date(event.end))
+        setExcludedDates((excludedDates) => [...excludedDates, ...dates])
+      })
+      //setExcludedDates(dates)
+    }
   }
 
   if (status === "loading") {
@@ -214,7 +246,7 @@ const Page = () => {
     );
   }
 
-  console.log(allEvents)
+  console.log(excludedDates)
 
   return (
     <>
