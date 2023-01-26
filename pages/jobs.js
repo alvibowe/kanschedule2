@@ -228,11 +228,26 @@ const Page = () => {
   }
 
   const scheduleQuotation = async () => {
-    const data = await superagent.post("/api/schedule-quotation").send({
-      userId: technician.id,
-      quotationId: quotation.id
-    }).then((res) => res.body);
-    router.reload()
+
+    const result = await fetch('/api/schedule-quotation/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+          userId: technician,
+          quotationId: quotation.id
+      }),
+    })
+
+    const data = await result.json()
+
+
+    // const data = await superagent.post("/api/schedule-quotation").send({
+    //   userId: technician.id,
+    //   quotationId: quotation.id
+    // }).then((res) => res.body);
+    // router.reload()
   }
 
   const handleQuotationSubmit = (quotation) => {
@@ -261,7 +276,7 @@ const Page = () => {
   }
 
 
-  console.log(technician)
+  //console.log(technician)
   return (
     <>
       <AppLayout >
@@ -293,7 +308,7 @@ const Page = () => {
                   </div>}
                 </div>
                 {selectedTechnician && <div className="flex flex-wrap justify-center text-center mt-4"> 
-                  <div className="m-5 text-lg font-extrabold hover:cursor-pointer bg-red-600 text-white p-2 rounded text-center">Schedule Job</div>
+                  <div className="m-5 text-lg font-extrabold hover:cursor-pointer bg-red-600 text-white p-2 rounded text-center" onClick={scheduleQuotation}>Schedule Job</div>
                 </div>}
               </div>
               
