@@ -13,7 +13,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     if (req.method === "POST") {
-        const { userId, quotationId } = req.body;
+        const { userId, quotationId, status } = req.body;
 
         const quotation = await prisma.user.update({
             where: {
@@ -23,6 +23,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 quotations: {
                     connect: {
                         id: quotationId
+                    },
+                    update: {
+                        where: {
+                            id: quotationId
+                        },
+                        data: {
+                            status: status
+                        }
+                        
                     }
                 }
             }

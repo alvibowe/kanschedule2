@@ -236,18 +236,16 @@ const Page = () => {
       },
       body: JSON.stringify({
           userId: technician,
-          quotationId: quotation.id
+          quotationId: quotation.id,
+          status: "scheduled",
       }),
     })
 
-    const data = await result.json()
+    const quotationAddedToTechnician = await result.json()
+
+    if(quotationAddedToTechnician){router.reload()}
 
 
-    // const data = await superagent.post("/api/schedule-quotation").send({
-    //   userId: technician.id,
-    //   quotationId: quotation.id
-    // }).then((res) => res.body);
-    // router.reload()
   }
 
   const handleQuotationSubmit = (quotation) => {
@@ -375,7 +373,7 @@ const Page = () => {
 
                       <div className="flex flex-row space-x-4 pt-6">
                         <span className="font-bold mr-1">Status: </span>
-                        <span className="bg-red-200 rounded-lg p-1 text-sm">{item.status.toUpperCase()}</span>
+                        <span className="bg-red-400 rounded-lg p-1 text-sm font-bold text-white">{item.status.toUpperCase()}</span>
                       </div>
 
                       <div className="flex flex-row justify-end space-x-6">
