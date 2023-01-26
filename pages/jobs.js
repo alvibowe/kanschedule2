@@ -72,6 +72,7 @@ const Page = () => {
   const [allCalendars, setAllCalendars] = useState([])
   const [techCalendar, setTechCalendar] = useState([])
   const [excludedDates, setExcludedDates] = useState([])
+  const [quotation, setQuotation] = useState()
 
   useEffect(() => {
     getCalendar()
@@ -226,6 +227,19 @@ const Page = () => {
     }
   }
 
+  const scheduleQuotation = async () => {
+    const data = await superagent.post("/api/schedule-quotation").send({
+      userId: technician.id,
+      quotationId: quotation.id
+    }).then((res) => res.body);
+    router.reload()
+  }
+
+  const handleQuotationSubmit = (quotation) => {
+    onOpenModal()
+    setQuotation(quotation)
+  }
+
   if (status === "loading") {
     return (
       <div className="min-h-screen flex justify-center items-center">
@@ -246,8 +260,8 @@ const Page = () => {
     );
   }
 
-  console.log(excludedDates)
 
+  console.log(technician)
   return (
     <>
       <AppLayout >
@@ -255,7 +269,7 @@ const Page = () => {
           {technicians ? <Modal open={open} onClose={onCloseModal} center>
             <div className="flex justify-center p-10">
               <div className="flex flex-col text-center ">
-                <div className="font-bold text-lg">Select one or more technicians below:</div>
+                <div className="font-bold text-lg">Select a technician below:</div>
                 <div className="mt-6">
                   <select className="bg-gray-200 border text-center border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" onChange={handleSelect} required>
                     <option value="" disabled selected>Select a Technician</option>
@@ -278,9 +292,9 @@ const Page = () => {
                     />
                   </div>}
                 </div>
-                <div className="flex flex-wrap justify-center text-center mt-4"> 
-                  <div className="m-5 text-lg font-extrabold hover:cursor-pointer bg-red-400 text-white p-2 rounded text-center" onClick={() => addRow()}>Schedule Job</div>
-                </div>
+                {selectedTechnician && <div className="flex flex-wrap justify-center text-center mt-4"> 
+                  <div className="m-5 text-lg font-extrabold hover:cursor-pointer bg-red-600 text-white p-2 rounded text-center">Schedule Job</div>
+                </div>}
               </div>
               
               
@@ -305,7 +319,7 @@ const Page = () => {
                   <div key={index} className="bg-gray-100 rounded-lg drop-shadow-lg p-10 mb-5">
                     <div className="flex flex-wrap justify-between flex-col space-y-4">
                       
-                      <div className="flex flex-row justify-between space-x-4">
+                      <div className="flex flex-row justify-between space-x-4 ">
                         <div>
                           <span className="font-bold">Client Name:  </span>
                           { item.clientName}  
@@ -317,12 +331,12 @@ const Page = () => {
                         
                       </div>
                       <div>
-                          <span className="font-bold">Client Address:  </span>
+                          <span className="font-bold ">Client Address:  </span>
                           { item.clientAddress}
                       </div>
                       
 
-                      <div className="flex flex-row justify-between space-x-4 mt-6">
+                      <div className="flex flex-row justify-between space-x-4  pt-6">
                         <div>
                           <span className="font-bold">Quote ID:  </span>
                           { item.quoteId }
@@ -333,7 +347,7 @@ const Page = () => {
                         </div>
                       </div>
 
-                      <div className="flex flex-row justify-between space-x-4 mt-6">
+                      <div className="flex flex-row justify-between space-x-4  mt-6">
                         <div>
                           <span className="font-bold">Total Hours:  </span>
                           { item.totalHours}
@@ -344,19 +358,19 @@ const Page = () => {
                         </div>
                       </div>
 
-                      <div className="flex flex-row space-x-4 mt-6">
+                      <div className="flex flex-row space-x-4 pt-6">
                         <span className="font-bold mr-1">Status: </span>
                         <span className="bg-red-200 rounded-lg p-1 text-sm">{item.status.toUpperCase()}</span>
                       </div>
 
-                      <div className="flex flex-row justify-end space-x-4">
+                      <div className="flex flex-row justify-end space-x-6">
                         {/* <div className="flex flex-row">
                          
                           <DocumentIcon className="h-6 w-5 mt-2 text-red-700 hover:scale-100"/>
                           <div className="mt-1 p-1 text-red-700 hover:font-black hover:cursor-pointer">.pdf</div>
                         </div> */}
                         <div className="flex justify-end space-x-4">
-                          <div className="text-base font-extrabold hover:cursor-pointer bg-black text-white p-2 rounded" onClick={onOpenModal}>
+                          <div className="text-base font-extrabold hover:cursor-pointer bg-black text-white p-2 rounded" onClick={() => handleQuotationSubmit(item)}>
                             Schedule Quote
                           </div>
                           <TrashIcon className="h-5 w-5 mt-3 hover:text-red-400 hover:font-black hover:cursor-pointer" onClick={() => handleDelete(item.quoteId)}/>
