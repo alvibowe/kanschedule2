@@ -100,6 +100,7 @@ const Page = () => {
     const [salesContact, setSalesContact] = useState('')
     const [slsID, setSlsID] = useState('')
     const [calibrationType, setCalibrationType] = useState('')
+    const [quotationDueDate, setQuotationDueDate] = useState(format(new Date(), 'PPP'))
 
 
 
@@ -464,6 +465,8 @@ const Page = () => {
         
     }
 
+    
+
     const handleQuotationSubmission = (e) => {
         e.preventDefault()
         handleQuote()
@@ -535,7 +538,12 @@ const Page = () => {
                                     className="hidden"
                             /> 
                             
-                                 
+                            <div className="p-10 hover:cursor-pointer text-center bg-gray-100 rounded-lg mt-6">
+                                <p className="font-bold">Quotation Due On:</p>
+                                <div className="mt-2">
+                                    <input className="rounded-lg drop-shadow-lg" type="date" value={quotationDueDate} onChange={(e) => setQuotationDueDate(e.target.value)} required></input>
+                                </div>
+                            </div>     
                                                 
                             
                         </div> :
@@ -705,7 +713,7 @@ const Page = () => {
                                         ))
                                         :
                                         <tr className="">
-                                            <td colSpan="7" className="text-center text-xs pt-10">No Items Found. 
+                                            <td colSpan="8" className="text-center text-xs pt-10">No Items Found. 
                                                 <span className="italic text-xs">
                                                     {' '}(use the button below to add items)
                                                 </span>
