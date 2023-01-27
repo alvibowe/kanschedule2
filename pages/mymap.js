@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import AppLayout from "@lib/components/Layouts/AppLayout";
-// import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
+
 import Loader from "@lib/components/Loader";
 
 const styles = {
@@ -21,18 +21,6 @@ const Page = () => {
 
     useEffect(() => {
         mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN
-
-        // const directions = new MapboxDirections({
-        //     accessToken: mapboxgl.accessToken,
-        //     unit: 'metric',
-        //     profile: 'mapbox/driving',
-        //     controls: {
-        //         inputs: false,
-        //         instructions: false,
-        //         profileSwitcher: false
-        //     }
-
-        // })
 
 
         const initializeMap = ({ setMap, mapContainer }) => {
@@ -63,6 +51,7 @@ const Page = () => {
                 {/* <div className="m-10 flex justify-center min-h-screen">
                     <Loader />
                 </div>  */}
+
                 <div className="m-10 flex justify-center min-h-screen">
                     <div ref={mapContainer} style={styles} />
                 </div>
