@@ -382,12 +382,12 @@ const Page = () => {
                           <DocumentIcon className="h-6 w-5 mt-2 text-red-700 hover:scale-100"/>
                           <div className="mt-1 p-1 text-red-700 hover:font-black hover:cursor-pointer">.pdf</div>
                         </div> */}
-                        <div className="flex justify-end space-x-4">
+                        {item.status === 'pending' && <div className="flex justify-end space-x-4">
                           <div className="text-base font-extrabold hover:cursor-pointer bg-black text-white p-2 rounded" onClick={() => handleQuotationSubmit(item)}>
                             Schedule Quote
                           </div>
                           <TrashIcon className="h-5 w-5 mt-3 hover:text-red-400 hover:font-black hover:cursor-pointer" onClick={() => handleDelete(item.quoteId)}/>
-                        </div>
+                        </div>}
                       </div>
                     </div>
                   </div>
