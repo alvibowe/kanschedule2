@@ -668,33 +668,33 @@ const Page = () => {
                                             <tr key={index} className="pt-10">
                                                 <th scope="row" className="hidden md:block">{ index + 1 }</th>
                                                 <td className="px-6 py-2">
-                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full  shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={ item["Asset Type"]} type="text"/>
+                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full  shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item["Asset Type"]} placeholder={ item["Asset Type"]} type="text"/>
                                                     {/* { item["Asset Type"]} */}
                                                 </td>
                                                 <td className="px-6 py-2">
-                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full  shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={ formatCode(item["Calibration Product Code"])} type="text"/>
+                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full  shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={ formatCode(item["Calibration Product Code"])} placeholder={ formatCode(item["Calibration Product Code"])} type="text"/>
                                                     {/* { formatCode(item["Calibration Product Code"])} */}
                                                 </td>
                                                 <td className="px-6 py-2">
-                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={item.Quantity} type="number" onChange={(e) => handleQuantityChange(e.target.value, item['Asset #'])}/>
+                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item.Quantity || '0'} placeholder={item.Quantity} type="number" onChange={(e) => handleQuantityChange(e.target.value, item['Asset #'])}/>
                                                     {/* { item.Director } */}
                                                 </td>
                                                 <td className="px-6 py-2">
                                                     
-                                                        <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={item.Price || '0'} type="number" onChange={(e) => handlePriceChange(e.target.value, item['Asset #'])}/>
+                                                        <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item.Price || '0'} placeholder={item.Price || '0'} type="number" onChange={(e) => handlePriceChange(e.target.value, item['Asset #'])}/>
                                                   
                                                     
                                                     {/* { item.Director } */}
                                                 </td>
                                                 <td className="px-6 py-2">
                                                     
-                                                        <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={item.Hours || '0'} type="number" onChange={(e) => handleHoursChange(e.target.value, item['Asset #'])}/>
+                                                        <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item.Hours || '0'} placeholder={item.Hours || '0'} type="number" onChange={(e) => handleHoursChange(e.target.value, item['Asset #'])}/>
                                                   
                                                     
                                                     {/* { item.Director } */}
                                                 </td>
                                                 <td className="px-6 py-2">
-                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={item.Availability || '-'} type="text"/>
+                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item.Availability || '-'} placeholder={item.Availability || '-'} type="text"/>
                                                     {/* <span className="badge bg-warning text-dark">-</span> */}
                                                 </td>
                                                 <td className="px-6 py-2">
