@@ -39,10 +39,10 @@ const AppLayout = (props) => {
       title: "My Calendar",
       href: "/mycalendar",
     },
-    // {
-    //   title: "Client Redirect",
-    //   href: "/client-redirect",
-    // },
+    {
+      title: "My Map",
+      href: "/mymap",
+    },
     // {
     //   title: "Server Redirect",
     //   href: "/server-redirect",
@@ -172,6 +172,21 @@ const AppLayout = (props) => {
                         }
                       >
                         {"Quotes"}
+                      </a>
+                    </Link>}
+                    {(session?.user as any)?.role == "technician" && <Link key={"My Map"} href={"/mymap"}>
+                      <a
+                        className={classNames(
+                          "/mymap" === currentPath
+                            ? "border-b border-indigo-600 text-black"
+                            : " hover:border-b  hover:border-gray-200 text-gray-600 ",
+                          "group flex items-center px-2 py-2 text-sm leading-6 font-medium"
+                        )}
+                        aria-current={
+                          "/mymap" === currentPath ? "page" : undefined
+                        }
+                      >
+                        {"My Map"}
                       </a>
                     </Link>}
                     <Link key={"Jobs"} href={"/jobs"}>
