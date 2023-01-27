@@ -468,8 +468,10 @@ const Page = () => {
     
 
     const handleQuotationSubmission = (e) => {
+        setQuoteLoading(true)
         e.preventDefault()
         handleQuote()
+        setQuoteLoading(false)
     }
 
    
