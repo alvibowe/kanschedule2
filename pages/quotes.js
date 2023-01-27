@@ -455,7 +455,7 @@ const Page = () => {
 
         const data = await result.json()
 
-        const formData = {clientName, clientAddress, clientEmail, PONumber, salesContact, slsID, calibrationType, totalHours, totalPrice}
+        const formData = {clientName, clientAddress, clientEmail, PONumber, salesContact, slsID, calibrationType, totalHours, totalPrice, quotationDueDate}
 
         if(data && filteredData){
             PDFGenerator(filteredData, formData)
