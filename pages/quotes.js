@@ -658,7 +658,7 @@ const Page = () => {
                                                 </td>
                                                 <td className="px-6 py-2">
                                                     
-                                                        <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={item.Price || '0'} type="number" readOnly />
+                                                        <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder={item.Price || '0'} type="number"/>
                                                   
                                                     
                                                     {/* { item.Director } */}
@@ -695,7 +695,7 @@ const Page = () => {
                 
             </div>
             </div>
-             : 
+            : 
                 <div className="min-h-screen flex justify-center items-center">
                     <Loader/>
                 </div>
