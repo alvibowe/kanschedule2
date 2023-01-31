@@ -188,7 +188,7 @@ const Page = () => {
     }, [items])
 
     useEffect(() => {
-        if(filteredData.length > 0){
+        if(filteredData?.length > 0){
             addPrices()
             addHours()
         }
@@ -413,7 +413,6 @@ const Page = () => {
 
     const addRow = () => {
         setFilteredData((prevState) => {
-            console.log(prevState)
             if(prevState?.length){
                 const newState = [...prevState, {
                     'Asset Type': '',
@@ -457,7 +456,7 @@ const Page = () => {
                 return item['Asset Type'].toString().includes(keyword) || item['Calibration Product Code'].toString().includes(keyword)
             })
     
-            setFilteredData(newData)
+            setFilteredData()
         }
        
         
@@ -498,22 +497,35 @@ const Page = () => {
 
     const handleProductCodeChange = (code, id) => {
         const newData = filteredData?.map(item => {
-            if(item['Asset #'] === id){
+
+            const index = filteredData.indexOf(item)
+
+
+            if(index === id){
                 item['Calibration Product Code'] = code
             }
             return item
         })
 
+       
         setFilteredData(newData)
 
         calculateHoursPrices(filteredData)
     }
 
     const handleAssetTypeChange = (type, id) => {
+
+        
         const newData = filteredData?.map(item => {
-            if(item['Asset #'] === id){
+            // find index of item
+            const index = filteredData.indexOf(item)
+
+           
+
+            if(index === id){
                 item['Asset Type'] = type
             }
+
             return item
         })
 
@@ -526,8 +538,6 @@ const Page = () => {
     // console.log(filteredData)
     // console.log(clientName, clientEmail, PONumber, salesContact, slsID, calibrationType)
     
-
-    console.log(productNameSuggestions)
    
     return (
     <>
@@ -717,7 +727,7 @@ const Page = () => {
                         <table className="min-w-full mt-10">
                             <thead className="rounded-lg mb-4">
                                 <tr className="rounded-lg">
-                                    <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:block">Id</th>
+                                    {/* <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:block min-w-max">Id</th> */}
                                     <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
                                     <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unit Code</th>
                                     <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">QTY</th>
@@ -733,17 +743,17 @@ const Page = () => {
                                         ?
                                         filteredData?.map((item, index) => (
                                             <tr key={index} className="pt-10">
-                                                <th scope="row" className="hidden md:block">{ index + 1 }</th>
+                                                {/* <th scope="row" className="hidden md:block">{ index + 1 }</th> */}
                                                 <td className="px-6 py-2">
                                                     <Hint options={productNameSuggestions} allowTabFill>
-                                                        <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full  shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item["Asset Type"]} placeholder={ item["Asset Type"]} type="text" onChange={(e) => handleAssetTypeChange(e.target.value, item['Asset #'])} required/>
+                                                        <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full min-w-max  shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item["Asset Type"]} placeholder={ item["Asset Type"]} type="text" onChange={(e) => handleAssetTypeChange(e.target.value, index)} required/>
                                                     </Hint>
                                                     {/* { item["Asset Type"]} */}
 
                                                 </td>
                                                 <td className="px-6 py-2">
                                                     <Hint options={productCodeSuggestions} allowTabFill>
-                                                        <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full  shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={formatCode(item["Calibration Product Code"])} placeholder={formatCode(item["Calibration Product Code"])} type="text" onChange={(e) => handleProductCodeChange(e.target.value, item['Asset #'])} required/>
+                                                        <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full min-w-max  shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={formatCode(item["Calibration Product Code"])} placeholder={formatCode(item["Calibration Product Code"])} type="text" onChange={(e) => handleProductCodeChange(e.target.value, index)} required/>
                                                     </Hint>
                                                     {/* { formatCode(item["Calibration Product Code"])} */}
                                                 </td>
