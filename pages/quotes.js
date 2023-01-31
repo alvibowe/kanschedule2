@@ -16,6 +16,8 @@ import PDFGenerator from "@lib/utils/PDFGenerator"
 
 import { GoogleMap, useJsApiLoader, useLoadScript, useGoogleMap } from '@react-google-maps/api';
 
+import { Hint } from 'react-autocomplete-hint';
+
 import usePlacesAutocomplete from "use-places-autocomplete";
 import {
 	Combobox,
@@ -91,6 +93,10 @@ const Page = () => {
     const [selected, setSelected] = useState(null)
     const { status, data: session } = useSession({required: false});
 
+    // suggestions
+    const [productCodeSuggestions, setProductCodeSuggestions] = useState([])
+    const [productNameSuggestions, setProductNameSuggestions] = useState([])
+
 
     // form states
     const [clientName, setClientName] = useState('')
@@ -121,6 +127,17 @@ const Page = () => {
         const ws = wb.Sheets[wsname]
         const dataParse = utils.sheet_to_json(ws)
         setReference(dataParse)
+
+        // filter product code suggestions and push to state
+        const productCodes = dataParse.map(item => item["Product Code"])
+        const filteredProductCodes = productCodes.filter(item => item !== undefined)
+        setProductCodeSuggestions(filteredProductCodes)
+
+
+        // filter product name suggestions and push to state
+        const productNames = dataParse.map(item => item["Product Name"]?.trim())
+        const filteredProductNames = productNames.filter(item => item !== undefined)
+        setProductNameSuggestions(filteredProductNames)
     }
 
     useEffect(() => {
@@ -361,8 +378,13 @@ const Page = () => {
 
     const formatCode = (text) => {
         if(text){
-            const result = /([^-]*)-/.exec(text)[1]
-            return result
+            if(productCodeSuggestions?.includes(text) || !text.includes('-')){
+                const result = text
+                return result
+            } else {
+                const result = /([^-]*)-/.exec(text)[1] 
+                return result 
+            }
         }
         return result
     }
@@ -474,12 +496,38 @@ const Page = () => {
         setQuoteLoading(false)
     }
 
+    const handleProductCodeChange = (code, id) => {
+        const newData = filteredData?.map(item => {
+            if(item['Asset #'] === id){
+                item['Calibration Product Code'] = code
+            }
+            return item
+        })
+
+        setFilteredData(newData)
+
+        calculateHoursPrices(filteredData)
+    }
+
+    const handleAssetTypeChange = (type, id) => {
+        const newData = filteredData?.map(item => {
+            if(item['Asset #'] === id){
+                item['Asset Type'] = type
+            }
+            return item
+        })
+
+        setFilteredData(newData)
+    }
+
    
 
     // console.log(reference.find(lookup => lookup['Product Code'] === 'CAL TCAL-P'))
     // console.log(filteredData)
     // console.log(clientName, clientEmail, PONumber, salesContact, slsID, calibrationType)
-    // console.log(clientAddress)
+    
+
+    console.log(productNameSuggestions)
    
     return (
     <>
@@ -687,15 +735,22 @@ const Page = () => {
                                             <tr key={index} className="pt-10">
                                                 <th scope="row" className="hidden md:block">{ index + 1 }</th>
                                                 <td className="px-6 py-2">
-                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full  shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item["Asset Type"]} placeholder={ item["Asset Type"]} type="text" required/>
+                                                    <Hint options={productNameSuggestions} allowTabFill>
+                                                        <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full  shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item["Asset Type"]} placeholder={ item["Asset Type"]} type="text" onChange={(e) => handleAssetTypeChange(e.target.value, item['Asset #'])} required/>
+                                                    </Hint>
                                                     {/* { item["Asset Type"]} */}
+
                                                 </td>
                                                 <td className="px-6 py-2">
-                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full  shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={ formatCode(item["Calibration Product Code"])} placeholder={ formatCode(item["Calibration Product Code"])} type="text" required/>
+                                                    <Hint options={productCodeSuggestions} allowTabFill>
+                                                        <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full  shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={formatCode(item["Calibration Product Code"])} placeholder={formatCode(item["Calibration Product Code"])} type="text" onChange={(e) => handleProductCodeChange(e.target.value, item['Asset #'])} required/>
+                                                    </Hint>
                                                     {/* { formatCode(item["Calibration Product Code"])} */}
                                                 </td>
                                                 <td className="px-6 py-2">
-                                                    <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item.Quantity || '0'} placeholder={item.Quantity} type="number" onChange={(e) => handleQuantityChange(e.target.value, item['Asset #'])} required/>
+                                                    
+                                                        <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item.Quantity || '0'} placeholder={item.Quantity} type="number" onChange={(e) => handleQuantityChange(e.target.value, item['Asset #'])} required/>
+                                                    
                                                     {/* { item.Director } */}
                                                 </td>
                                                 <td className="px-6 py-2">

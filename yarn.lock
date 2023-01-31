@@ -7977,6 +7977,11 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-autocomplete-hint@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-autocomplete-hint/-/react-autocomplete-hint-2.0.0.tgz#4a08be86c0050cbaa1c6a5b38bc3e0e688a8eae8"
+  integrity sha512-cwj+h503xosFvd7y/tVHAo2bMj033v9WzVKbsPKc/SfoNsLD75/5nhBoIxbZOCP2KiPhgHHalb77Z/4pu6uwTQ==
+
 react-big-calendar@^1.5.2:
   version "1.5.2"
   resolved "https://registry.npmjs.org/react-big-calendar/-/react-big-calendar-1.5.2.tgz"
