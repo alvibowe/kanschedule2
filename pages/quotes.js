@@ -536,8 +536,6 @@ const Page = () => {
 
     // console.log(reference.find(lookup => lookup['Product Code'] === 'CAL TCAL-P'))
     // console.log(filteredData)
-    // console.log(clientName, clientEmail, PONumber, salesContact, slsID, calibrationType)
-    
    
     return (
     <>
