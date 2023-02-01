@@ -1,6 +1,6 @@
 import AppLayout from "../lib/components/Layouts/AppLayout";
 import { useSession } from "next-auth/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
@@ -28,36 +28,41 @@ const localizer = dateFnsLocalizer({
 
 
 // temporary events
-const events = [
-  {
-      title: "Quote ID: Q-KZ3GR, Wichita KS",
-      allDay: true,
-      start: new Date(2022, 12, 19),
-      end: new Date(2022, 12, 21),
-  },
-  {
-      title: "Quote ID: Q-KK3BR, Odessa TX",
-      start: new Date(2023, 1, 7),
-      end: new Date(2023, 1, 10),
-  },
-  {
-      title: "Quote ID: Q-KK3BR, Oklahoma City",
-      start: new Date(2023, 3, 20),
-      end: new Date(2023, 3, 23),
-  },
-];
+// const events = [
+//   {
+//       title: "Quote ID: Q-KZ3GR, Wichita KS",
+//       allDay: true,
+//       start: new Date(2022, 12, 19),
+//       end: new Date(2022, 12, 21),
+//   },
+//   {
+//       title: "Quote ID: Q-KK3BR, Odessa TX",
+//       start: new Date(2023, 1, 7),
+//       end: new Date(2023, 1, 10),
+//   },
+//   {
+//       title: "Quote ID: Q-KK3BR, Oklahoma City",
+//       start: new Date(2023, 3, 20),
+//       end: new Date(2023, 3, 23),
+//   },
+// ];
 
 const Page = () => {
   const { data: session } = useSession();
   const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" })
-  const [allEvents, setAllEvents] = useState(events);
-  const [testallEvents, setTestsAllEvents] = useState([]);
+  const [allEvents, setAllEvents] = useState([]);
+  // const [testallEvents, setTestsAllEvents] = useState([])
+
+
+  useEffect(() => {
+    getCalendar();
+  }, []);
 
   
 
   const getCalendar = async() => {
     const calendar =  await superagent.get("/api/get-calendar").then((res) => res.body);
-    setTestsAllEvents(calendar);
+    setAllEvents(calendar);
   }
 
   const  handleAddEvent = () => {
@@ -83,10 +88,10 @@ const Page = () => {
     
     
     setAllEvents([...allEvents, newEvent]);
-}
+  }
 
 
-  console.log(testallEvents);
+  console.log(allEvents);
 
   
 

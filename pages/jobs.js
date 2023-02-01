@@ -248,6 +248,28 @@ const Page = () => {
 
   }
 
+  // create new event
+  const createEvent = async () => {
+    const result = await fetch('/api/create-event/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+          userId: technician,
+          title: quotation.clientName + ' ' + new Date().getFullYear() + ' ' + quotation.id,
+          start: startDate,
+          end: endDate,
+          allDay: false,
+          calendarId: techCalendar.id
+      }),
+    })
+
+    const eventCreated = await result.json()
+
+    if(eventCreated){scheduleQuotation()}
+  }
+
   const handleQuotationSubmit = (quotation) => {
     onOpenModal()
     setQuotation(quotation)
@@ -274,7 +296,8 @@ const Page = () => {
   }
 
 
-  //console.log(technician)
+  // console.log("technician calendar", techCalendar)
+  // console.log("quotation", quotation)
   return (
     <>
       <AppLayout >
@@ -306,7 +329,7 @@ const Page = () => {
                   </div>}
                 </div>
                 {selectedTechnician && <div className="flex flex-wrap justify-center text-center mt-4"> 
-                  <div className="m-5 text-lg font-extrabold hover:cursor-pointer bg-red-600 text-white p-2 rounded text-center" onClick={scheduleQuotation}>Schedule Job</div>
+                  <div className="m-5 text-lg font-extrabold hover:cursor-pointer bg-red-600 text-white p-2 rounded text-center" onClick={createEvent}>Schedule Job</div>
                 </div>}
               </div>
               

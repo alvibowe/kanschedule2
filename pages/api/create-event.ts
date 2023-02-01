@@ -17,15 +17,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     if (req.method === "POST") {
-        const { status, eventData } = req.body;
+        const { calendarId, title, start, end, allDay } = req.body;
 
         const event = await prisma.event.create({
             data: {
-                title: eventData.title,     
-                start: eventData.start,
-                end: eventData.end,
-                allDay: eventData.allDay,     
-                calendar: eventData.calendar
+                title: title,     
+                start: start,
+                end: end,
+                allDay: allDay,     
+                calendar: {
+                    connect: {
+                       id: calendarId 
+                    }
+                }
+                
                 //calendar  
                
             }
