@@ -1,5 +1,5 @@
 import AppLayout from "../lib/components/Layouts/AppLayout";
-import { useSession } from "next-auth/react";
+import { useSession, getSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
@@ -13,6 +13,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { useQuery } from "react-query";
 import superagent from "superagent";
+import { get, set } from "lodash";
 
 
 const locales = {
@@ -51,19 +52,59 @@ const Page = () => {
   const { data: session } = useSession();
   const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" })
   const [allEvents, setAllEvents] = useState([]);
+  const [allCalendars, setAllCalendars] = useState([]);
+  const [techCalendar, setTechCalendar] = useState([]);
+  const [technician, setTechnician] = useState([])
   // const [testallEvents, setTestsAllEvents] = useState([])
 
 
   useEffect(() => {
-    getCalendar();
-  }, []);
+    if(session) getUser();
+    
+    
+    
+  }, [session]);
+
+  // useEffect(() => {
+  //   if(technician){
+  //     getCalendar();
+  //     getTechnicianCalendar();
+  //   }
+    
+  // }, [technician])
 
   
 
-  const getCalendar = async() => {
-    const calendar =  await superagent.get("/api/get-calendar").then((res) => res.body);
-    setAllEvents(calendar);
+  // get user
+
+  const getUser = async() => {
+    
+
+    const result = await fetch('/api/get-user/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+          email: session.user.email,
+          
+      }),
+    })
+
+    const data = await result.json()
+
+    
+    setTechnician(data)
+    setAllEvents(data.calendar.events)
   }
+
+  // set All Events
+ 
+
+  
+  
+
+ 
 
   const  handleAddEvent = () => {
         
@@ -91,10 +132,7 @@ const Page = () => {
   }
 
 
-  console.log(allEvents);
-
   
-
   return (
     <>
         <AppLayout>

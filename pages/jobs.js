@@ -257,7 +257,7 @@ const Page = () => {
       },
       body: JSON.stringify({
           userId: technician,
-          title: quotation.clientName + ' ' + new Date().getFullYear() + ' ' + quotation.id,
+          title: quotation.clientName + ' ' + new Date().getFullYear() + ' ' + quotation.quoteId,
           start: startDate,
           end: endDate,
           allDay: false,
@@ -297,7 +297,7 @@ const Page = () => {
 
 
   // console.log("technician calendar", techCalendar)
-  // console.log("quotation", quotation)
+  console.log("quotation", quotation)
   return (
     <>
       <AppLayout >
