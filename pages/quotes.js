@@ -18,7 +18,7 @@ import { GoogleMap, useJsApiLoader, useLoadScript, useGoogleMap } from '@react-g
 
 import { Hint } from 'react-autocomplete-hint';
 
-import usePlacesAutocomplete from "use-places-autocomplete";
+import usePlacesAutocomplete, { getGeocode , getLatLng } from "use-places-autocomplete";
 import {
 	Combobox,
 	ComboboxInput,
@@ -30,7 +30,10 @@ import {
 import "@reach/combobox/styles.css";
 
 
-const PlacesAutoComplete = ({childToParentAddress}) => {
+const PlacesAutoComplete = ({childToParentAddress, childToParentLatLng}) => {
+
+    const [latLng, setLatLng] = useState({});
+
     const {
         ready,
         value,
@@ -48,13 +51,24 @@ const PlacesAutoComplete = ({childToParentAddress}) => {
         childToParentAddress(value)
     }, [value]);
 
+    useEffect(() => {
+        childToParentLatLng(latLng)
+    }, [latLng])
+
     const handleInput = (e) => {
         setValue(e.target.value);
-        
     };
     
     const handleSelect = (val) => {
         setValue(val, false);
+        clearSuggestions();
+
+        // Get latitude and longitude via utility functions
+        getGeocode({ address: val }).then((results) => {
+            const { lat, lng } = getLatLng(results[0]);
+            setLatLng({ lat, lng });
+            // console.log("📍 Coordinates: ", latLng);
+        });
     };
 
    
@@ -101,6 +115,7 @@ const Page = () => {
     // form states
     const [clientName, setClientName] = useState('')
     const [clientAddress, setClientAddress] = useState('')
+    const [clientLatLng, setClientLatLng] = useState({})
     const [clientEmail, setClientEmail] = useState('')
     const [PONumber, setPONumber] = useState('')
     const [salesContact, setSalesContact] = useState('')
@@ -212,8 +227,14 @@ const Page = () => {
         }
     }, [toDate, fromDate])
 
+    
+
     const childToParentAddress = (childAddress) => {
         setClientAddress(childAddress)
+    }
+
+    const childToParentLatLng = (childLatLng) => {
+        setClientLatLng(childLatLng)
     }
 
    
@@ -470,7 +491,7 @@ const Page = () => {
             },
             body: JSON.stringify({
                 status: 'pending',
-                formData: {clientName, clientAddress, clientEmail, PONumber, salesContact, slsID, calibrationType, totalHours, totalPrice}
+                formData: {clientName, clientAddress, clientLatLng, clientEmail, PONumber, salesContact, slsID, calibrationType, totalHours, totalPrice}
             }),
         })
 
@@ -535,7 +556,7 @@ const Page = () => {
    
 
     // console.log(reference.find(lookup => lookup['Product Code'] === 'CAL TCAL-P'))
-    // console.log(filteredData)
+    
    
     return (
     <>
@@ -638,7 +659,7 @@ const Page = () => {
                                 <input className="rounded-lg drop-shadow-lg placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-black focus:ring-1 sm:text-sm text-center" placeholder="Client Name" type="text" name="search" onChange={(e) => setClientName(e.target.value)} required/>
                             </div>
                             <div className="mt-2">
-                                {isLoaded ? <PlacesAutoComplete childToParentAddress={childToParentAddress} /> : null} 
+                                {isLoaded ? <PlacesAutoComplete childToParentAddress={childToParentAddress} childToParentLatLng={childToParentLatLng} /> : null} 
                             </div>
                             <p className="font-bold mt-2">Client Email:</p>
                             <div className="mt-2">

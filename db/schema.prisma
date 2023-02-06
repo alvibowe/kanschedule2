@@ -76,6 +76,8 @@ model Quotation {
     status          String   @default("Quoted(pending)")
     clientName      String?
     clientAddress   String?
+    clientLat       Float?
+    clientLng       Float?
     clientEmail     String?
     PONumber        String?
     salesContact    String?

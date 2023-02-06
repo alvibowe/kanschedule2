@@ -37,6 +37,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 quoteId: 'Q-' + quoteNumber,
                 clientName: formData.clientName,
                 clientAddress:  formData.clientAddress,
+                clientLat: formData.clientLatLng.lat,
+                clientLng: formData.clientLatLng.lng,
                 clientEmail: formData.clientEmail,
                 PONumber: formData.PONumber,
                 salesContact: formData.salesContact,
