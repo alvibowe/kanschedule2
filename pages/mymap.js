@@ -4,6 +4,8 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import AppLayout from "@lib/components/Layouts/AppLayout";
 
+import { useSession, getSession } from "next-auth/react";
+
 import Loader from "@lib/components/Loader";
 
 import * as turf from '@turf/turf'
@@ -27,6 +29,9 @@ const van = {
 const Page = () => {
 
     const [myMap, setMyMap] = useState();
+    const [technician, setTechnician] = useState([])
+
+    const [allEvents, setAllEvents] = useState([]);
     
     const mapContainer = useRef(null);
     const [loading, setLoading] = useState(true);
@@ -38,6 +43,8 @@ const Page = () => {
     const [vanLocation, setVanLocation] = useState([-83.093, 42.376]);
     const [startingLocation, setStartingLocation] =  useState([-83.083, 42.363])
 
+    const { data: session } = useSession();
+
     // waypoints
     const waypoints = turf.featureCollection([])
 
@@ -45,26 +52,55 @@ const Page = () => {
 
 
     const addWaypoints = async(event) => {
-      // When the map is clicked, add a new drop off point
-      // and update the `dropoffs-symbol` layer
-      await newWaypoint(event.lngLat);
-      updateWaypoints(waypoints);
-      }
+        // When the map is clicked, add a new drop off point
+        // and update the `dropoffs-symbol` layer
+        await newWaypoint(event.lngLat);
+        updateWaypoints(waypoints);
+    }
   
-      const newWaypoint = async(coordinates) => {
-          // Store the clicked point as a new GeoJSON feature with
-          // two properties: `orderTime` and `key`
-          const pt = turf.point([coordinates.lng, coordinates.lat], {
-            orderTime: Date.now(),
-            key: Math.random()
-          });
-          waypoints.features.push(pt);
-      }
+    const newWaypoint = async(coordinates) => {
+        // Store the clicked point as a new GeoJSON feature with
+        // two properties: `orderTime` and `key`
+        const pt = turf.point([coordinates.lng, coordinates.lat], {
+          orderTime: Date.now(),
+          key: Math.random()
+        });
+        waypoints.features.push(pt);
+    }
         
-      const updateWaypoints = (geojson) => {
-          setWaypointUpdates(geojson)
+    const updateWaypoints = (geojson) => {
+        setWaypointUpdates(geojson)
           
-      }
+    }
+
+    const getUser = async() => {
+    
+
+      const result = await fetch('/api/get-user/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email: session.user.email,
+            
+        }),
+      })
+  
+      const data = await result.json()
+  
+      
+      setTechnician(data)
+      setAllEvents(data?.calendar?.events)
+
+    }
+
+    useEffect(() => {
+      if(session) getUser();
+      
+      
+      
+    }, [session]);
 
     
     useEffect(() => {
@@ -177,7 +213,7 @@ const Page = () => {
 
     
 
-    // console.log(waypointUpdates)
+    console.log(allEvents)
     
     
     return (
