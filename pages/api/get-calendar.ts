@@ -7,7 +7,7 @@ import { Prisma } from "@prisma/client";
 
 // get individual calendar data
 
-const handler = async (req, res) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const session = await getSession({ req });
     
