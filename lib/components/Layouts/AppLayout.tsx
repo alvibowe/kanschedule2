@@ -159,7 +159,7 @@ const AppLayout = (props) => {
                       </a>
                     </Link>}
                     
-                    {(session?.user as any)?.role != "technician" && <Link key={"Quotes"} href={"/quotes"}>
+                    {(session?.user as any)?.role !== "technician" && <Link key={"Quotes"} href={"/quotes"}>
                       <a
                         className={classNames(
                           "/quotes" === currentPath
@@ -174,7 +174,7 @@ const AppLayout = (props) => {
                         {"Quotes"}
                       </a>
                     </Link>}
-                    {(session?.user as any)?.role == "technician" && <Link key={"My Map"} href={"/mymap"}>
+                    {(session?.user as any)?.role === "technician" && <Link key={"My Map"} href={"/mymap"}>
                       <a
                         className={classNames(
                           "/mymap" === currentPath
@@ -189,7 +189,7 @@ const AppLayout = (props) => {
                         {"My Map"}
                       </a>
                     </Link>}
-                    <Link key={"Jobs"} href={"/jobs"}>
+                    {(session?.user as any)?.role !== "technician" && <Link key={"Jobs"} href={"/jobs"}>
                       <a
                         className={classNames(
                           "/jobs" === currentPath
@@ -203,7 +203,7 @@ const AppLayout = (props) => {
                       >
                         {"Jobs"}
                       </a>
-                    </Link>
+                    </Link>}
                     {(session?.user as any)?.role === "system manager" ? <Link key={"Runs"} href={"/runs"}>
                       <a
                         className={classNames(
