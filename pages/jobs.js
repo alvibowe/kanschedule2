@@ -298,7 +298,7 @@ const Page = () => {
   }
 
 
-  // console.log("technician calendar", techCalendar)
+  console.log("technician calendar", techCalendar)
   // console.log("quotation", quotation)
   return (
     <>
