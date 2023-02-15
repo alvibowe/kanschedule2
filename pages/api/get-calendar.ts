@@ -1,9 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import isEmpty from "lodash/isEmpty";
-import nc from "next-connect";
+
 import prisma from "@db";
 import { getSession } from "@lib/auth/session";
-import { Prisma } from "@prisma/client";
+
 
 // get individual calendar data
 

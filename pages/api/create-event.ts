@@ -17,7 +17,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     if (req.method === "POST") {
-        const { calendarId, title, start, end, allDay, lat, lng } = req.body;
+        const { calendarId, title, start, end, allDay, lat, lng, locationAddress } = req.body;
 
         const event = await prisma.event.create({
             data: {
@@ -26,7 +26,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 end: end,
                 allDay: allDay,
                 lat: lat,
-                lng: lng,     
+                lng: lng,
+                locationAddress: locationAddress,     
                 calendar: {
                     connect: {
                        id: calendarId 

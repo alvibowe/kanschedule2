@@ -19,6 +19,7 @@
     "@tailwindcss/forms": "^0.2.1",
     "@turf/turf": "^6.5.0",
     "bcryptjs": "^2.4.3",
+    "chakra-ui-simple-autocomplete": "^2.3.0",
     "classnames": "^2.3.1",
     "date-fns": "^2.29.3",
     "flowbite": "^1.5.3",

@@ -55,9 +55,16 @@ const Page = () => {
     const nothing = turf.featureCollection([]);
 
 
+    const [optimizationPayload, setOptimizationPayload] = useState({
+      "version": 1,
+      "vehicles": [],
+      "services": []
+    })
 
 
-    const getUser = async() => {
+
+
+    const getUser = async () => {
     
 
       const result = await fetch('/api/get-user/', {
@@ -254,7 +261,7 @@ const Page = () => {
 
     
 
-    
+    console.log(technician)
     
     return (
         <>

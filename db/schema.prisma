@@ -108,17 +108,18 @@ model Run {
 }
 
 model Event {
-    id         String   @id @default(cuid())
-    title      String
-    start      DateTime
-    end        DateTime
-    allDay     Boolean  @default(false)
-    color      String?
-    textColor  String?
-    calendar   Calendar @relation(fields: [calendarId], references: [id])
-    calendarId String
-    lat        Float?
-    lng        Float?
+    id              String   @id @default(cuid())
+    title           String
+    start           DateTime
+    end             DateTime
+    allDay          Boolean  @default(false)
+    color           String?
+    textColor       String?
+    calendar        Calendar @relation(fields: [calendarId], references: [id])
+    calendarId      String
+    locationAddress String?
+    lat             Float?
+    lng             Float?
 }
 
 model Calendar {

@@ -262,6 +262,7 @@ const Page = () => {
           end: endDate,
           allDay: false,
           calendarId: techCalendar.id,
+          locationAddress: quotation.clientAddress,
           lat: quotation.clientLat,
           lng: quotation.clientLng,
       }),
@@ -298,8 +299,8 @@ const Page = () => {
   }
 
 
-  console.log("technician calendar", techCalendar)
-  // console.log("quotation", quotation)
+  // console.log("technician calendar", techCalendar)
+  console.log("quotation", quotation)
   return (
     <>
       <AppLayout >
