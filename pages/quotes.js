@@ -775,6 +775,10 @@ const Page = () => {
                                                         disablePortal
                                                         id="product-name"
                                                         options={productNameSuggestions}
+                                                        value={item["Asset Type"]}
+                                                        inputValue={item["Asset Type"]}
+                                                        onChange={(e, newValue) => handleAssetTypeChange(newValue, index)}
+                                                        onInputChange={(e, newInputValue) => handleAssetTypeChange(newInputValue, index)}
                                                         sx={{ width: 200 }}
                                                         renderInput={(params) => <TextField {...params} label="Product Name" />}
                                                     />}
