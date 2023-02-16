@@ -520,7 +520,7 @@ const Page = () => {
     }
 
     const handleProductCodeChange = (code, id) => {
-        console.log("product code change", code, id)
+        // console.log("product code change", code, id)
         const newData = filteredData?.map(item => {
 
             const index = filteredData.indexOf(item)
@@ -560,7 +560,7 @@ const Page = () => {
    
 
     // console.log(reference.find(lookup => lookup['Product Code'] === 'CAL TCAL-P'))
-    console.log(filteredData)
+    //console.log(filteredData)
    
     return (
     <>
