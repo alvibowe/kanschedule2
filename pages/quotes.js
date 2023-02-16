@@ -29,6 +29,9 @@ import {
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+
 
 const PlacesAutoComplete = ({childToParentAddress, childToParentLatLng}) => {
 
@@ -517,6 +520,7 @@ const Page = () => {
     }
 
     const handleProductCodeChange = (code, id) => {
+        console.log("product code change", code, id)
         const newData = filteredData?.map(item => {
 
             const index = filteredData.indexOf(item)
@@ -556,7 +560,7 @@ const Page = () => {
    
 
     // console.log(reference.find(lookup => lookup['Product Code'] === 'CAL TCAL-P'))
-    
+    console.log(filteredData)
    
     return (
     <>
@@ -748,7 +752,7 @@ const Page = () => {
                                 <tr className="rounded-lg">
                                     {/* <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:block min-w-max">Id</th> */}
                                     <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
-                                    <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unit Code</th>
+                                    <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Code</th>
                                     <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">QTY</th>
                                     <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price($)</th>
                                     <th scope="col" className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time Needed(Hrs)</th>
@@ -764,16 +768,34 @@ const Page = () => {
                                             <tr key={index} className="pt-10">
                                                 {/* <th scope="row" className="hidden md:block">{ index + 1 }</th> */}
                                                 <td className="px-6 py-2">
-                                                    <Hint options={productNameSuggestions} allowTabFill>
+                                                    {/* <Hint options={productNameSuggestions} allowTabFill>
                                                         <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full min-w-max  shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item["Asset Type"]} placeholder={ item["Asset Type"]} type="text" onChange={(e) => handleAssetTypeChange(e.target.value, index)} required/>
-                                                    </Hint>
+                                                    </Hint> */}
+                                                    {productNameSuggestions && <Autocomplete
+                                                        disablePortal
+                                                        id="product-name"
+                                                        options={productNameSuggestions}
+                                                        sx={{ width: 200 }}
+                                                        renderInput={(params) => <TextField {...params} label="Product Name" />}
+                                                    />}
                                                     {/* { item["Asset Type"]} */}
 
                                                 </td>
                                                 <td className="px-6 py-2">
-                                                    <Hint options={productCodeSuggestions} allowTabFill>
+                                                    {/* <Hint options={productCodeSuggestions} allowTabFill>
                                                         <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full min-w-max  shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={formatCode(item["Calibration Product Code"])} placeholder={formatCode(item["Calibration Product Code"])} type="text" onChange={(e) => handleProductCodeChange(e.target.value, index)} required/>
-                                                    </Hint>
+                                                    </Hint> */}
+                                                    {productCodeSuggestions && <Autocomplete
+                                                        disablePortal
+                                                        id="product-code"
+                                                        options={productCodeSuggestions}
+                                                        value={formatCode(item["Calibration Product Code"])}
+                                                        inputValue={formatCode(item["Calibration Product Code"])}
+                                                        onInputChange={(event, newInputValue) => handleProductCodeChange(newInputValue, index)}
+                                                        onChange={(event, newValue) => handleProductCodeChange(newValue, index)}
+                                                        sx={{ width: 200 }}
+                                                        renderInput={(params) => <TextField {...params} label="Product Code" />}
+                                                    />}
                                                     {/* { formatCode(item["Calibration Product Code"])} */}
                                                 </td>
                                                 <td className="px-6 py-2">
