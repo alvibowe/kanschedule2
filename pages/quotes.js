@@ -2,6 +2,9 @@ import AppLayout from "@lib/components/Layouts/AppLayout";
 import { useSession } from "next-auth/react";
 import { getSession } from "@lib/auth/session";
 
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+
 import { useState, useRef, useEffect, useCallback } from "react";
 import { FolderIcon } from "@heroicons/react/outline";
 import { read, readFile, utils, writeFile } from 'xlsx';
@@ -16,7 +19,6 @@ import PDFGenerator from "@lib/utils/PDFGenerator"
 
 import { GoogleMap, useJsApiLoader, useLoadScript, useGoogleMap } from '@react-google-maps/api';
 
-import { Hint } from 'react-autocomplete-hint';
 
 import usePlacesAutocomplete, { getGeocode , getLatLng } from "use-places-autocomplete";
 import {
@@ -29,8 +31,7 @@ import {
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
+
 
 
 const PlacesAutoComplete = ({childToParentAddress, childToParentLatLng}) => {
@@ -42,34 +43,26 @@ const PlacesAutoComplete = ({childToParentAddress, childToParentLatLng}) => {
         value,
         suggestions: { status, data },
         setValue,
-        clearSuggestions,
-      } = usePlacesAutocomplete({
-        requestOptions: {
-          /* Define search scope here */
-        },
-        debounce: 300,
-      })
-
-    useEffect(() => {
-        childToParentAddress(value)
-    }, [value]);
-
-    useEffect(() => {
-        childToParentLatLng(latLng)
-    }, [latLng])
+    } = usePlacesAutocomplete({
+            requestOptions: {
+            /* Define search scope here */
+            },
+            debounce: 300,
+        })
 
     const handleInput = (e) => {
         setValue(e.target.value);
+        childToParentAddress(value)
     };
     
     const handleSelect = (val) => {
         setValue(val, false);
-        clearSuggestions();
 
         // Get latitude and longitude via utility functions
         getGeocode({ address: val }).then((results) => {
             const { lat, lng } = getLatLng(results[0]);
             setLatLng({ lat, lng });
+            childToParentLatLng(latLng)
             // console.log("📍 Coordinates: ", latLng);
         });
     };
@@ -88,6 +81,7 @@ const PlacesAutoComplete = ({childToParentAddress, childToParentLatLng}) => {
             </ComboboxList>
           </ComboboxPopover>
         </Combobox>
+        
     );
 }
 
@@ -768,9 +762,7 @@ const Page = () => {
                                             <tr key={index} className="pt-10">
                                                 {/* <th scope="row" className="hidden md:block">{ index + 1 }</th> */}
                                                 <td className="px-6 py-2">
-                                                    {/* <Hint options={productNameSuggestions} allowTabFill>
-                                                        <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full min-w-max  shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={item["Asset Type"]} placeholder={ item["Asset Type"]} type="text" onChange={(e) => handleAssetTypeChange(e.target.value, index)} required/>
-                                                    </Hint> */}
+                                                    
                                                     {productNameSuggestions && <Autocomplete
                                                         disablePortal
                                                         id="product-name"
@@ -786,9 +778,7 @@ const Page = () => {
 
                                                 </td>
                                                 <td className="px-6 py-2">
-                                                    {/* <Hint options={productCodeSuggestions} allowTabFill>
-                                                        <input className="placeholder:italic placeholder:text-slate-800 block bg-white w-full min-w-max  shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" value={formatCode(item["Calibration Product Code"])} placeholder={formatCode(item["Calibration Product Code"])} type="text" onChange={(e) => handleProductCodeChange(e.target.value, index)} required/>
-                                                    </Hint> */}
+                                                    
                                                     {productCodeSuggestions && <Autocomplete
                                                         disablePortal
                                                         id="product-code"
