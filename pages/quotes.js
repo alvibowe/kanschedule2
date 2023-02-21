@@ -740,7 +740,7 @@ const Page = () => {
                     {/* Quote Table */}
 
 
-                    <div className="overflow-x-auto min-w-full">
+                    <div className="overflow-x-auto">
                         <table className="min-w-full mt-10">
                             <thead className="rounded-lg mb-4">
                                 <tr className="rounded-lg">
