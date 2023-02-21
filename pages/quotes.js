@@ -661,7 +661,7 @@ const Page = () => {
                             </div>
                             <p className="font-bold mt-2">Client Email:</p>
                             <div className="mt-2">
-                                <input className="rounded-lg drop-shadow-lg placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-black focus:ring-1 sm:text-sm text-center" placeholder="Client Email" type="email" name="email" onChange={(e) => setClientEmail(e.target.value)} required/>
+                                <input className="rounded-lg drop-shadow-lg placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-black focus:ring-1 sm:text-sm text-center" placeholder="Client Email" type="email" name="email" onChange={(e) => setClientEmail(e.target.value)}/>
                             </div>
                         </div>
                         </div>
@@ -680,16 +680,16 @@ const Page = () => {
                             <tbody className="pt-10">
                                 <tr className="m-2">
                                     <td className="px-6 py-3">
-                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="PO NUMBER..." type="text" name="po number" onChange={(e) => setPONumber(e.target.value)} required/>
+                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="PO NUMBER..." type="text" name="po number" onChange={(e) => setPONumber(e.target.value)}/>
                                     </td>
                                     <td className="px-6 py-3">
-                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="SALES CONTACT..." type="text" name="sales contact" onChange={(e) => setSalesContact(e.target.value)} required/>
+                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="SALES CONTACT..." type="text" name="sales contact" onChange={(e) => setSalesContact(e.target.value)}/>
                                     </td>
                                     <td className="px-6 py-3">
-                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="SLS ID..." type="text" name="sls id" onChange={(e) => setSlsID(e.target.value)} required/>
+                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="SLS ID..." type="text" name="sls id" onChange={(e) => setSlsID(e.target.value)}/>
                                     </td>
                                     <td className="px-6 py-3">
-                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="CALIBRATION TYPE..." type="text" name="calibration type" onChange={(e) => setCalibrationType(e.target.value)} required/>
+                                        <input className="placeholder:italic placeholder:text-slate-400 placeholder:text-xs block bg-white w-full border border-slate-300 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm text-center" placeholder="CALIBRATION TYPE..." type="text" name="calibration type" onChange={(e) => setCalibrationType(e.target.value)} />
                                     </td>
 
                                 </tr>
