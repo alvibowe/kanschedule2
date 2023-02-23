@@ -533,6 +533,8 @@ const Page = () => {
     }
 
     const handleAssetTypeChange = (type, id) => {
+
+        
         
         
         // find corresponding product code from reference
@@ -541,6 +543,21 @@ const Page = () => {
                 
                 lookup['Product Name']?.toString().trim() === type?.trim()
             )
+
+            const newData = filteredData?.map(item => {
+
+                const index = filteredData.indexOf(item)
+    
+    
+                if(index === id){
+                    item['Asset Type'] = type
+                    item['Availability'] = found['Availability']
+                    item['Calibration Product Code'] = found['Product Code']
+                }
+                return item
+            })
+
+            setFilteredData(newData)
 
             handleProductCodeChange(found['Product Code'], id) 
 
@@ -556,7 +573,7 @@ const Page = () => {
    
 
     // console.log(reference.find(lookup => lookup['Product Code'] === 'CAL TCAL-P'))
-    // console.log(reference)
+    console.log(filteredData)
    
     return (
     <>
@@ -785,7 +802,7 @@ const Page = () => {
                                                         disablePortal
                                                         id="product-code"
                                                         options={productCodeSuggestions}
-                                                        value={formatCode(item["Calibration Product Code"])}
+                                                        value={item['Calibration Product Code']}
                                                         inputValue={formatCode(item["Calibration Product Code"])}
                                                         onInputChange={(event, newInputValue) => handleProductCodeChange(newInputValue, index)}
                                                         onChange={(event, newValue) => handleProductCodeChange(newValue, index)}
