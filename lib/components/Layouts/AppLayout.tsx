@@ -40,6 +40,10 @@ const AppLayout = (props) => {
       href: "/mycalendar",
     },
     {
+      title: "My Gantt",
+      href: "/mygantt",
+    },
+    {
       title: "My Map",
       href: "/mymap",
     },
@@ -136,12 +140,27 @@ const AppLayout = (props) => {
                               "group flex items-center px-2 py-2 text-sm leading-6 font-medium"
                             )}
                             aria-current={
-                              "/jmycalendar" === currentPath ? "page" : undefined
+                              "/mycalendar" === currentPath ? "page" : undefined
                             }
                           >
                             {"My Calendar"}
                           </a>
-                        </Link>: null}
+                    </Link>: null}
+                    {(session?.user as any)?.role === "technician" ?<Link key={"My Gantt"} href={"/mygantt"}>
+                          <a
+                            className={classNames(
+                              "/mygantt" === currentPath
+                                ? "border-b border-indigo-600 text-black"
+                                : " hover:border-b  hover:border-gray-200 text-gray-600 ",
+                              "group flex items-center px-2 py-2 text-sm leading-6 font-medium"
+                            )}
+                            aria-current={
+                              "/mygantt" === currentPath ? "page" : undefined
+                            }
+                          >
+                            {"My Gantt"}
+                          </a>
+                    </Link>: null}
 
                     {(session?.user as any)?.role === "system manager" && <Link key={"Users"} href={"/"}>
                       <a

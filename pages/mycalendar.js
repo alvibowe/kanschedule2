@@ -95,7 +95,7 @@ const Page = () => {
 
     
     setTechnician(data)
-    setAllEvents(data.calendar.events)
+    setAllEvents(data.calendar?.events)
   }
 
   // set All Events
