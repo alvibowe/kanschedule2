@@ -8,7 +8,7 @@ import GoogleProvider from "next-auth/providers/google";
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
-  secret: 'f3q9K!#lJp$rT+5sBg82ZaUFmWdM7@hx'
+  secret: 'f3q9K!#lJp$rT+5sBg82ZaUFmWdM7@hx',
   session: {
     strategy: "jwt",
   },
@@ -119,6 +119,8 @@ export default NextAuth({
 
         return {
           id: user.id,
+         
+
           email: user.email,
           name: user.name,
           role: user.role,
