@@ -1,17 +1,16 @@
-
 import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import GoogleProvider from "next-auth/providers/google";
 import { verifyPassword, hashPassword } from "@lib/auth/passwords";
 import { Session } from "@lib/auth/session";
 import prisma from "@db/index";
+import { CredentialsProvider } from "next-auth/providers";
+import GoogleProvider from "next-auth/providers/google";
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
   session: {
-    strategy: "jwt"
+    strategy: "jwt",
   },
   pages: {
     signIn: "/sign-in",
@@ -21,26 +20,18 @@ export default NextAuth({
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
     CredentialsProvider({
       id: "app-login",
       name: "App Login",
       credentials: {
-        email: {
-          label: "Email Address",
-          type: "email",
-          placeholder: "john.doe@example.com",
-        },
-        password: {
-          label: "Password",
-          type: "password",
-          placeholder: "Your super secure password",
-        },
+        email: { label: "Email Address", type: "email", placeholder: "john.doe@example.com" },
+        password: { label: "Password", type: "password", placeholder: "Your super secure password" },
       },
       async authorize(credentials) {
         try {
-          let maybeUser = await prisma.user.findFirst({
+          let user = await prisma.user.findFirst({
             where: {
               email: credentials.email,
             },
@@ -53,29 +44,26 @@ export default NextAuth({
             },
           });
 
-          if (!maybeUser) {
+          if (!user) {
             if (!credentials.password || !credentials.email) {
               throw new Error("Invalid Credentials");
             }
 
-            // maybeUser = await prisma.user.create({
-            //   data: {
-            //     email: credentials.email,
-            //     password: await hashPassword(credentials.password),
-            //   },
-            //   select: {
-            //     id: true,
-            //     email: true,
-            //     password: true,
-            //     name: true,
-            //     role: true,
-            //   },
-            // });
+            user = await prisma.user.create({
+              data: {
+                email: credentials.email,
+                password: await hashPassword(credentials.password),
+              },
+              select: {
+                id: true,
+                email: true,
+                password: true,
+                name: true,
+                role: true,
+              },
+            });
           } else {
-            const isValid = await verifyPassword(
-              credentials.password,
-              maybeUser.password
-            );
+            const isValid = await verifyPassword(credentials.password, user.password);
 
             if (!isValid) {
               throw new Error("Invalid Credentials");
@@ -83,10 +71,10 @@ export default NextAuth({
           }
 
           return {
-            id: maybeUser.id,
-            email: maybeUser.email,
-            name: maybeUser.name,
-            role: maybeUser.role,
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role,
           };
         } catch (error) {
           console.log(error);
@@ -98,19 +86,11 @@ export default NextAuth({
       id: "admin-login",
       name: "Administrator Login",
       credentials: {
-        email: {
-          label: "Email Address",
-          type: "email",
-          placeholder: "john.doe@example.com",
-        },
-        password: {
-          label: "Password",
-          type: "password",
-          placeholder: "Your super secure password",
-        },
+        email: { label: "Email Address", type: "email", placeholder: "john.doe@example.com" },
+        password: { label: "Password", type: "password", placeholder: "Your super secure password" },
       },
       async authorize(credentials) {
-        let maybeUser = await prisma.user.findFirst({
+        let user = await prisma.user.findFirst({
           where: {
             email: credentials.email,
           },
@@ -123,35 +103,33 @@ export default NextAuth({
           },
         });
 
-        if (!maybeUser) {
+        if (!user) {
           throw new Error("Unauthorized.");
         }
 
-        if (maybeUser?.role !== "admin") {
+        if (user.role !== "admin") {
           throw new Error("Unauthorized.");
         }
 
-        const isValid = await verifyPassword(
-          credentials.password,
-          maybeUser.password
-        );
+        const isValid = await verifyPassword(credentials.password, user.password);
 
         if (!isValid) {
           throw new Error("Invalid Credentials");
         }
 
         return {
-          id: maybeUser.id,
-          email: maybeUser.email,
-          name: maybeUser.name,
-          role: maybeUser.role,
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
         };
       },
     }),
   ],
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      return true;
+      return true
+
     },
     async redirect({ url, baseUrl }) {
       return url.startsWith(baseUrl) ? url : baseUrl;
